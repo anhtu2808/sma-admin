@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@/components/Button/index.tsx';
 
@@ -21,9 +20,11 @@ const Home = () => {
                             View UI Kit
                         </Button>
                     </Link>
-                    <Button mode="secondary">
-                        Dashboard
-                    </Button>
+                    <Link to="/dashboard">
+                        <Button mode="secondary">
+                            Dashboard
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>
