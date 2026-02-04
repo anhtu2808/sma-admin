@@ -12,7 +12,7 @@ const Navbar = () => {
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
                     <Zap size={20} fill="currentColor" />
                 </div>
-                <span className="font-heading font-bold text-xl text-neutral-900 dark:text-white">RecruitAI</span>
+                <span className="font-heading font-bold text-xl text-neutral-900 dark:text-white">SmartRecruit</span>
             </div>
 
             <div className="hidden md:flex items-center gap-4">

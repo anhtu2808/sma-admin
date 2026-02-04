@@ -3,6 +3,7 @@ import Layout from '@/pages/layout';
 import Dashboard from '@/pages/dashboard';
 import UiKit from '@/pages/ui-kit';
 import Home from '@/pages/home';
+import Login from '@/pages/login';
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -17,6 +18,7 @@ export const routes = createBrowserRouter(
                 <Route path="help" element={<Dashboard />} />
             </Route>
             <Route path="/" element={<Home />} />
+            <Route path="login" element={<Login />} />
             <Route path="ui-kit" element={<UiKit />} />
         </Route>
     )

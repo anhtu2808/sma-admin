@@ -13,7 +13,7 @@ const Features = () => {
         <section className="py-20 bg-surface-light dark:bg-neutral-900">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-neutral-900 dark:text-white">Why Recruiters Choose RecruitAI</h2>
+                    <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-neutral-900 dark:text-white">Why Recruiters Choose SmartRecruit</h2>
                     <p className="text-neutral-600 dark:text-neutral-400 text-lg">Experience the difference with our cutting-edge technology designed to streamline your hiring process.</p>
                 </div>
 

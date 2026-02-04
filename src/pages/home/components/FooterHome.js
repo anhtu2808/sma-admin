@@ -10,7 +10,7 @@ const Footer = () => {
                         <div className="w-6 h-6 bg-primary rounded flex items-center justify-center text-white text-xs font-bold">
                             <Zap size={14} fill="currentColor" />
                         </div>
-                        <span className="font-heading font-bold text-lg">RecruitAI</span>
+                        <span className="font-heading font-bold text-lg">SmartRecruit</span>
                     </div>
                     <p className="text-neutral-400 text-sm leading-relaxed mb-6">
                         The world's first fully autonomous AI recruitment platform. We help you build the team of your dreams.
@@ -38,7 +38,7 @@ const Footer = () => {
                 ))}
             </div>
             <div className="border-t border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500">
-                <div>© 2024 RecruitAI Inc. All rights reserved.</div>
+                <div>© 2024 SmartRecruit Inc. All rights reserved.</div>
                 <div className="flex gap-6 mt-4 md:mt-0">
                     <a href="#" className="hover:text-white">Privacy Policy</a>
                     <a href="#" className="hover:text-white">Terms of Curvey</a>
