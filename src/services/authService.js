@@ -17,6 +17,7 @@ const authService = {
 
             if (response.data?.data?.accessToken) {
                 localStorage.setItem('accessToken', response.data.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.data.refreshToken);
             }
 
             return response;
@@ -25,31 +26,37 @@ const authService = {
         }
     },
 
-    register: async (userData) => {
-        try {
-            const response = await AuthAPI.post('/auth/candidate/register', userData);
+    // register: async (userData) => {
+    //     try {
+    //         const response = await AuthAPI.post('/auth/candidate/register', userData);
 
-            if (response.data?.data?.accessToken) {
-                localStorage.setItem('accessToken', response.data.data.accessToken);
-            }
+    //         // Store tokens from response
+    //         if (response.data?.data?.accessToken) {
+    //             localStorage.setItem('accessToken', response.data.data.accessToken);
+    //         }
 
-            return response;
-        } catch (error) {
-            throw error;
-        }
-    },
+    //         if (response.data?.data?.refreshToken) {
+    //             localStorage.setItem('refreshToken', response.data.data.refreshToken);
+    //         }
 
-    logout: () => {
-        localStorage.removeItem('accessToken');
-        window.location.href = '/login';
-    },
+    //         return response.data;
+    //     } catch (error) {
+    //         // Extract error message from API response
+    //         const errorMessage = error.response?.data?.message || error.message || 'Registration failed';
+    //         throw new Error(errorMessage);
+    //     }
+    // },
 
     isAuthenticated: () => {
         return !!localStorage.getItem('accessToken');
     },
 
-    getToken: () => {
+    getAccessToken: () => {
         return localStorage.getItem('accessToken');
+    },
+
+    getRefreshToken: () => {
+        return localStorage.getItem('refreshToken');
     }
 };
 

@@ -4,6 +4,7 @@ import { Mail, Lock } from 'lucide-react';
 import Input from '@/components/Input';
 import Button from '@/components/Button/index.tsx';
 import authService from '@/services/authService';
+import { message } from 'antd';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -11,23 +12,24 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError('');
 
-        if (!email || !password) {
-            setError('Please fill in all fields');
-            return;
-        }
-
-        setLoading(true);
         try {
-            await authService.login({ email, password });
-            navigate('/dashboard');
-        } catch (err) {
-            setError(err?.message || 'Login failed. Please check your credentials.');
+            setLoading(true);
+            const response = await authService.login({ email, password });
+
+            if (response?.data?.code === 200) {
+                message.success(response?.data?.message || "Login successfully");
+                navigate("/");
+            } else {
+                message.error(response?.data?.message || "Login failed");
+            }
+        } catch (error) {
+            message.error(
+                error.response?.data?.message || error.message || "An error occurred during login",
+            );
         } finally {
             setLoading(false);
         }
@@ -90,13 +92,6 @@ const LoginForm = () => {
                                 Forgot password?
                             </a>
                         </div>
-
-                        {/* Error Message */}
-                        {error && (
-                            <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
-                                {error}
-                            </div>
-                        )}
 
                         {/* Login Button */}
                         <Button
