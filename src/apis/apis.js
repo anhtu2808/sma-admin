@@ -55,3 +55,146 @@ export const {
     useUpdateCompanyStatusMutation,
     useSetUnderReviewMutation
 } = adminCompanyApi;
+
+
+// adminDomainApi.js hoặc inject vào adminExpertiseSkillApi
+export const adminDomainApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        getDomains: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/domains`, // Kiểm tra lại path backend của bạn nhé
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [
+                        ...result.data.content.map(({ id }) => ({ type: "Domains", id })),
+                        { type: "Domains", id: "LIST" },
+                    ]
+                    : [{ type: "Domains", id: "LIST" }],
+        }),
+        createDomain: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/domains`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "Domains", id: "LIST" }],
+        }),
+        updateDomain: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `${API_VERSION}/domains/${id}`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (result, error, { id }) => [
+                { type: "Domains", id },
+                { type: "Domains", id: "LIST" },
+            ],
+        }),
+        deleteDomain: builder.mutation({
+            query: (id) => ({
+                url: `${API_VERSION}/domains/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: "Domains", id: "LIST" }],
+        }),
+    }),
+});
+
+export const {
+    useGetDomainsQuery,
+    useCreateDomainMutation,
+    useUpdateDomainMutation,
+    useDeleteDomainMutation
+} = adminDomainApi;
+
+
+export const adminExpertiseApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        // --- EXPERTISE GROUPS ---
+        getExpertiseGroups: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/expertise-groups`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [...result.data.content.map(({ id }) => ({ type: "ExpertiseGroups", id })), { type: "ExpertiseGroups", id: "LIST" }]
+                    : [{ type: "ExpertiseGroups", id: "LIST" }],
+        }),
+        createExpertiseGroup: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/expertise-groups`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "ExpertiseGroups", id: "LIST" }],
+        }),
+        updateExpertiseGroup: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `${API_VERSION}/expertise-groups/${id}`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "ExpertiseGroups", id }, { type: "ExpertiseGroups", id: "LIST" }],
+        }),
+        deleteExpertiseGroup: builder.mutation({
+            query: (id) => ({
+                url: `${API_VERSION}/expertise-groups/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: "ExpertiseGroups", id: "LIST" }],
+        }),
+
+
+        // --- EXPERTISES ---
+        getExpertises: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/expertises`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [...result.data.content.map(({ id }) => ({ type: "Expertise", id })), { type: "Expertise", id: "LIST" }]
+                    : [{ type: "Expertise", id: "LIST" }],
+        }),
+        createExpertise: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/expertises`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "Expertise", id: "LIST" }],
+        }),
+        updateExpertise: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `${API_VERSION}/expertises/${id}`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "Expertise", id }, { type: "Expertise", id: "LIST" }],
+        }),
+        deleteExpertise: builder.mutation({
+            query: (id) => ({
+                url: `${API_VERSION}/expertises/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: "Expertise", id: "LIST" }],
+        }),
+    }),
+});
+
+export const {
+    useGetExpertiseGroupsQuery,
+    useCreateExpertiseGroupMutation,
+    useUpdateExpertiseGroupMutation,
+    useDeleteExpertiseGroupMutation,
+    useGetExpertisesQuery,
+    useCreateExpertiseMutation,
+    useUpdateExpertiseMutation,
+    useDeleteExpertiseMutation
+} = adminExpertiseApi;

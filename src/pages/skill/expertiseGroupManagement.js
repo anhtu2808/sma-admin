@@ -1,0 +1,239 @@
+import React, { useState, useEffect } from 'react';
+import {
+    useGetExpertiseGroupsQuery,
+    useCreateExpertiseGroupMutation,
+    useUpdateExpertiseGroupMutation,
+    useDeleteExpertiseGroupMutation
+} from '../../apis/apis';
+import { Plus, Edit3, Trash2, RefreshCw, ChevronLeft, ChevronRight, X, Layers, Search } from 'lucide-react';
+import Button from '@/components/Button';
+import Card from '@/components/Card';
+import Input from '@/components/Input';
+import { toast } from 'react-toastify';
+
+const ExpertiseGroupManagement = () => {
+    const [page, setPage] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMode, setModalMode] = useState('CREATE');
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [formData, setFormData] = useState({ name: '', description: '' });
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [searchName, setSearchName] = useState('');
+    const [inputValue, setInputValue] = useState('');
+    const { data, isLoading, isFetching, refetch } = useGetExpertiseGroupsQuery({
+        page,
+        size: 10,
+        name: searchName || null
+    });
+    const [createGroup, { isLoading: isCreating }] = useCreateExpertiseGroupMutation();
+    const [updateGroup, { isLoading: isUpdating }] = useUpdateExpertiseGroupMutation();
+    const [deleteGroup, { isLoading: isDeleting }] = useDeleteExpertiseGroupMutation();
+
+    const groups = data?.data?.content || [];
+    const pagination = data?.data || {};
+    const totalPages = pagination.totalPages || 0;
+    const openModal = (mode, group = null) => {
+        setModalMode(mode);
+        if (mode === 'UPDATE' && group) {
+            setSelectedGroup(group);
+            setFormData({ name: group.name, description: group.description || '' });
+        } else {
+            setFormData({ name: '', description: '' });
+        }
+        setIsModalOpen(true);
+    };
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setSearchName(inputValue);
+            setPage(0); // Reset về trang 1 khi search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [inputValue]);
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setFormData({ name: '', description: '' });
+        setSelectedGroup(null);
+    };
+
+    const handleSubmit = async () => {
+        if (!formData.name.trim()) return;
+        try {
+            if (modalMode === 'CREATE') {
+                await createGroup(formData).unwrap();
+                toast.success("EXPERTISE GROUP CREATED");
+            } else {
+                await updateGroup({ id: selectedGroup.id, ...formData }).unwrap();
+                toast.success("GROUP UPDATED SUCCESSFULLY");
+            }
+            handleCloseModal();
+        } catch (error) {
+            toast.error(error?.data?.message || "ACTION FAILED");
+        }
+    };
+
+    const confirmDelete = (id) => {
+        setItemToDelete(id);
+        setIsDeleteModalOpen(true);
+    };
+
+    const executeDelete = async () => {
+        try {
+            await deleteGroup(itemToDelete).unwrap();
+            toast.success("GROUP REMOVED SUCCESSFULLY");
+            setIsDeleteModalOpen(false);
+        } catch (error) {
+            toast.error(error?.data?.message || "FAILED TO DELETE (GROUP MAY BE IN USE)");
+        }
+    };
+
+    return (
+        <div className="flex flex-col h-full bg-surface-light dark:bg-background-dark font-body relative">
+            <div className="flex items-center justify-between px-6 py-8">
+                <div className="flex-1">
+                    <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">
+                        Expertise Groups
+                    </h2>
+                    <p className="text-[11px] text-neutral-400 font-medium mt-1 uppercase tracking-widest">
+                        Organize categories
+                    </p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <div className="relative w-80">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400/80" />
+                        <input
+                            type="text"
+                            placeholder="Search group by name..."
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            className="w-full pl-11 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-neutral-100 dark:border-neutral-700 rounded-2xl text-xs font-bold transition-all placeholder:text-neutral-400 focus:ring-2 focus:ring-primary/10 focus:border-primary/20 shadow-sm font-body"
+                        />
+                    </div>
+
+                    <Button
+                        mode="primary"
+                        iconLeft={<Plus size={14} strokeWidth={3} />}
+                        onClick={() => openModal('CREATE')}
+                    >
+                        ADD NEW GROUP
+                    </Button>
+                </div>
+            </div>
+            <div className="flex-grow px-6 overflow-auto pb-6">
+                <Card className="!p-0 border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-neutral-50 dark:bg-neutral-800/50 border-b border-neutral-200 dark:border-neutral-700">
+                            <tr>
+                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">ID</th>
+                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Group Name</th>
+                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
+                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800 font-body">
+                            {isLoading ? (
+                                Array(5).fill(0).map((_, i) => <tr key={i} className="animate-pulse"><td colSpan={4} className="px-6 py-5 bg-neutral-50/30 h-16"></td></tr>)
+                            ) : data?.data?.content?.length > 0 ? (
+                                data.data.content.map((group) => (
+                                    <tr key={group.id} className="group hover:bg-neutral-50 dark:hover:bg-neutral-800/30 transition-all duration-200">
+                                        <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{group.id}</td>
+                                        <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white uppercase text-xs tracking-tight">{group.name}</td>
+                                        <td className="px-6 py-5 text-[11px] text-neutral-500 line-clamp-1 max-w-sm">{group.description || "No description provided."}</td>
+                                        <td className="px-6 py-5 text-right">
+                                            <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                <button onClick={() => openModal('UPDATE', group)} className="p-2 text-neutral-400 hover:text-primary transition-colors"><Edit3 size={14} /></button>
+                                                <button onClick={() => confirmDelete(group.id)} className="p-2 text-neutral-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} className="py-20 text-center text-neutral-400 text-xs font-bold uppercase tracking-widest">
+                                        No expertise groups found.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </Card>
+            </div>
+
+            {/* Pagination */}
+            <div className="p-6 flex items-center justify-between border-t border-neutral-100 dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
+                    Showing {groups.length} of {pagination.totalElements || 0} groups
+                </p>
+                <div className="flex items-center gap-2">
+                    <button onClick={() => setPage(prev => Math.max(0, prev - 1))} disabled={page === 0} className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronLeft size={16} /></button>
+                    <div className="flex items-center gap-1">
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button key={index} onClick={() => setPage(index)} className={`w-8 h-8 text-[10px] font-bold rounded-lg transition-all ${page === index ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-neutral-500 hover:bg-neutral-100'}`}>{index + 1}</button>
+                        ))}
+                    </div>
+                    <button onClick={() => setPage(prev => prev + 1)} disabled={page >= totalPages - 1} className={`p-2 rounded-xl transition-all ${page >= totalPages - 1 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronRight size={16} /></button>
+                </div>
+            </div>
+
+            {/* --- CREATE/UPDATE MODAL --- */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-8 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
+                        <button onClick={handleCloseModal} className="absolute top-6 right-6 text-neutral-400 hover:text-neutral-600 transition-colors"><X size={20} /></button>
+                        <h3 className="text-xl font-extrabold text-neutral-900 dark:text-white font-heading uppercase tracking-tight mb-2">
+                            {modalMode === 'CREATE' ? 'New Expertise Group' : 'Edit Group Details'}
+                        </h3>
+                        <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-8">
+                            {modalMode === 'CREATE' ? 'Define a new professional category for job classification' : `Updating Group ID: #${selectedGroup?.id}`}
+                        </p>
+                        <div className="space-y-6 text-left">
+                            <Input label="Group Name" placeholder="e.g. Software Development, Finance..." value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                            <div className="space-y-2">
+                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1 font-body">Description</label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    placeholder="Describe the roles within this group..."
+                                    className="w-full h-32 p-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 rounded-2xl text-xs font-bold text-neutral-700 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none font-body shadow-sm placeholder:text-neutral-400 placeholder:font-medium"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-3 mt-10">
+                            <Button mode="secondary" className="flex-1 uppercase font-bold" onClick={handleCloseModal}>CANCEL</Button>
+                            <Button mode="primary" className="flex-1 uppercase font-bold" onClick={handleSubmit} disabled={isCreating || isUpdating || !formData.name.trim()}>
+                                {isCreating || isUpdating ? 'SAVING...' : 'CONFIRM GROUP'}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* --- DELETE CONFIRMATION MODAL --- */}
+            {isDeleteModalOpen && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
+                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-sm p-10 shadow-2xl animate-in zoom-in duration-300 text-center border border-neutral-100">
+                        <div className="w-20 h-20 bg-red-50 dark:bg-red-900/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                            <Layers size={32} className="text-red-500" />
+                        </div>
+                        <h3 className="text-xl font-extrabold text-neutral-900 dark:text-white font-heading uppercase tracking-tight mb-2">Delete Group?</h3>
+                        <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest leading-relaxed mb-10">
+                            You are about to remove this category. <br />
+                            This will fail if any <span className="text-red-500 underline">Expertises</span> are still linked to it.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <Button mode="primary" className="bg-red-500 hover:bg-red-600 border-none shadow-lg shadow-red-200/50 uppercase font-bold" onClick={executeDelete} disabled={isDeleting}>
+                                {isDeleting ? 'DELETING...' : 'YES, REMOVE CATEGORY'}
+                            </Button>
+                            <Button mode="secondary" className="border-none text-neutral-400 uppercase font-bold" onClick={() => setIsDeleteModalOpen(false)}>GO BACK</Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ExpertiseGroupManagement;
