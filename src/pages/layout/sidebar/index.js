@@ -9,11 +9,12 @@ const menuItems = [
   { icon: 'business', label: 'Employers', path: '/companies' },
   { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
   { icon: 'analytics', label: 'Analytics', path: '/analytics' },
-  { icon: 'domain', label: 'Domains', path: '/domains' },
-  { icon: 'group_work', label: 'Expertise Groups', path: '/expertise-groups' },
-  { icon: 'school', label: 'Expertises', path: '/expertises' },
-  { icon: 'category', label: 'Skill Categories', path: '/skill-categories' },
-  { icon: 'build', label: 'Skills', path: '/skills' },
+  // { icon: 'domain', label: 'Domains', path: '/domains' },
+  // { icon: 'group_work', label: 'Expertise Groups', path: '/expertise-groups' },
+  // { icon: 'school', label: 'Expertises', path: '/expertises' },
+  // { icon: 'category', label: 'Skill Categories', path: '/skill-categories' },
+  // { icon: 'build', label: 'Skills', path: '/skills' },
+  { icon: 'settings_applications', label: 'Master Management', path: '/master-management' },
 ];
 
 const generalItems = [

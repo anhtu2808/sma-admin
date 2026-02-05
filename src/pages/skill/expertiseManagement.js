@@ -129,7 +129,7 @@ const ExpertiseManagement = () => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-surface-light dark:bg-background-dark font-body relative">
+        <div className="flex flex-col h-full font-body relative overflow-hidden">
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">Job Expertises</h2>
@@ -153,45 +153,59 @@ const ExpertiseManagement = () => {
                 </div>
             </div>
 
-            <div className="flex-grow px-6 overflow-auto pb-6">
-                <Card className="!p-0 border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm">
-                    <table className="w-full text-left border-collapse">
-                        <thead className="bg-neutral-50 dark:bg-neutral-800/50 border-b border-neutral-200">
-                            <tr>
-                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">ID</th>
-                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Expertise Name</th>
-                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
-                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Group</th>
-                                <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-neutral-100">
-                            {isLoading ? (
-                                <tr className="animate-pulse"><td colSpan={4} className="h-40 bg-neutral-50/30"></td></tr>
-                            ) : expertises.map((item) => (
-                                <tr key={item.id} className="group hover:bg-neutral-50 transition-all duration-200">
-                                    <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{item.id}</td>
-                                    <td className="px-6 py-5 font-bold text-neutral-900 uppercase text-xs font-heading">{item.name}</td>
-                                    <td className="px-6 py-5 text-sm text-neutral-600">{item.description || 'N/A'}</td>
-                                    <td className="px-6 py-5">
-                                        <span className="px-3 py-1 bg-orange-50 text-primary rounded-full text-[10px] font-black uppercase tracking-wider border border-orange-100">
-                                            {item.expertiseGroup?.name || 'N/A'}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-5 text-right">
-                                        <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                            <button onClick={() => openModal('UPDATE', item)} className="p-2 text-neutral-400 hover:text-primary"><Edit3 size={14} /></button>
-                                            <button onClick={() => { setItemToDelete(item.id); setIsDeleteModalOpen(true); }} className="p-2 text-neutral-400 hover:text-red-500"><Trash2 size={14} /></button>
-                                        </div>
-                                    </td>
+            <div className="flex-1 px-6 min-h-0">
+                <Card className="!p-0 border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm flex flex-col h-full">
+                    <div className="flex-1 overflow-y-auto custom-scrollbar">
+                        <table className="w-full text-left border-collapse table-fixed">
+                            <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
+                                <tr>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-24">ID</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-1/4">Expertise Name</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-center w-40">Group</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right w-32">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
+                                {isLoading ? (
+                                    Array(5).fill(0).map((_, i) => (
+                                        <tr key={i} className="animate-pulse">
+                                            <td colSpan={5} className="px-6 py-5 bg-neutral-50/30 h-16"></td>
+                                        </tr>
+                                    ))
+                                ) : expertises.length > 0 ? (
+                                    expertises.map((item) => (
+                                        <tr key={item.id} className="group hover:bg-neutral-50 dark:hover:bg-neutral-800/30 transition-all duration-200">
+                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{item.id}</td>
+                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white uppercase text-xs tracking-tight">{item.name}</td>
+                                            <td className="px-6 py-5 text-sm text-neutral-600 dark:text-neutral-400 truncate">{item.description || 'N/A'}</td>
+                                            <td className="px-6 py-5 text-center">
+                                                <span className="px-3 py-1 text-orange-600 dark:text-orange-400 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                                    {item.expertiseGroup?.name || 'N/A'}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-5 text-right">
+                                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                                                    <button onClick={() => openModal('UPDATE', item)} className="p-2 text-neutral-400 hover:text-primary transition-colors"><Edit3 size={14} /></button>
+                                                    <button onClick={() => confirmDelete(item.id)} className="p-2 text-neutral-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="py-20 text-center text-neutral-400 text-xs font-bold uppercase tracking-widest leading-relaxed">
+                                            No expertises found.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </Card>
             </div>
 
-            <div className="p-6 flex items-center justify-between border-t border-neutral-100 dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
+            <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
                 <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
                     Showing {groups.length} of {pagination.totalElements || 0} groups
                 </p>
