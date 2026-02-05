@@ -50,7 +50,7 @@ const Layout = () => {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-background-light dark:bg-background-dark transition-colors duration-200">
         <Header onMobileMenuClick={toggleMobileSidebar} />
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scrollbar-thin">
+        <div className="flex-1 overflow-hidden p-4 sm:p-6 lg:p-8">
           <Outlet />
         </div>
       </main>
