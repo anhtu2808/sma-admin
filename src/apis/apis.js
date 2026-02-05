@@ -57,12 +57,11 @@ export const {
 } = adminCompanyApi;
 
 
-// adminDomainApi.js hoặc inject vào adminExpertiseSkillApi
 export const adminDomainApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getDomains: builder.query({
             query: (params) => ({
-                url: `${API_VERSION}/domains`, // Kiểm tra lại path backend của bạn nhé
+                url: `${API_VERSION}/domains`,
                 method: "GET",
                 params,
             }),
@@ -198,3 +197,104 @@ export const {
     useUpdateExpertiseMutation,
     useDeleteExpertiseMutation
 } = adminExpertiseApi;
+
+
+
+export const adminSkillApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        // --- SKILL CATEGORIES (Loại kỹ năng) ---
+        getSkillCategories: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/skill-categories`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [
+                        ...result.data.content.map(({ id }) => ({ type: "SkillCategories", id })),
+                        { type: "SkillCategories", id: "LIST" }
+                    ]
+                    : [{ type: "SkillCategories", id: "LIST" }],
+        }),
+        createSkillCategory: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/skill-categories`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "SkillCategories", id: "LIST" }],
+        }),
+        updateSkillCategory: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `${API_VERSION}/skill-categories/${id}`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (result, error, { id }) => [
+                { type: "SkillCategories", id },
+                { type: "SkillCategories", id: "LIST" }
+            ],
+        }),
+        deleteSkillCategory: builder.mutation({
+            query: (id) => ({
+                url: `${API_VERSION}/skill-categories/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: "SkillCategories", id: "LIST" }],
+        }),
+
+        // --- SKILLS (Kỹ năng chi tiết) ---
+        getSkills: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/skills`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [
+                        ...result.data.content.map(({ id }) => ({ type: "Skills", id })),
+                        { type: "Skills", id: "LIST" }
+                    ]
+                    : [{ type: "Skills", id: "LIST" }],
+        }),
+        createSkill: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/skills`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "Skills", id: "LIST" }],
+        }),
+        updateSkill: builder.mutation({
+            query: ({ id, ...body }) => ({
+                url: `${API_VERSION}/skills/${id}`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (result, error, { id }) => [
+                { type: "Skills", id },
+                { type: "Skills", id: "LIST" }
+            ],
+        }),
+        deleteSkill: builder.mutation({
+            query: (id) => ({
+                url: `${API_VERSION}/skills/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: [{ type: "Skills", id: "LIST" }],
+        }),
+    }),
+});
+
+export const {
+    useGetSkillCategoriesQuery,
+    useCreateSkillCategoryMutation,
+    useUpdateSkillCategoryMutation,
+    useDeleteSkillCategoryMutation,
+    useGetSkillsQuery,
+    useCreateSkillMutation,
+    useUpdateSkillMutation,
+    useDeleteSkillMutation
+} = adminSkillApi;

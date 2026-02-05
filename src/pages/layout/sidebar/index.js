@@ -11,6 +11,9 @@ const menuItems = [
   { icon: 'analytics', label: 'Analytics', path: '/analytics' },
   { icon: 'domain', label: 'Domains', path: '/domains' },
   { icon: 'group_work', label: 'Expertise Groups', path: '/expertise-groups' },
+  { icon: 'school', label: 'Expertises', path: '/expertises' },
+  { icon: 'category', label: 'Skill Categories', path: '/skill-categories' },
+  { icon: 'build', label: 'Skills', path: '/skills' },
 ];
 
 const generalItems = [

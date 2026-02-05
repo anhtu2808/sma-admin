@@ -8,6 +8,9 @@ import CompanyDetail from '@/pages/company/companyDetail';
 import Login from '@/pages/login';
 import DomainManagement from "../pages/skill/domainManagement";
 import ExpertiseGroupManagement from "../pages/skill/expertiseGroupManagement";
+import ExpertiseManagement from "../pages/skill/expertiseManagement";
+import SkillCategoryManagement from "../pages/skill/skillCategoryManagement";
+import SkillManagement from "../pages/skill/skillManagement";
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +26,9 @@ export const routes = createBrowserRouter(
                 <Route path="companies/:id" element={<CompanyDetail />} />
                 <Route path="domains" element={<DomainManagement />} />
                 <Route path="expertise-groups" element={<ExpertiseGroupManagement />} />
+                <Route path="expertises" element={<ExpertiseManagement />} />
+                <Route path="skill-categories" element={<SkillCategoryManagement />} />
+                <Route path="skills" element={<SkillManagement />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
