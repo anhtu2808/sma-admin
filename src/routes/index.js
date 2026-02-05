@@ -5,6 +5,7 @@ import UiKit from '@/pages/ui-kit';
 import Home from '@/pages/home';
 import CompanyManagement from '@/pages/company/companyManagement';
 import CompanyDetail from '@/pages/company/companyDetail';
+import Login from '@/pages/login';
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -20,6 +21,7 @@ export const routes = createBrowserRouter(
                 <Route path="companies/:id" element={<CompanyDetail />} />
             </Route>
             <Route path="/" element={<Home />} />
+            <Route path="login" element={<Login />} />
             <Route path="ui-kit" element={<UiKit />} />
         </Route>
     )
