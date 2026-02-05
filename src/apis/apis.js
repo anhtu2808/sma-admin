@@ -4,7 +4,7 @@ export const adminCompanyApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAdminCompanies: builder.query({
             query: (params) => ({
-                url: `${API_VERSION}/admin/companies`,
+                url: `${API_VERSION}/companies/admin-view`,
                 method: "GET",
                 params,
             }),
@@ -19,7 +19,7 @@ export const adminCompanyApi = api.injectEndpoints({
 
         getAdminCompanyDetail: builder.query({
             query: (companyId) => ({
-                url: `${API_VERSION}/admin/companies/${companyId}`,
+                url: `${API_VERSION}/companies/admin-view/${companyId}`,
                 method: "GET",
             }),
             providesTags: (result, error, id) => [{ type: "Companies", id }],
@@ -27,7 +27,7 @@ export const adminCompanyApi = api.injectEndpoints({
 
         setUnderReview: builder.mutation({
             query: (companyId) => ({
-                url: `${API_VERSION}/admin/companies/${companyId}/status`,
+                url: `${API_VERSION}/companies/${companyId}/status`,
                 method: "PATCH",
                 body: { status: "UNDER_REVIEW" },
             }),
@@ -36,7 +36,7 @@ export const adminCompanyApi = api.injectEndpoints({
 
         updateCompanyStatus: builder.mutation({
             query: ({ companyId, ...body }) => ({
-                url: `${API_VERSION}/admin/companies/${companyId}/status`,
+                url: `${API_VERSION}/companies/${companyId}/status`,
                 method: "PATCH",
                 body,
             }),

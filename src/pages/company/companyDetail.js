@@ -156,8 +156,18 @@ const CompanyDetail = () => {
                                             </p>
 
                                             <div className="flex flex-col items-center text-center">
-                                                <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-bold mb-4 border border-white/30 shadow-lg">
-                                                    {company.recruiters?.[0]?.fullName?.charAt(0) || 'S'}
+                                                <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-bold mb-4 border border-white/30 shadow-lg overflow-hidden">
+                                                    {company.recruiters?.[0]?.avatar ? (
+                                                        <img
+                                                            src={company.recruiters[0].avatar}
+                                                            alt="Recruiter Avatar"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <span className="text-white">
+                                                            {company.recruiters?.[0]?.fullName?.charAt(0).toUpperCase() || 'R'}
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </div>
 
@@ -221,10 +231,10 @@ const CompanyDetail = () => {
                                         <DossierItem icon={<FileText size={22} />} label="Tax Identification" value={company.taxIdentificationNumber} />
                                         <DossierItem icon={<Globe size={22} />} label="Company Email" value={company.email} />
                                         <DossierItem icon={<Globe size={22} />} label="Website URL" value={company.link} isLink />
-                                        <DossierItem icon={<Users size={22} />} label="Workforce Scale" value={`${company.size || 'N/A'} Employees`} />
+                                        <DossierItem icon={<Users size={22} />} label="Workforce Scale" value={`${company.minSize || 'N/A'} - ${company.maxSize || 'N/A'} Employees`} />
                                         <DossierItem icon={<FileText size={22} />} label="Company Type" value={company.companyType || 'N/A'} />
                                         <DossierItem icon={<Map size={22} />} label="Country" value={company.country} />
-                                        <DossierItem icon={<Pen size={22} />} label="Sign Commitment" value={company.signCommitment || 'N/A'} />
+                                        <DossierItem icon={<Pen size={22} />} label="Sign Commitment" value={company.signCommitment ? 'Yes' : 'No'} />
                                         <DossierItem icon={<Calendar size={22} />} label="Total Jobs" value={company.totalJobs ?? 0} />
                                         <DossierItem icon={<Users size={22} />} label="Followers" value={company.totalFollowers ?? 0} />
                                         <DossierItem
