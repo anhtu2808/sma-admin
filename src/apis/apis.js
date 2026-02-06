@@ -4,7 +4,7 @@ export const adminCompanyApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAdminCompanies: builder.query({
             query: (params) => ({
-                url: `${API_VERSION}/companies/admin-view`,
+                url: `${API_VERSION}/companies`,
                 method: "GET",
                 params,
             }),
@@ -19,7 +19,7 @@ export const adminCompanyApi = api.injectEndpoints({
 
         getAdminCompanyDetail: builder.query({
             query: (companyId) => ({
-                url: `${API_VERSION}/companies/admin-view/${companyId}`,
+                url: `${API_VERSION}/companies/${companyId}`,
                 method: "GET",
             }),
             providesTags: (result, error, id) => [{ type: "Companies", id }],

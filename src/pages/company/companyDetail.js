@@ -14,7 +14,9 @@ const CompanyDetail = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('Overview');
 
-    const { data, isLoading, isError } = useGetAdminCompanyDetailQuery(id);
+    const { data, isLoading, isError, refetch } = useGetAdminCompanyDetailQuery(id, {
+        refetchOnMountOrArgChange: true
+    });
     const company = data?.data;
     const [setUnderReview] = useSetUnderReviewMutation();
     const [pendingStatus, setPendingStatus] = useState(null);
@@ -23,12 +25,27 @@ const CompanyDetail = () => {
     const [reason, setReason] = useState('');
 
     useEffect(() => {
-        if (company?.id && company?.status === 'PENDING_VERIFICATION') {
-            setUnderReview(company.id)
-                .unwrap()
-                .catch((err) => console.error("Failed to update status:", err));
-        }
-    }, [company?.id, company?.status, setUnderReview]);
+    if (company?.id && company?.companyStatus === 'PENDING_VERIFICATION') {
+        
+        const triggerUnderReview = async () => {
+            try {
+                console.log("🚀 System: Auto-transitioning to UNDER_REVIEW...");
+                await updateStatus({
+                    companyId: company.id,
+                    status: 'UNDER_REVIEW',
+                    reason: 'System: Admin is reviewing the dossier'
+                }).unwrap();
+
+                console.log("✅ Success: Status updated to UNDER_REVIEW");
+                refetch(); 
+            } catch (err) {
+                console.error("❌ Error auto-updating status:", err);
+            }
+        };
+
+        triggerUnderReview();
+    }
+}, [company?.id, company?.status, updateStatus, refetch]);
 
     if (isLoading) return <div className="p-10 text-center font-bold text-gray-400 tracking-widest">LOADING DOSSIER...</div>;
 
@@ -272,8 +289,13 @@ const CompanyDetail = () => {
                                         <p className="text-gray-500 leading-relaxed text-sm text-justify">
                                             {company.images && company.images.length > 0 ? (
                                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                                    {company.images.map((imgUrl, index) => (
-                                                        <img key={index} src={imgUrl} alt={`Company Image ${index + 1}`} className="w-full h-32 object-cover rounded-lg" />
+                                                    {company.images.map((imageObj, index) => (
+                                                        <img
+                                                            key={imageObj.id || index}
+                                                            src={imageObj.url}
+                                                            alt={imageObj.description || `Company Image ${index + 1}`}
+                                                            className="w-full h-32 object-cover rounded-lg"
+                                                        />
                                                     ))}
                                                 </div>
                                             ) : (

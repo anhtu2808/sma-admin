@@ -111,7 +111,7 @@ const ExpertiseGroupManagement = () => {
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">
                         Expertise Groups
                     </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 uppercase tracking-widest">
+                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest">
                         Organize categories
                     </p>
                 </div>
@@ -143,10 +143,10 @@ const ExpertiseGroupManagement = () => {
                         <table className="w-full text-left border-collapse table-fixed">
                             <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-24">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-1/3">Group Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right w-32">Actions</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-24">ID</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/3">Group Name</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Description</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-32">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -159,9 +159,9 @@ const ExpertiseGroupManagement = () => {
                                 ) : groups.length > 0 ? (
                                     groups.map((group) => (
                                         <tr key={group.id} className="group hover:bg-neutral-50 dark:hover:bg-neutral-800/30 transition-all duration-200">
-                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{group.id}</td>
-                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white uppercase text-xs tracking-tight">{group.name}</td>
-                                            <td className="px-6 py-5 text-sm text-neutral-600 dark:text-neutral-400 truncate">{group.description || "No description provided."}</td>
+                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">{group.id}</td>
+                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white text-sm tracking-tight">{group.name}</td>
+                                            <td className="px-6 py-5 text-sm text-neutral-600 dark:text-neutral-400 truncate">{group.description || "-"}</td>
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                     <button onClick={() => openModal('UPDATE', group)} className="p-2 text-neutral-400 hover:text-primary transition-colors"><Edit3 size={14} /></button>
@@ -186,7 +186,7 @@ const ExpertiseGroupManagement = () => {
             {/* Pagination */}
             <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
                 <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
-                    Showing {groups.length} of {pagination.totalElements || 0} groups
+                    Showing {groups.length} of {pagination.totalElements || 0} expertise groups
                 </p>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setPage(prev => Math.max(0, prev - 1))} disabled={page === 0} className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronLeft size={16} /></button>
@@ -202,7 +202,7 @@ const ExpertiseGroupManagement = () => {
             {/* --- CREATE/UPDATE MODAL --- */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-8 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
+                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-5 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
                         <button onClick={handleCloseModal} className="absolute top-6 right-6 text-neutral-400 hover:text-neutral-600 transition-colors">
                             <X size={20} />
                         </button>

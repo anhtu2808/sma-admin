@@ -111,7 +111,7 @@ const DomainManagement = () => {
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">
                         Industry Domains
                     </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 uppercase tracking-widest">
+                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest">
                         Manage business sectors and industry classifications
                     </p>
                 </div>
@@ -143,10 +143,10 @@ const DomainManagement = () => {
                         <table className="w-full text-left border-collapse table-fixed">
                             <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-24">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Domain Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right w-32">Actions</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-24">ID</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Domain Name</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Description</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-32">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100">
@@ -159,9 +159,9 @@ const DomainManagement = () => {
                                 ) : domains.length > 0 ? (
                                     domains.map((domain) => (
                                         <tr key={domain.id} className="group hover:bg-neutral-50 transition-all duration-200">
-                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{domain.id}</td>
-                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white uppercase text-xs">{domain.name}</td>
-                                            <td className="px-6 py-5 text-sm text-neutral-600 truncate">{domain.description || "N/A"}</td>
+                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono ">{domain.id}</td>
+                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white text-sm">{domain.name}</td>
+                                            <td className="px-6 py-5 text-sm text-neutral-600 truncate">{domain.description || "-"}</td>
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
                                                     <button onClick={() => openModal('UPDATE', domain)} className="p-2 text-neutral-400 hover:text-primary"><Edit3 size={14} /></button>
@@ -198,7 +198,7 @@ const DomainManagement = () => {
             </div>
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-8 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
+                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-5 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
                         <button onClick={handleCloseModal} className="absolute top-6 right-6 text-neutral-400 hover:text-neutral-600 transition-colors"><X size={20} /></button>
                         <h3 className="text-xl font-extrabold text-neutral-900 dark:text-white font-heading uppercase tracking-tight mb-2">
                             {modalMode === 'CREATE' ? 'Add New Domain' : 'Update Domain'}

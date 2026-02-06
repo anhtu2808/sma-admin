@@ -8,6 +8,7 @@ import {
 } from '../../apis/apis';
 import { Combobox } from '@headlessui/react';
 import { Plus, Edit3, Trash2, RefreshCw, ChevronLeft, ChevronRight, X, Search, Briefcase, Check, ChevronDown, Layers } from 'lucide-react';
+import { Listbox, Transition } from '@headlessui/react';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import Input from '@/components/Input';
@@ -18,10 +19,13 @@ const ExpertiseManagement = () => {
     const [inputValue, setInputValue] = useState('');
     const [searchName, setSearchName] = useState('');
     const [query, setQuery] = useState('');
+    const [selectedGroup, setSelectedGroup] = useState({ id: 'ALL', name: 'All Groups' });
+
     const { data, isLoading, isFetching, refetch } = useGetExpertisesQuery({
         page,
         size: 10,
-        name: searchName || undefined
+        name: searchName || undefined,
+        groupId: selectedGroup.id === 'ALL' ? undefined : selectedGroup.id
     });
 
     const { data: groupsData } = useGetExpertiseGroupsQuery({ size: 100 });
@@ -29,10 +33,18 @@ const ExpertiseManagement = () => {
     const [createExpertise, { isLoading: isCreating }] = useCreateExpertiseMutation();
     const [updateExpertise, { isLoading: isUpdating }] = useUpdateExpertiseMutation();
     const [deleteExpertise, { isLoading: isDeleting }] = useDeleteExpertiseMutation();
+
     const expertises = data?.data?.content || [];
     const groups = groupsData?.data?.content || [];
     const pagination = data?.data || {};
     const totalPages = pagination.totalPages || 0;
+
+    const filteredExpertises = expertises.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(inputValue.toLowerCase());
+        const matchesGroup = selectedGroup.id === 'ALL' || item.expertiseGroup?.id === selectedGroup.id;
+        return matchesSearch && matchesGroup;
+    });
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState('CREATE');
     const [selectedItem, setSelectedItem] = useState(null);
@@ -133,10 +145,67 @@ const ExpertiseManagement = () => {
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">Job Expertises</h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 uppercase tracking-widest">Manage detailed professional roles</p>
+                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest">Manage detailed professional roles</p>
                 </div>
 
                 <div className="flex items-center gap-3">
+                    <div className="relative w-56">
+                        <Listbox value={selectedGroup} onChange={(val) => { setSelectedGroup(val); setPage(0); }}>
+                            <div className="relative">
+                                <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-white dark:bg-gray-800 border border-neutral-100 dark:border-neutral-700 py-2.5 pl-10 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
+                                    <Layers className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-500" />
+                                    <span className="block truncate text-[11px] font-black uppercase tracking-widest text-neutral-700 dark:text-neutral-200">
+                                        {selectedGroup.name}
+                                    </span>
+                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                                        <ChevronDown className="h-3.5 w-3.5 text-neutral-400" aria-hidden="true" />
+                                    </span>
+                                </Listbox.Button>
+
+                                <Transition
+                                    as={React.Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
+                                    <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white dark:bg-gray-800 py-2 text-base shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm border border-neutral-100 dark:border-neutral-700 animate-in fade-in zoom-in duration-200">
+                                        <Listbox.Option
+                                            value={{ id: 'ALL', name: 'All Groups' }}
+                                            className={({ active }) => `relative cursor-pointer select-none py-3 pl-10 pr-4 transition-colors ${active ? 'bg-primary/5 text-primary' : 'text-neutral-700 dark:text-neutral-300'}`}
+                                        >
+                                            {({ selected }) => (
+                                                <>
+                                                    <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>ALL GROUPS</span>
+                                                    {selected ? <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary"><Check size={14} strokeWidth={3} /></span> : null}
+                                                </>
+                                            )}
+                                        </Listbox.Option>
+
+                                        {groups.map((group) => (
+                                            <Listbox.Option
+                                                key={group.id}
+                                                value={group}
+                                                className={({ active }) => `relative cursor-pointer select-none py-3 pl-10 pr-4 transition-colors ${active ? 'bg-primary/5 text-primary' : 'text-neutral-700 dark:text-neutral-300'}`}
+                                            >
+                                                {({ selected }) => (
+                                                    <>
+                                                        <span className={`block truncate text-xs uppercase ${selected ? 'font-black text-primary' : 'font-bold'}`}>
+                                                            {group.name}
+                                                        </span>
+                                                        {selected ? (
+                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                                                <Check size={14} strokeWidth={3} />
+                                                            </span>
+                                                        ) : null}
+                                                    </>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </div>
+                        </Listbox>
+                    </div>
                     <div className="relative w-80">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400/80" />
                         <input
@@ -159,11 +228,11 @@ const ExpertiseManagement = () => {
                         <table className="w-full text-left border-collapse table-fixed">
                             <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-24">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase w-1/4">Expertise Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase">Description</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-center w-40">Group</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-400 tracking-[0.2em] uppercase text-right w-32">Actions</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-24">ID</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Expertise Name</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Description</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center w-40">Expertise Group</th>
+                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-32">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -176,12 +245,12 @@ const ExpertiseManagement = () => {
                                 ) : expertises.length > 0 ? (
                                     expertises.map((item) => (
                                         <tr key={item.id} className="group hover:bg-neutral-50 dark:hover:bg-neutral-800/30 transition-all duration-200">
-                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">#{item.id}</td>
-                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white uppercase text-xs tracking-tight">{item.name}</td>
-                                            <td className="px-6 py-5 text-sm text-neutral-600 dark:text-neutral-400 truncate">{item.description || 'N/A'}</td>
+                                            <td className="px-6 py-5 text-[11px] font-bold text-neutral-400 font-mono">{item.id}</td>
+                                            <td className="px-6 py-5 font-bold text-neutral-900 dark:text-white text-sm tracking-tight">{item.name}</td>
+                                            <td className="px-6 py-5 text-sm text-neutral-600 dark:text-neutral-400 truncate">{item.description || '-'}</td>
                                             <td className="px-6 py-5 text-center">
-                                                <span className="px-3 py-1 text-orange-600 dark:text-orange-400 rounded-full text-[10px] font-black uppercase tracking-wider">
-                                                    {item.expertiseGroup?.name || 'N/A'}
+                                                <span className="px-3 py-1 text-orange-600 dark:text-orange-400 rounded-full text-[12px] font-black tracking-wider">
+                                                    {item.expertiseGroup?.name || '-'}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-5 text-right">
@@ -207,7 +276,7 @@ const ExpertiseManagement = () => {
 
             <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
                 <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
-                    Showing {groups.length} of {pagination.totalElements || 0} groups
+                    Showing {groups.length} of {pagination.totalElements || 0} expertises
                 </p>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setPage(prev => Math.max(0, prev - 1))} disabled={page === 0} className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronLeft size={16} /></button>
@@ -222,7 +291,7 @@ const ExpertiseManagement = () => {
 
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-8 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
+                    <div className="bg-white dark:bg-surface-dark rounded-[32px] w-full max-w-lg p-5 shadow-2xl animate-in zoom-in duration-300 relative border border-neutral-100">
                         <button onClick={handleCloseModal} className="absolute top-6 right-6 text-neutral-400 hover:text-neutral-600">
                             <X size={20} />
                         </button>

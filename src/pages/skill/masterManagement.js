@@ -13,7 +13,7 @@ const MasterManagement = () => {
         { id: 'GROUPS', label: 'EXPERTISE GROUPS' },
         { id: 'EXPERTISE', label: 'JOB EXPERTISES' },
         { id: 'SKILL_CATES', label: 'SKILL CATEGORIES' },
-        { id: 'SKILLS', label: 'DETAILED SKILLS' },
+        { id: 'SKILLS', label: 'SKILLS' },
     ];
 
     const renderContent = () => {
