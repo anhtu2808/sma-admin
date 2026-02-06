@@ -9,6 +9,7 @@ const menuItems = [
   { icon: 'business', label: 'Employers', path: '/companies' },
   { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
   { icon: 'analytics', label: 'Analytics', path: '/analytics' },
+  { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
 ];
 
 const generalItems = [

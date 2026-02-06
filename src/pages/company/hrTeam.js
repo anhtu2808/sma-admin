@@ -43,7 +43,7 @@ const HRTeamTab = ({ recruiters }) => {
                                 </td>
                                 <td className="px-8 py-6">
                                     <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">
-                                        {hr.isRootCandidate ? 'Register Recruiter' : 'Recruiter'}
+                                        {hr.isRootRecruiter ? 'Register Recruiter' : 'Recruiter'}
                                     </p>
                                 </td>
                                 <td className="px-8 py-6">

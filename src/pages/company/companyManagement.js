@@ -145,7 +145,7 @@ const CompanyManagement = () => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <StatusTag status={company.status} />
+                                        <StatusTag status={company.companyStatus} />
                                     </td>
                                     <td className="px-6 py-4">
                                         <p className="text-sm font-bold text-primary truncate">

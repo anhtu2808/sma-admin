@@ -23,7 +23,7 @@ const rawBaseQuery = fetchBaseQuery({
         try {
             return JSON.parse(text);
         } catch (e) {
-            return text; 
+            return text;
         }
     },
 });
@@ -47,6 +47,6 @@ const customBaseQuery = (args, api, extra) => {
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customBaseQuery,
-    tagTypes: ["Users", "Jobs", "Applications", "Companies"],
+    tagTypes: ["Users", "Jobs", "Applications", "Companies", "Skills", "SkillCategories", "Expertises", "ExpertiseGroups", "Domains"],
     endpoints: () => ({})
 });
