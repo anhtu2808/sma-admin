@@ -298,3 +298,50 @@ export const {
     useUpdateSkillMutation,
     useDeleteSkillMutation
 } = adminSkillApi;
+
+
+export const adminUserApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        getAllUsersAdmin: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/users`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [
+                        ...result.data.content.map(({ id }) => ({ type: "Users", id })),
+                        { type: "Users", id: "LIST" },
+                    ]
+                    : [{ type: "Users", id: "LIST" }],
+        }),
+
+        getUserDetailAdmin: builder.query({
+            query: (id) => ({
+                url: `${API_VERSION}/users/${id}`,
+                method: "GET",
+            }),
+            providesTags: (result, error, id) => [{ type: "Users", id }],
+        }),
+
+        updateUserStatusAdmin: builder.mutation({
+            query: ({ userId, status }) => ({
+                url: `${API_VERSION}/users/${userId}/status`,
+                method: "PATCH",
+                params: { status },
+            }),
+            invalidatesTags: (result, error, { userId }) => [
+                { type: "Users", id: userId },
+                { type: "Users", id: "LIST" }
+            ],
+        }),
+    }),
+    overrideExisting: false,
+});
+
+export const {
+    useGetAllUsersAdminQuery,
+    useGetUserDetailAdminQuery,
+    useUpdateUserStatusAdminMutation,
+} = adminUserApi;

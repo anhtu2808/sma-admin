@@ -131,7 +131,7 @@ const CompanyManagement = () => {
                             {companies.map((company) => (
                                 <tr key={company.id} className="hover:bg-gray-50/50 transition-colors group">
                                     <td className="px-6 py-4">
-                                        <div className="flex items-center gap-4 min-w-0"> {/* min-w-0 rất quan trọng để truncate hoạt động trong flex */}
+                                        <div className="flex items-center gap-4 min-w-0">
                                             <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-100">
                                                 {company.logo ? (
                                                     <img src={company.logo} alt="" className="w-full h-full object-cover" />
