@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGetAllUsersAdminQuery } from '@/apis/apis';
+import { useGetAllUsersAdminQuery, useProvisionUserMutation } from '@/apis/apis';
 import { useNavigate } from 'react-router-dom';
 import {
     MoreVertical, Search, ChevronLeft,
@@ -7,6 +7,8 @@ import {
     UserPlus, Users, Mail, Calendar, ChevronDown, Check
 } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
+import CreateUserModal from './createUserModal';
+import Button from '@/components/Button';
 
 const UserManagement = () => {
     const [activeTab, setActiveTab] = useState('All Users');
@@ -82,6 +84,14 @@ const UserManagement = () => {
             default:
                 return 'bg-gray-100 text-gray-500';
         }
+    };
+
+
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [provisionUser, { isLoading: isCreating }] = useProvisionUserMutation();
+
+    const handleProvision = async (data) => {
+        return await provisionUser(data).unwrap();
     };
 
     useEffect(() => {
@@ -167,15 +177,25 @@ const UserManagement = () => {
                             </Listbox>
                         </div>
 
-                        <div className="relative w-80">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400/80" />
-                            <input
-                                type="text"
-                                placeholder="Search users by email..."
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                className="w-full pl-11 pr-4 py-2.5 bg-white border border-neutral-100 rounded-2xl text-xs font-bold transition-all shadow-sm focus:ring-2 focus:ring-orange-500/10 placeholder:text-gray-400"
-                            />
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setIsCreateModalOpen(true)}
+                                className="w-10 h-10 flex items-center justify-center bg-orange-500 text-white rounded-2xl shadow-md shadow-orange-200 hover:bg-orange-600 active:scale-95 transition-all flex-shrink-0"
+                                title="New User"
+                            >
+                                <UserPlus size={18} />
+                            </button>
+
+                            <div className="relative w-64">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-400/80" />
+                                <input
+                                    type="text"
+                                    placeholder="Search email..."
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-neutral-100 rounded-2xl text-[11px] font-bold transition-all shadow-sm focus:ring-2 focus:ring-orange-500/10 placeholder:text-gray-400"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -187,7 +207,7 @@ const UserManagement = () => {
                                 <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[35%]">User Details</th>
                                 <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Account Status</th>
                                 <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[25%]">Platform Activity</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Joined</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Login at</th>
                                 <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[10%] text-center">Actions</th>
                             </tr>
                         </thead>
@@ -290,7 +310,14 @@ const UserManagement = () => {
                         </button>
                     </div>
                 </div>
+                <CreateUserModal
+                    isOpen={isCreateModalOpen}
+                    onClose={() => setIsCreateModalOpen(false)}
+                    onCreate={handleProvision}
+                    isLoading={isCreating}
+                />
             </div>
+
         </div>
     );
 };

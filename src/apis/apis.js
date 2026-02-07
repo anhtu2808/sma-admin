@@ -325,7 +325,14 @@ export const adminUserApi = api.injectEndpoints({
             providesTags: (result, error, id) => [{ type: "Users", id }],
         }),
 
-
+        provisionUser: builder.mutation({
+            query: (body) => ({
+                url: `${API_VERSION}/users`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: [{ type: "Users", id: "LIST" }],
+        }),
 
         updateUserStatusAdmin: builder.mutation({
             query: ({ userId, status }) => ({
@@ -346,4 +353,5 @@ export const {
     useGetAllUsersAdminQuery,
     useGetUserDetailAdminQuery,
     useUpdateUserStatusAdminMutation,
+    useProvisionUserMutation
 } = adminUserApi;
