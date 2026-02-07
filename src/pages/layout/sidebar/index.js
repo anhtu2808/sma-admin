@@ -7,8 +7,8 @@ const menuItems = [
   { icon: 'dashboard', label: 'Dashboard', path: '/dashboard' },
   { icon: 'people', label: 'Users', path: '/users' },
   { icon: 'business', label: 'Employers', path: '/companies' },
-  { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
-  { icon: 'analytics', label: 'Analytics', path: '/analytics' },
+  // { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
+  // { icon: 'analytics', label: 'Analytics', path: '/analytics' },
   { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
 ];
 

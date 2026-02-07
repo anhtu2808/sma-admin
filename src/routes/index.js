@@ -12,13 +12,15 @@ import ExpertiseManagement from "../pages/skill/expertiseManagement";
 import SkillCategoryManagement from "../pages/skill/skillCategoryManagement";
 import SkillManagement from "../pages/skill/skillManagement";
 import MasterManagement from "../pages/skill/masterManagement";
+import UserManagement from "../pages/user/userManagement";
+import UserDetail from "../pages/user/userDetail";
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route element={<Layout />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="users" element={<Dashboard />} />
+                <Route path="users" element={<UserManagement />} />
                 <Route path="companies" element={<CompanyManagement />} />
                 <Route path="jobs" element={<Dashboard />} />
                 <Route path="analytics" element={<Dashboard />} />
@@ -31,6 +33,7 @@ export const routes = createBrowserRouter(
                 <Route path="skill-categories" element={<SkillCategoryManagement />} />
                 <Route path="skills" element={<SkillManagement />} />
                 <Route path="master-management" element={<MasterManagement />} />
+                <Route path="users/:id" element={<UserDetail />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />

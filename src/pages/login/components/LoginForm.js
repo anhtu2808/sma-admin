@@ -22,7 +22,7 @@ const LoginForm = () => {
 
             if (response?.data?.code === 200) {
                 message.success(response?.data?.message || "Login successfully");
-                navigate("/");
+                navigate("/dashboard");
             } else {
                 message.error(response?.data?.message || "Login failed");
             }
