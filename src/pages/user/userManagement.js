@@ -18,8 +18,7 @@ const UserManagement = () => {
         { id: 'ALL', name: 'All Statuses' },
         { id: 'ACTIVE', name: 'Active' },
         { id: 'INACTIVE', name: 'Inactive' },
-        { id: 'PENDING', name: 'Pending' },
-        { id: 'SUSPENDED', name: 'Suspended' }
+        { id: 'PENDING', name: 'Pending' }
     ];
     const [selectedStatus, setSelectedStatus] = useState(statuses[0]);
 
@@ -236,7 +235,7 @@ const UserManagement = () => {
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <button
-                                            onClick={() => navigate(`/admin/users/${user.id}`)}
+                                            onClick={() => navigate(`/users/${user.id}`)}
                                             className="p-2.5 hover:bg-gray-100 text-gray-400 hover:text-orange-500 rounded-xl transition-all"
                                         >
                                             <MoreVertical size={18} />
@@ -312,7 +311,6 @@ const StatusTag = ({ status }) => {
     const config = {
         ACTIVE: { label: 'ACTIVE', color: 'bg-green-50 text-green-600', dot: 'bg-green-600' },
         PENDING: { label: 'PENDING', color: 'bg-orange-50 text-orange-600', dot: 'bg-orange-600' },
-        SUSPENDED: { label: 'SUSPENDED', color: 'bg-red-50 text-red-600', dot: 'bg-red-600' },
     }[status] || { label: status, color: 'bg-gray-50 text-gray-600', dot: 'bg-gray-600' };
 
     return (

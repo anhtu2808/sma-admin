@@ -325,6 +325,8 @@ export const adminUserApi = api.injectEndpoints({
             providesTags: (result, error, id) => [{ type: "Users", id }],
         }),
 
+
+
         updateUserStatusAdmin: builder.mutation({
             query: ({ userId, status }) => ({
                 url: `${API_VERSION}/users/${userId}/status`,
