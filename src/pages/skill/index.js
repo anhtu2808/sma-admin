@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import DomainManagement from './domainManagement';
-import ExpertiseGroupManagement from './expertiseGroupManagement';
-import ExpertiseManagement from './expertiseManagement';
-import SkillCategoryManagement from './skillCategoryManagement';
-import SkillManagement from './skillManagement';
+import DomainManagement from './domain';
+import ExpertiseGroupManagement from './expertise-group';
+import ExpertiseManagement from './expertise';
+import SkillCategoryManagement from './skill-category';
+import SkillManagement from './skill';
 
 const MasterManagement = () => {
     const [activeTab, setActiveTab] = useState('DOMAINS');
@@ -17,8 +17,6 @@ const MasterManagement = () => {
     ];
 
     const renderContent = () => {
-        // Lưu ý: Các component con cần được xóa bỏ bớt phần Header riêng (nếu có) 
-        // để tránh bị lặp 2 tiêu đề khi gộp vào đây.
         switch (activeTab) {
             case 'DOMAINS': return <DomainManagement />;
             case 'GROUPS': return <ExpertiseGroupManagement />;

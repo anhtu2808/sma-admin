@@ -7,7 +7,7 @@ import {
     Pen
 } from 'lucide-react';
 import Button from '@/components/Button';
-import HRTeamTab from './hrTeam';
+import HRTeamTab from '../recruiters';
 
 const CompanyDetail = () => {
     const { id } = useParams();
@@ -25,27 +25,27 @@ const CompanyDetail = () => {
     const [reason, setReason] = useState('');
 
     useEffect(() => {
-    if (company?.id && company?.companyStatus === 'PENDING_VERIFICATION') {
-        
-        const triggerUnderReview = async () => {
-            try {
-                console.log("🚀 System: Auto-transitioning to UNDER_REVIEW...");
-                await updateStatus({
-                    companyId: company.id,
-                    status: 'UNDER_REVIEW',
-                    reason: 'System: Admin is reviewing the dossier'
-                }).unwrap();
+        if (company?.id && company?.companyStatus === 'PENDING_VERIFICATION') {
 
-                console.log("✅ Success: Status updated to UNDER_REVIEW");
-                refetch(); 
-            } catch (err) {
-                console.error("❌ Error auto-updating status:", err);
-            }
-        };
+            const triggerUnderReview = async () => {
+                try {
+                    console.log("🚀 System: Auto-transitioning to UNDER_REVIEW...");
+                    await updateStatus({
+                        companyId: company.id,
+                        status: 'UNDER_REVIEW',
+                        reason: 'System: Admin is reviewing the dossier'
+                    }).unwrap();
 
-        triggerUnderReview();
-    }
-}, [company?.id, company?.status, updateStatus, refetch]);
+                    console.log("✅ Success: Status updated to UNDER_REVIEW");
+                    refetch();
+                } catch (err) {
+                    console.error("❌ Error auto-updating status:", err);
+                }
+            };
+
+            triggerUnderReview();
+        }
+    }, [company?.id, company?.status, updateStatus, refetch]);
 
     if (isLoading) return <div className="p-10 text-center font-bold text-gray-400 tracking-widest">LOADING DOSSIER...</div>;
 
