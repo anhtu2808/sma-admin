@@ -3,17 +3,17 @@ import Layout from '@/pages/layout';
 import Dashboard from '@/pages/dashboard';
 import UiKit from '@/pages/ui-kit';
 import Home from '@/pages/home';
-import CompanyManagement from '@/pages/company/companyManagement';
-import CompanyDetail from '@/pages/company/companyDetail';
+import CompanyManagement from '@/pages/company';
+import CompanyDetail from '@/pages/company/detail';
 import Login from '@/pages/login';
-import DomainManagement from "../pages/skill/domainManagement";
-import ExpertiseGroupManagement from "../pages/skill/expertiseGroupManagement";
-import ExpertiseManagement from "../pages/skill/expertiseManagement";
-import SkillCategoryManagement from "../pages/skill/skillCategoryManagement";
-import SkillManagement from "../pages/skill/skillManagement";
-import MasterManagement from "../pages/skill/masterManagement";
-import UserManagement from "../pages/user/userManagement";
-import UserDetail from "../pages/user/userDetail";
+import DomainManagement from "../pages/skill/domain";
+import ExpertiseGroupManagement from "../pages/skill/expertise-group";
+import ExpertiseManagement from "../pages/skill/expertise";
+import SkillCategoryManagement from "../pages/skill/skill-category";
+import SkillManagement from "../pages/skill/skill";
+import MasterManagement from "../pages/skill";
+import UserManagement from "../pages/user";
+import UserDetail from "../pages/user/detail";
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
