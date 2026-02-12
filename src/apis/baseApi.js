@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import omitBy from "lodash/omitBy";
 import isNil from "lodash/isNil";
+import { BASE_HOST } from "../services/apiClient";
 
 export const API_VERSION = "/v1";
 
@@ -10,9 +11,9 @@ const stripNullish = (obj) => {
 };
 
 const rawBaseQuery = fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL,
+    baseUrl: process.env.REACT_APP_API_URL || BASE_HOST,
     prepareHeaders: (headers) => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("accessToken");
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
