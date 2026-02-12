@@ -20,7 +20,7 @@ const UserManagement = () => {
         { id: 'ALL', name: 'All Statuses' },
         { id: 'ACTIVE', name: 'Active' },
         { id: 'INACTIVE', name: 'Inactive' },
-        { id: 'PENDING', name: 'Pending' }
+        { id: 'PENDING_VERIFICATION', name: 'Pending' }
     ];
     const [selectedStatus, setSelectedStatus] = useState(statuses[0]);
 
