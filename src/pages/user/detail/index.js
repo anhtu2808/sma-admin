@@ -343,7 +343,8 @@ const UserDetail = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-5 text-center">
-                                            <button className="p-2.5 bg-gray-50 text-gray-400 hover:text-blue-500 hover:bg-white border border-transparent hover:border-blue-100 rounded-xl transition-all shadow-sm">
+                                            <button onClick={() => navigate(`/jobs/${job.id}`)}
+                                                className="p-2.5 bg-gray-50 text-gray-400 hover:text-blue-500 hover:bg-white border border-transparent hover:border-blue-100 rounded-xl transition-all shadow-sm">
                                                 <Eye size={18} />
                                             </button>
                                         </td>

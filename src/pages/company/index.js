@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetAdminCompaniesQuery } from '@/apis/apis';
+import { useGetAdminCompaniesQuery, useGetAllUsersAdminQuery } from '@/apis/apis';
 import { useNavigate } from 'react-router-dom';
 import { MoreVertical, Search, Download, Eye, ChevronLeft, ChevronRight, MapPin, Building2 } from 'lucide-react';
 
@@ -35,11 +35,16 @@ const CompanyManagement = () => {
         size: 1
     });
 
+    const { data: recruiterData } = useGetAllUsersAdminQuery({
+        role: 'RECRUITER',
+        size: 1
+    });
+
     const companies = data?.data?.content || [];
     const totalOrganizations = allData?.data?.totalElements || 0;
     const pendingApprovals = pendingData?.data?.totalElements || 0;
     const underReviewCount = underReviewData?.data?.totalElements || 0;
-    const totalRecruiters = "--";
+    const totalRecruiters = recruiterData?.data?.totalElements || 0;
 
     if (isLoading) return <div className="p-10 text-center">Loading organizations...</div>;
 
@@ -103,15 +108,19 @@ const CompanyManagement = () => {
                     </div>
 
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                        <div className="relative flex-1 sm:w-80">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400/80" />
+                        <div className="relative w-64">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-400/80" />
                             <input
                                 type="text"
-                                placeholder="Search by name..."
-                                onChange={(e) => setSearchName(e.target.value)}
-                                className="w-full pl-11 pr-4 py-2.5 bg-gray-100/60 dark:bg-gray-800/40 border-none rounded-2xl text-sm transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-primary/10 focus:bg-white dark:focus:bg-gray-700"
+                                placeholder="Search company name..."
+                                onChange={(e) => {
+                                    setSearchName(e.target.value);
+                                    setPage(0);
+                                }}
+                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-neutral-100 rounded-2xl text-[11px] font-bold transition-all shadow-sm focus:ring-2 focus:ring-orange-500/10 placeholder:text-gray-400"
                             />
                         </div>
+
                         {/* <Button mode="outline" shape="rounded" iconLeft={<Download size={18} />}>Export</Button> */}
                     </div>
                 </div>
@@ -120,11 +129,11 @@ const CompanyManagement = () => {
                     <table className="w-full text-left border-collapse table-fixed">
                         <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                             <tr>
-                                <th className="px-6 py-4 w-[40%]">Organization</th>
-                                <th className="px-6 py-4 w-[15%]">Status</th>
-                                <th className="px-6 py-4 w-[15%]">Recruiters</th>
-                                <th className="px-6 py-4 w-[20%]">Location</th>
-                                <th className="px-6 py-4 w-[10%] text-center">Action</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[35%]">Organization</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Status</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Recruiters</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Location</th>
+                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[10%] text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">

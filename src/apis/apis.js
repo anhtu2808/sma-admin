@@ -355,3 +355,50 @@ export const {
     useUpdateUserStatusAdminMutation,
     useProvisionUserMutation
 } = adminUserApi;
+
+export const adminJobApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        getAdminJobs: builder.query({
+            query: (params) => ({
+                url: `${API_VERSION}/jobs`,
+                method: "GET",
+                params,
+            }),
+            providesTags: (result) =>
+                result?.data?.content
+                    ? [
+                        ...result.data.content.map(({ id }) => ({ type: "Jobs", id })),
+                        { type: "Jobs", id: "ADMIN_LIST" },
+                    ]
+                    : [{ type: "Jobs", id: "ADMIN_LIST" }],
+        }),
+
+        getAdminJobDetail: builder.query({
+            query: (jobId) => ({
+                url: `${API_VERSION}/jobs/${jobId}`,
+                method: "GET",
+            }),
+            providesTags: (result, error, id) => [{ type: "Jobs", id }],
+        }),
+
+        updateAdminJobStatus: builder.mutation({
+            query: ({ jobId, jobStatus }) => ({
+                url: `${API_VERSION}/jobs/${jobId}/status`,
+                method: "PUT",
+                body: { jobStatus },
+            }),
+            invalidatesTags: (result, error, { jobId }) => [
+                { type: "Jobs", id: jobId },
+                { type: "Jobs", id: "ADMIN_LIST" },
+                { type: "Jobs", id: "LIST" },
+            ],
+        }),
+    }),
+    overrideExisting: false,
+});
+
+export const {
+    useGetAdminJobsQuery,
+    useGetAdminJobDetailQuery,
+    useUpdateAdminJobStatusMutation,
+} = adminJobApi;

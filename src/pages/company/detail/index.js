@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGetAdminCompanyDetailQuery, useSetUnderReviewMutation, useUpdateCompanyStatusMutation } from '@/apis/apis';
+import { useGetAdminCompanyDetailQuery, useSetUnderReviewMutation, useUpdateCompanyStatusMutation, useProvisionUserMutation } from '@/apis/apis';
 import {
     ChevronLeft, Building2, MapPin, Globe, FileText, Briefcase, Map,
     Users, Calendar, Mail, Phone, ExternalLink, ShieldCheck,
@@ -8,6 +8,9 @@ import {
 } from 'lucide-react';
 import Button from '@/components/Button';
 import HRTeamTab from '../recruiters';
+import { message } from 'antd';
+import CreateUserModal from '../../user/createUserModal';
+import CompanyJobsTab from '../job';
 
 const CompanyDetail = () => {
     const { id } = useParams();
@@ -23,6 +26,8 @@ const CompanyDetail = () => {
     const [updateStatus, { isLoading: isUpdating }] = useUpdateCompanyStatusMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reason, setReason] = useState('');
+    const [isCreateMemberModalOpen, setIsCreateMemberModalOpen] = useState(false);
+    const [provisionUser, { isLoading: isProvisioning }] = useProvisionUserMutation();
 
     useEffect(() => {
         if (company?.id && company?.companyStatus === 'PENDING_VERIFICATION') {
@@ -90,6 +95,17 @@ const CompanyDetail = () => {
         }
     };
 
+    const handleCreateMember = async (payload) => {
+        try {
+            await provisionUser(payload).unwrap();
+            message.success("Recruiter created and assigned successfully!");
+            refetch();
+        } catch (err) {
+            message.error(err?.data?.message || "Failed to create recruiter");
+            throw err;
+        }
+    };
+
     return (
         <div className="h-full flex flex-col space-y-4 overflow-hidden">
             <div className="flex-shrink-0 flex items-center justify-between px-4">
@@ -123,8 +139,8 @@ const CompanyDetail = () => {
                 <div className="flex gap-10">
                     {[
                         { id: 'Overview', label: 'OVERVIEW' },
-                        { id: 'HR Team', label: `HR TEAM (${hrTeamSize})` },
-                        { id: 'Jobs', label: `JOB LISTINGS (${company.totalJobs ?? 0})` }
+                        { id: 'HR Team', label: `RECRUITER TEAM (${hrTeamSize})` },
+                        { id: 'Jobs', label: `JOB POSTS (${company.totalJobs ?? 0})` }
                     ].map(tab => {
                         const isActive = activeTab === tab.id;
                         return (
@@ -189,8 +205,8 @@ const CompanyDetail = () => {
                                             </div>
 
                                             <div className="space-y-6 pt-4">
-                                                <SidebarItem icon={<Mail size={16} className="text-orange-200" />} label="Recruiter Email" value={company.recruiters?.[0]?.email || 'No email available'} />
-                                                <SidebarItem icon={<Phone size={16} className="text-orange-200" />} label="Contact Phone" value={company.phone} />
+                                                <SidebarItem icon={<Mail size={16} className="text-white" />} label="Recruiter Email" value={company.recruiters?.[0]?.email || 'No email available'} />
+                                                <SidebarItem icon={<Phone size={16} className="text-white" />} label="Contact Phone" value={company.phone} />
                                                 {/* <SidebarItem icon={<Users size={16} className="text-orange-200" />} label="Members" value={`${hrTeamSize} Members`} color="text-white" /> */}
                                                 {/* <SidebarItem icon={<Calendar size={16} className="text-orange-200" />} label="Billing Status" value="PAID & ACTIVE" color="text-white" /> */}
                                             </div>
@@ -336,15 +352,27 @@ const CompanyDetail = () => {
                 {/* HIỂN THỊ TAB HR TEAM */}
                 {activeTab === 'HR Team' && (
                     <div className="pb-10">
-                        <HRTeamTab recruiters={company?.recruiters} />
+                        <HRTeamTab
+                            recruiters={company?.recruiters}
+                            onAddClick={() => setIsCreateMemberModalOpen(true)}
+                        />
                     </div>
                 )}
 
+                <CreateUserModal
+                    isOpen={isCreateMemberModalOpen}
+                    onClose={() => setIsCreateMemberModalOpen(false)}
+                    onCreate={handleCreateMember}
+                    isLoading={isProvisioning}
+                    fixedRole="RECRUITER"
+                    fixedCompanyId={id}
+                    fixedCompanyName={company?.name}
+                />
+
                 {/* HIỂN THỊ TAB JOB LISTINGS */}
                 {activeTab === 'Jobs' && (
-                    <div className="pb-10 bg-white rounded-[32px] border border-gray-50 p-20 text-center text-gray-400">
-                        <Briefcase className="mx-auto mb-4 opacity-20" size={48} />
-                        <p>Job Listings for this organization are currently being synchronized...</p>
+                    <div className="pb-10">
+                        <CompanyJobsTab companyId={id} />
                     </div>
                 )}
             </div>

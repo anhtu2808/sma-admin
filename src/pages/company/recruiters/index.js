@@ -1,15 +1,21 @@
 import React from 'react';
 import { Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ShieldAlert } from 'lucide-react';
+import { Eye } from 'lucide-react';
 
-const HRTeamTab = ({ recruiters }) => {
+const HRTeamTab = ({ recruiters, onAddClick }) => {
+    const navigate = useNavigate();
     return (
         <div className="bg-white rounded-[32px] border border-gray-50 shadow-sm overflow-hidden mb-10">
             {/* Table Header */}
             <div className="p-8 border-b border-gray-50 flex justify-between items-center">
                 <h4 className="text-[11px] font-bold text-[#111c2d] uppercase tracking-[0.2em]">
-                    Associated Recruitment Officers
                 </h4>
-                <button className="flex items-center gap-2 text-orange-500 hover:text-orange-600 font-bold text-[10px] uppercase tracking-wider transition-colors">
+                <button
+                    onClick={onAddClick}
+                    className="flex items-center gap-2 text-orange-500 hover:text-orange-600 font-bold text-[10px] uppercase tracking-wider transition-colors"
+                >
                     <Users size={14} />
                     Add Member
                 </button>
@@ -20,10 +26,10 @@ const HRTeamTab = ({ recruiters }) => {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-gray-50/50">
-                            <th className="px-8 py-4 text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Member Details</th>
-                            <th className="px-8 py-4 text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Role</th>
-                            <th className="px-8 py-4 text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Status</th>
-                            <th className="px-8 py-4 text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em] text-right">Action</th>
+                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[45%]">Member Details</th>
+                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Role</th>
+                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Status</th>
+                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%] text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -56,8 +62,11 @@ const HRTeamTab = ({ recruiters }) => {
                                     </div>
                                 </td>
                                 <td className="px-8 py-6 text-right">
-                                    <button className="text-[10px] font-bold text-gray-300 group-hover:text-orange-500 uppercase tracking-widest transition-colors">
-                                        Audit User
+                                    <button
+                                        onClick={() => navigate(`/users/${hr.userId}`)}
+                                        className="flex items-center gap-2 ml-auto text-[10px] font-black text-gray-300 group-hover:text-orange-500 uppercase tracking-widest transition-all"
+                                    >
+                                        <Eye size={18} />
                                     </button>
                                 </td>
                             </tr>
