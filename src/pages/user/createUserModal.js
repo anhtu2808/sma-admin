@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Mail, Lock, ShieldCheck, Search, Building2, UserPlus } from 'lucide-react';
 import Button from '@/components/Button';
 import { useGetAdminCompaniesQuery } from '@/apis/apis';
@@ -6,20 +6,30 @@ import { Listbox, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { ChevronDown, Check, AlertCircle } from 'lucide-react';
 
-const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading }) => {
+const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = null, fixedCompanyId = null, fixedCompanyName = null }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         fullName: '',
-        role: 'CANDIDATE',
-        companyId: null
+        role: fixedRole || 'CANDIDATE',
+        companyId: fixedCompanyId || null
     });
+
+    useEffect(() => {
+        if (isOpen) {
+            setFormData(prev => ({
+                ...prev,
+                role: fixedRole || 'CANDIDATE',
+                companyId: fixedCompanyId || null
+            }));
+        }
+    }, [isOpen, fixedRole, fixedCompanyId]);
     const [companySearch, setCompanySearch] = useState('');
     const [serverError, setServerError] = useState('');
 
     const { data: companies } = useGetAdminCompaniesQuery(
         { name: companySearch, size: 5 },
-        { skip: formData.role !== 'RECRUITER' || !isOpen }
+        { skip: formData.role !== 'RECRUITER' || !!fixedCompanyId || !isOpen }
     );
 
     const roles = [
@@ -29,6 +39,8 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading }) => {
     ];
 
     if (!isOpen) return null;
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -108,58 +120,61 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading }) => {
                         </div>
                     </div>
 
-                    <div className="space-y-1 relative">
-                        <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Access Role<span className="text-red-500">*</span></label>
+                    {!fixedRole && (
+                        <div className="space-y-1 relative">
+                            <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Access Role<span className="text-red-500">*</span></label>
 
-                        <Listbox
-                            value={roles.find(r => r.id === formData.role)}
-                            onChange={(val) => setFormData({ ...formData, role: val.id, companyId: null })}
-                        >
-                            <div className="relative">
-                                <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-gray-50 border border-gray-100 py-3 pl-12 pr-10 text-left focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all">
-                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-                                    <span className="block truncate text-xs font-bold uppercase tracking-wider text-neutral-700">
-                                        {roles.find(r => r.id === formData.role)?.name}
-                                    </span>
-                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                                        <ChevronDown className="h-4 w-4 text-gray-300" aria-hidden="true" />
-                                    </span>
-                                </Listbox.Button>
+                            <Listbox
+                                value={roles.find(r => r.id === formData.role)}
+                                onChange={(val) => setFormData({ ...formData, role: val.id, companyId: null })}
+                            >
+                                <div className="relative">
+                                    <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-gray-50 border border-gray-100 py-3 pl-12 pr-10 text-left focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all">
+                                        <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
+                                        <span className="block truncate text-xs font-bold uppercase tracking-wider text-neutral-700">
+                                            {roles.find(r => r.id === formData.role)?.name}
+                                        </span>
+                                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                                            <ChevronDown className="h-4 w-4 text-gray-300" aria-hidden="true" />
+                                        </span>
+                                    </Listbox.Button>
 
-                                <Transition
-                                    as={Fragment}
-                                    leave="transition ease-in duration-100"
-                                    leaveFrom="opacity-100"
-                                    leaveTo="opacity-0"
-                                >
-                                    <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white py-2 text-base shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border border-neutral-100 animate-in fade-in zoom-in duration-200">
-                                        {roles.map((role) => (
-                                            <Listbox.Option
-                                                key={role.id}
-                                                value={role}
-                                                className={({ active }) => `relative cursor-pointer select-none py-3 pl-10 pr-4 transition-colors ${active ? 'bg-orange-50 text-orange-500' : 'text-neutral-700'}`}
-                                            >
-                                                {({ selected }) => (
-                                                    <>
-                                                        <span className={`block truncate text-[10px] font-black uppercase tracking-widest ${selected ? 'text-orange-500' : 'text-neutral-600'}`}>
-                                                            {role.name}
-                                                        </span>
-                                                        {selected && (
-                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-500">
-                                                                <Check size={14} strokeWidth={3} />
+                                    <Transition
+                                        as={Fragment}
+                                        leave="transition ease-in duration-100"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white py-2 text-base shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border border-neutral-100 animate-in fade-in zoom-in duration-200">
+                                            {roles.map((role) => (
+                                                <Listbox.Option
+                                                    key={role.id}
+                                                    value={role}
+                                                    className={({ active }) => `relative cursor-pointer select-none py-3 pl-10 pr-4 transition-colors ${active ? 'bg-orange-50 text-orange-500' : 'text-neutral-700'}`}
+                                                >
+                                                    {({ selected }) => (
+                                                        <>
+                                                            <span className={`block truncate text-[10px] font-black uppercase tracking-widest ${selected ? 'text-orange-500' : 'text-neutral-600'}`}>
+                                                                {role.name}
                                                             </span>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </Listbox.Option>
-                                        ))}
-                                    </Listbox.Options>
-                                </Transition>
-                            </div>
-                        </Listbox>
-                    </div>
+                                                            {selected && (
+                                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-500">
+                                                                    <Check size={14} strokeWidth={3} />
+                                                                </span>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </Listbox.Option>
+                                            ))}
+                                        </Listbox.Options>
+                                    </Transition>
+                                </div>
+                            </Listbox>
+                        </div>
+                    )}
 
-                    {formData.role === 'RECRUITER' && (
+                    {/* Company Selection: Chỉ hiện nếu là Recruiter và KHÔNG có fixedCompanyId */}
+                    {formData.role === 'RECRUITER' && !fixedCompanyId && (
                         <div className="space-y-2 pt-2 animate-in fade-in duration-300">
                             <label className="text-[10px] font-black text-orange-500 uppercase ml-1">Assign Company<span className="text-red-500">*</span></label>
                             <div className="relative">
@@ -177,6 +192,15 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading }) => {
                                         <span className="text-[10px] font-black uppercase">{comp.name}</span>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    )}
+                    {fixedCompanyName && (
+                        <div className="p-4 bg-orange-50 rounded-2xl border border-orange-100 flex items-center gap-3">
+                            <Building2 size={16} className="text-orange-500" />
+                            <div>
+                                <p className="text-[9px] font-black text-orange-400 uppercase">Adding Member to</p>
+                                <p className="text-xs font-black text-orange-600 uppercase">{fixedCompanyName}</p>
                             </div>
                         </div>
                     )}
