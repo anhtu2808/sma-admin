@@ -16,6 +16,10 @@ import UserManagement from "../pages/user";
 import UserDetail from "../pages/user/detail";
 import JobManagement from "../pages/job";
 import JobDetail from "../pages/job/detail";
+import FeatureManagement from "../pages/subscription/feature";
+import PlanManagement from "../pages/subscription/plan";
+import SubscriptionManagement from "../pages/subscription";
+
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -37,6 +41,9 @@ export const routes = createBrowserRouter(
                 <Route path="skills" element={<SkillManagement />} />
                 <Route path="master-management" element={<MasterManagement />} />
                 <Route path="users/:id" element={<UserDetail />} />
+                <Route path="features" element={<FeatureManagement />} />
+                <Route path="plans" element={<PlanManagement />} />
+                <Route path="subscription-management" element={<SubscriptionManagement />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
