@@ -88,6 +88,76 @@ const PriceTab = ({ planId, currency }) => {
 
             {/* List Prices */}
             <div className="space-y-3">
+
+                {/* Form Add New Inline */}
+                {isAddingNew && (
+                    <div className="p-8 bg-neutral-50/50 rounded-[32px] border-2 border-dashed border-neutral-200 space-y-6 animate-in zoom-in duration-200">
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                                <DollarSign size={16} />
+                            </div>
+                            <h5 className="text-[11px] font-black text-neutral-800 uppercase">New Pricing Configuration</h5>
+                        </div>
+
+                        {errorMsg && (
+                            <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-1">
+                                <div className="flex-shrink-0">
+                                    <AlertCircle size={14} className="text-red-500" />
+                                </div>
+                                <p className="text-[10px] text-red-600 font-black uppercase tracking-tight leading-none">
+                                    Error: {errorMsg}
+                                </p>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Duration <span className="text-red-500">*</span></label>
+                                <Input type="number" min="1" value={priceForm.duration} onChange={e => setPriceForm({ ...priceForm, duration: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Unit <span className="text-red-500">*</span></label>
+                                <select
+                                    className="w-full py-4 px-4 bg-white rounded-2xl text-xs font-black text-neutral-700 uppercase outline-none ring-1 ring-neutral-200 focus:ring-2 focus:ring-primary/20 appearance-none"
+                                    value={priceForm.unit} onChange={e => setPriceForm({ ...priceForm, unit: e.target.value })}
+                                >
+                                    <option value="DAY">DAY</option>
+                                    <option value="MONTH">MONTH</option>
+                                    <option value="YEAR">YEAR</option>
+                                    <option value="FOREVER">FOREVER</option>
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Original Price ({currency})<span className="text-red-500">*</span></label>
+                                <Input type="number" placeholder="0" value={priceForm.originalPrice} onChange={e => setPriceForm({ ...priceForm, originalPrice: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Sale Price ({currency})<span className="text-red-500">*</span></label>
+                                <Input type="number" placeholder="0" value={priceForm.salePrice} onChange={e => setPriceForm({ ...priceForm, salePrice: e.target.value })} />
+                            </div>
+                            <div className="col-span-2 flex items-center gap-2 px-2">
+                                <input
+                                    id="price-active"
+                                    type="checkbox"
+                                    checked={priceForm.isActive}
+                                    onChange={e => setPriceForm({ ...priceForm, isActive: e.target.checked })}
+                                    className="w-4 h-4 accent-secondary"
+                                />
+                                <label htmlFor="price-active" className="text-[10px] font-black text-neutral-500 uppercase cursor-pointer">
+                                    Set this price tier as active immediately
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <Button mode="secondary" className="flex-1 font-black text-[10px]" onClick={resetForm}>CANCEL</Button>
+                            <Button mode="primary" className="font-black text-[10px]" onClick={handleSave} disabled={isAdding}>
+                                {isAdding ? 'PROCESSING...' : 'CONFIRM ADD'}
+                            </Button>
+                        </div>
+                    </div>
+                )}
+
                 {prices.map((p) => (
                     <div key={p.id} className="p-5 bg-white rounded-[24px] border border-neutral-100 flex items-center justify-between group hover:border-primary/20 hover:shadow-md transition-all">
                         <div className="flex items-center gap-4">
@@ -117,75 +187,6 @@ const PriceTab = ({ planId, currency }) => {
                         </button>
                     </div>
                 ))}
-
-                {/* Form Add New Inline */}
-                {isAddingNew && (
-                    <div className="p-8 bg-neutral-50/50 rounded-[32px] border-2 border-dashed border-neutral-200 space-y-6 animate-in zoom-in duration-200">
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                                <DollarSign size={16} />
-                            </div>
-                            <h5 className="text-[11px] font-black text-neutral-800 uppercase">New Pricing Configuration</h5>
-                        </div>
-
-                        {errorMsg && (
-                            <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-1">
-                                <div className="flex-shrink-0">
-                                    <AlertCircle size={14} className="text-red-500" />
-                                </div>
-                                <p className="text-[10px] text-red-600 font-black uppercase tracking-tight leading-none">
-                                    Error: {errorMsg}
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="grid grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Duration</label>
-                                <Input type="number" min="1" value={priceForm.duration} onChange={e => setPriceForm({ ...priceForm, duration: e.target.value })} />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Unit</label>
-                                <select
-                                    className="w-full py-4 px-4 bg-white rounded-2xl text-xs font-black text-neutral-700 uppercase outline-none ring-1 ring-neutral-200 focus:ring-2 focus:ring-primary/20 appearance-none"
-                                    value={priceForm.unit} onChange={e => setPriceForm({ ...priceForm, unit: e.target.value })}
-                                >
-                                    <option value="DAY">DAY</option>
-                                    <option value="MONTH">MONTH</option>
-                                    <option value="YEAR">YEAR</option>
-                                    <option value="FOREVER">FOREVER</option>
-                                </select>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Original Price ({currency})</label>
-                                <Input type="number" placeholder="0" value={priceForm.originalPrice} onChange={e => setPriceForm({ ...priceForm, originalPrice: e.target.value })} />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Sale Price ({currency})</label>
-                                <Input type="number" placeholder="0" value={priceForm.salePrice} onChange={e => setPriceForm({ ...priceForm, salePrice: e.target.value })} />
-                            </div>
-                            <div className="col-span-2 flex items-center gap-2 px-2">
-                                <input
-                                    id="price-active"
-                                    type="checkbox"
-                                    checked={priceForm.isActive}
-                                    onChange={e => setPriceForm({ ...priceForm, isActive: e.target.checked })}
-                                    className="w-4 h-4 accent-secondary"
-                                />
-                                <label htmlFor="price-active" className="text-[10px] font-black text-neutral-500 uppercase cursor-pointer">
-                                    Set this price tier as active immediately
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3 pt-2">
-                            <Button mode="secondary" className="flex-1 font-black text-[10px]" onClick={resetForm}>CANCEL</Button>
-                            <Button mode="primary" className="font-black text-[10px]" onClick={handleSave} disabled={isAdding}>
-                                {isAdding ? 'PROCESSING...' : 'CONFIRM ADD'}
-                            </Button>
-                        </div>
-                    </div>
-                )}
 
                 {!isLoading && prices.length === 0 && !isAddingNew && (
                     <div className="py-20 text-center border-2 border-dashed border-neutral-100 rounded-[40px] bg-neutral-50/30">

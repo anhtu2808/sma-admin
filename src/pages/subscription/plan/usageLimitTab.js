@@ -97,12 +97,12 @@ const UsageLimitTab = ({ planId }) => {
                         )}
 
                         <div className="space-y-2">
-                            <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Select Feature</label>
+                            <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Select Feature <span className="text-red-500">*</span></label>
                             <Combobox
                                 value={limitForm.featureId}
                                 onChange={(val) => {
                                     setLimitForm({ ...limitForm, featureId: val });
-                                    setQuery(''); // Reset query sau khi chọn
+                                    setQuery('');
                                 }}
                             >
                                 <div className="relative">
@@ -167,11 +167,11 @@ const UsageLimitTab = ({ planId }) => {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Max Quota</label>
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Max Quota <span className="text-red-500">*</span></label>
                                 <Input type="number" value={limitForm.maxQuota} onChange={e => setLimitForm({ ...limitForm, maxQuota: e.target.value })} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Limit Unit</label>
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Limit Unit <span className="text-red-500">*</span></label>
                                 <Listbox
                                     value={limitForm.limitUnit}
                                     onChange={(val) => setLimitForm({ ...limitForm, limitUnit: val })}

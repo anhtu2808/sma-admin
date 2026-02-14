@@ -123,11 +123,11 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                 <div className="grid grid-cols-2 gap-6">
                                     {/* INLINE ALERT SYSTEM */}
                                     <div className="col-span-2 space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Package Name</label>
+                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Plan Name <span className="text-red-500">*</span></label>
                                         <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Enterprise Gold" />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Target Audience</label>
+                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Target <span className="text-red-500">*</span></label>
                                         <EnumSelect
                                             value={formData.planTarget}
                                             options={['COMPANY', 'CANDIDATE']}
@@ -135,7 +135,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Package Type</label>
+                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Type <span className="text-red-500">*</span></label>
                                         <EnumSelect
                                             value={formData.planType}
                                             options={['MAIN', 'ADD_ON']}
