@@ -23,7 +23,7 @@ const SubscriptionManagement = () => {
         <div className="h-full flex flex-col font-body">
             {/* --- NEGATIVE TABS HEADER --- */}
             <div className="flex-shrink-0 bg-white dark:bg-surface-dark border-b border-gray-100 dark:border-neutral-800">
-                <div className="pl-8 pt-6 flex items-center justify-between">
+                <div className="pl-8 flex items-center justify-between">
                     <div className="flex gap-10">
                         {tabs.map((tab) => {
                             const isActive = activeTab === tab.id;
