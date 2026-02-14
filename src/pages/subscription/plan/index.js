@@ -104,11 +104,11 @@ const PlanManagement = () => {
             </div>
 
             {/* Table Section */}
-            <div className="flex-1 px-6 min-h-0 pb-4">
-                <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full rounded-[32px]">
+            <div className="flex-1 px-6 min-h-0">
+                <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-50/90 backdrop-blur-md">
+                            <thead className="sticky top-0 z-10 bg-orange-100/80 backdrop-blur-md">
                                 <tr>
                                     <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-20">ID</th>
                                     <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Plan Name</th>
@@ -166,13 +166,39 @@ const PlanManagement = () => {
             </div>
 
             {/* Pagination */}
-            <div className="px-6 py-4 flex items-center justify-between bg-white border-t border-neutral-100">
+            <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
                 <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase">
-                    Showing {plans.length} of {pagination.totalElements || 0} packages
+                    Showing {plans.length} of {pagination.totalElements || 0} Plans
                 </p>
                 <div className="flex items-center gap-2">
-                    <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="p-2 rounded-xl hover:bg-neutral-100 disabled:opacity-20"><ChevronLeft size={16} /></button>
-                    <button onClick={() => setPage(p => p + 1)} disabled={page >= totalPages - 1} className="p-2 rounded-xl hover:bg-neutral-100 disabled:opacity-20"><ChevronRight size={16} /></button>
+                    <button
+                        onClick={() => setPage(prev => Math.max(0, prev - 1))}
+                        disabled={page === 0}
+                        className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}
+                    >
+                        <ChevronLeft size={16} />
+                    </button>
+                    <div className="flex items-center gap-1">
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setPage(index)}
+                                className={`w-8 h-8 text-[10px] font-bold rounded-lg transition-all ${page === index
+                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                    : 'text-neutral-500 hover:bg-neutral-100'
+                                    }`}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                    </div>
+                    <button
+                        onClick={() => setPage(prev => prev + 1)}
+                        disabled={page >= totalPages - 1}
+                        className={`p-2 rounded-xl transition-all ${page >= totalPages - 1 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}
+                    >
+                        <ChevronRight size={16} />
+                    </button>
                 </div>
             </div>
 

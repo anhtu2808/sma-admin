@@ -157,11 +157,11 @@ const FeatureManagement = () => {
                 </div>
             </div>
 
-            <div className="flex-1 px-6 min-h-0 pb-6">
-                <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full rounded-[32px]">
+            <div className="flex-1 px-6 min-h-0">
+                <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-50/90 dark:bg-orange-900/30 backdrop-blur-md">
+                            <thead className="sticky top-0 z-10 bg-orange-100/80 backdrop-blur-md">
                                 <tr>
                                     <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-20">ID</th>
                                     <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Feature Info</th>
