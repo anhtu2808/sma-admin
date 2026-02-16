@@ -129,6 +129,9 @@ const PlanManagement = () => {
                                             <div className="flex items-center gap-2">
                                                 <p className="font-bold text-neutral-900 dark:text-white text-sm">{plan.name}</p>
                                                 {plan.isPopular && <span className="px-1.5 py-0.5 bg-amber-100 text-amber-600 text-[8px] font-black rounded uppercase">Popular</span>}
+                                                {plan.isDefault && (
+                                                    <span className="px-1.5 py-0.5 bg-blue-100 text-blue-600 text-[8px] font-black rounded uppercase border border-blue-200">Default</span>
+                                                )}
                                             </div>
                                             <p className="text-[10px] text-neutral-400 truncate max-w-[180px] font-medium">{plan.description || "No description provided"}</p>
                                         </td>

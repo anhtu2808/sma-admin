@@ -17,7 +17,8 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
         planTarget: 'COMPANY',
         planType: 'MAIN',
         currency: 'VND',
-        isPopular: false
+        isPopular: false,
+        isDefault: false
     });
 
     const [createPlan, { isLoading: isCreating }] = useCreatePlanMutation();
@@ -32,14 +33,16 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                 planTarget: plan.planTarget,
                 planType: plan.planType,
                 currency: plan.currency,
-                isPopular: plan.isPopular
+                isActive: plan.isActive,
+                isPopular: plan.isPopular,
+                isDefault: plan.isDefault || false
             });
             setActiveTab('BASIC');
         } else {
             setFormData({
                 name: '', description: '', planDetails: '',
                 planTarget: 'COMPANY', planType: 'MAIN',
-                currency: 'VND', isPopular: false
+                currency: 'VND', isPopular: false, isActive: false, isDefault: false
             });
         }
     }, [plan, isOpen]);
@@ -157,23 +160,25 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                             className="w-full h-20 p-4 bg-neutral-50 rounded-2xl text-xs font-bold border-none focus:ring-2 focus:ring-primary/20 outline-none resize-none"
                                         />
                                     </div>
-                                    <div className="col-span-2 flex items-center justify-between p-5 bg-neutral-50 rounded-[24px] border border-dashed border-neutral-200 transition-all">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${formData.isActive ? 'bg-green-100 text-green-600' : 'bg-neutral-200 text-neutral-500'}`}>
-                                                <ShieldCheck size={18} />
+                                    {plan && (
+                                        <div className="col-span-2 flex items-center justify-between p-5 bg-neutral-50 rounded-[24px] border border-dashed border-neutral-200 transition-all">
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${formData.isActive ? 'bg-green-100 text-green-600' : 'bg-neutral-200 text-neutral-500'}`}>
+                                                    <ShieldCheck size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Active Plan</p>
+                                                    <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Status: {formData.isActive ? 'Visible to customers' : 'Hidden from store'}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Activate Plan</p>
-                                                <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Status: {formData.isActive ? 'Visible to customers' : 'Hidden from store'}</p>
-                                            </div>
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.isActive || false}
+                                                onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
+                                                className="w-6 h-6 accent-secondary cursor-pointer"
+                                            />
                                         </div>
-                                        <input
-                                            type="checkbox"
-                                            checked={formData.isActive || false}
-                                            onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
-                                            className="w-6 h-6 accent-secondary cursor-pointer"
-                                        />
-                                    </div>
+                                    )}
                                     <div className="col-span-2 p-4 bg-amber-50/50 rounded-2xl border border-dashed border-amber-200 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600"><Tag size={18} /></div>
@@ -183,6 +188,21 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                             </div>
                                         </div>
                                         <input type="checkbox" checked={formData.isPopular} onChange={e => setFormData({ ...formData, isPopular: e.target.checked })} className="w-5 h-5 accent-secondary cursor-pointer" />
+                                    </div>
+                                    <div className="col-span-2 p-4 bg-blue-50/50 rounded-2xl border border-dashed border-blue-200 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600"><ShieldCheck size={18} /></div>
+                                            <div>
+                                                <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">System Default</p>
+                                                <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Auto-assign for new users</p>
+                                            </div>
+                                        </div>
+                                        <input
+                                            type="checkbox"
+                                            checked={formData.isDefault}
+                                            onChange={e => setFormData({ ...formData, isDefault: e.target.checked })}
+                                            className="w-5 h-5 accent-blue-600 cursor-pointer"
+                                        />
                                     </div>
                                     {alert.show && (
                                         <div className={`mb-6 p-4 rounded-2xl border flex items-center gap-3 animate-in slide-in-from-top-2 duration-300 ${alert.type === 'success' ? 'bg-green-50 border-green-100 text-green-600' :
