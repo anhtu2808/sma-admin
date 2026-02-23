@@ -6,10 +6,10 @@ import Button from '@/components/Button';
 const menuItems = [
   { icon: 'dashboard', label: 'Dashboard', path: '/dashboard' },
   { icon: 'people', label: 'Users', path: '/users' },
-  { icon: 'business', label: 'Employers', path: '/companies' },
+  { icon: 'business', label: 'Companies', path: '/companies' },
   { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
   { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
-  { icon: 'subscriptions', label: 'Subscription', path: '/subscription-management' },
+  { icon: 'subscriptions', label: 'Plans', path: '/plan-management' },
 ];
 
 const generalItems = [

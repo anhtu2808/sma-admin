@@ -16,13 +16,13 @@ const UserManagement = () => {
     const [inputValue, setInputValue] = useState('');
     const [page, setPage] = useState(0);
     const navigate = useNavigate();
-    const statuses = [
-        { id: 'ALL', name: 'All Statuses' },
+    const status = [
+        { id: 'ALL', name: 'All Status' },
         { id: 'ACTIVE', name: 'Active' },
         { id: 'INACTIVE', name: 'Inactive' },
         { id: 'PENDING_VERIFICATION', name: 'Pending' }
     ];
-    const [selectedStatus, setSelectedStatus] = useState(statuses[0]);
+    const [selectedStatus, setSelectedStatus] = useState(status[0]);
 
     const roleFilter = {
         'Candidates': 'CANDIDATE',
@@ -151,7 +151,7 @@ const UserManagement = () => {
                                         leaveTo="opacity-0"
                                     >
                                         <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white py-2 text-base shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm border border-neutral-100 animate-in fade-in zoom-in duration-200">
-                                            {statuses.map((status) => (
+                                            {status.map((status) => (
                                                 <Listbox.Option
                                                     key={status.id}
                                                     value={status}
