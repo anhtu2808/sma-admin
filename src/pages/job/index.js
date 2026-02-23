@@ -25,15 +25,15 @@ const JobManagement = () => {
 
     const { data: jobData, isLoading } = useGetAdminJobsQuery({
         name: searchTerm || null,
-        statuses: statusFilter ? [statusFilter] : null,
+        status: statusFilter ? [statusFilter] : null,
         page: page,
         size: 8
     });
 
     const { data: allData } = useGetAdminJobsQuery({ size: 1 });
-    const { data: pendingData } = useGetAdminJobsQuery({ statuses: ['PENDING_REVIEW'], size: 1 });
-    const { data: publishedStatData } = useGetAdminJobsQuery({ statuses: ['PUBLISHED'], size: 1 });
-    const { data: closedStatData } = useGetAdminJobsQuery({ statuses: ['CLOSED'], size: 1 });
+    const { data: pendingData } = useGetAdminJobsQuery({ status: ['PENDING_REVIEW'], size: 1 });
+    const { data: publishedStatData } = useGetAdminJobsQuery({ status: ['PUBLISHED'], size: 1 });
+    const { data: closedStatData } = useGetAdminJobsQuery({ status: ['CLOSED'], size: 1 });
 
     const jobs = jobData?.data?.content || [];
     const totalJobs = allData?.data?.totalElements || 0;

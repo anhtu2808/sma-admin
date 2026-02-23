@@ -43,7 +43,7 @@ export const routes = createBrowserRouter(
                 <Route path="users/:id" element={<UserDetail />} />
                 <Route path="features" element={<FeatureManagement />} />
                 <Route path="plans" element={<PlanManagement />} />
-                <Route path="subscription-management" element={<SubscriptionManagement />} />
+                <Route path="plan-management" element={<SubscriptionManagement />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
