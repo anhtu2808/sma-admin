@@ -317,16 +317,17 @@ const JobDetail = () => {
                                     mode="secondary"
                                     className="!text-red-500"
                                     onClick={() => { setPendingStatus('SUSPENDED'); setIsModalOpen(true); }}
-                                    disabled={job.status === 'SUSPENDED' || isUpdating || job.status === 'CLOSED' || job.status === 'DRAFT'}
+                                    disabled={job.status === 'SUSPENDED' || job.status === 'CLOSED' || isUpdating}
                                 >
                                     Suspend Post
                                 </Button>
                                 <Button
                                     mode="primary"
                                     onClick={() => { setPendingStatus('PUBLISHED'); setIsModalOpen(true); }}
-                                    disabled={job.status === 'PUBLISHED' || isUpdating || job.status === 'CLOSED' || job.status === 'DRAFT'}
+                                    disabled={job.status === 'SUSPENDED' || job.status === 'PUBLISHED' || isUpdating || job.status === 'DRAFT'}
                                 >
-                                    {job.status === 'PENDING_REVIEW' ? 'Verify & Publish' : 'Re-publish Post'}
+                                    {job.status === 'PENDING_REVIEW' ? 'Verify & Publish' :
+                                        job.status === 'CLOSED' ? 'Re-open & Publish' : 'Publish Post'}
                                 </Button>
                             </div>
                         </div>
