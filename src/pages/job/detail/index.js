@@ -313,22 +313,43 @@ const JobDetail = () => {
                             </div>
 
                             <div className="mt-auto pt-12 flex justify-end items-center gap-3">
-                                <Button
-                                    mode="secondary"
-                                    className="!text-red-500"
-                                    onClick={() => { setPendingStatus('SUSPENDED'); setIsModalOpen(true); }}
-                                    disabled={job.status === 'SUSPENDED' || job.status === 'CLOSED' || isUpdating}
-                                >
-                                    Suspend Post
-                                </Button>
-                                <Button
-                                    mode="primary"
-                                    onClick={() => { setPendingStatus('PUBLISHED'); setIsModalOpen(true); }}
-                                    disabled={job.status === 'SUSPENDED' || job.status === 'PUBLISHED' || isUpdating || job.status === 'DRAFT'}
-                                >
-                                    {job.status === 'PENDING_REVIEW' ? 'Verify & Publish' :
-                                        job.status === 'CLOSED' ? 'Re-open & Publish' : 'Publish Post'}
-                                </Button>
+                                {(job.status === 'PUBLISHED' || job.status === 'PENDING_REVIEW') && (
+                                    <Button
+                                        mode="secondary"
+                                        className="!text-red-500 border-red-100  "
+                                        onClick={() => { setPendingStatus('SUSPENDED'); setIsModalOpen(true); }}
+                                        disabled={isUpdating}
+                                    >
+                                        Suspend Post
+                                    </Button>
+                                )}
+
+                                {(job.status === 'PENDING_REVIEW' || job.status === 'CLOSED') && (
+                                    <Button
+                                        mode="secondary"
+                                        onClick={() => { setPendingStatus('PUBLISHED'); setIsModalOpen(true); }}
+                                        disabled={isUpdating}
+                                    >
+                                        {job.status === 'PENDING_REVIEW' ? 'Verify & Publish' : 'Re-open & Publish'}
+                                    </Button>
+                                )}
+
+                                {job.status === 'PUBLISHED' && (
+                                    <Button
+                                        mode="secondary"
+                                        onClick={() => { setPendingStatus('CLOSED'); setIsModalOpen(true); }}
+                                        disabled={isUpdating}
+                                    >
+                                        Close Post
+                                    </Button>
+                                )}
+
+                                {job.status === 'SUSPENDED' && (
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-2xl border border-red-100  ">
+                                        <AlertTriangle size={16} />
+                                        <span className="text-[10px] font-black uppercase tracking-widest">This post is suspended and cannot be re-opened</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
