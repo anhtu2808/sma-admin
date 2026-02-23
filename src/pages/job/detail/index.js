@@ -326,7 +326,7 @@ const JobDetail = () => {
 
                                 {(job.status === 'PENDING_REVIEW' || job.status === 'CLOSED') && (
                                     <Button
-                                        mode="secondary"
+                                        mode="primary"
                                         onClick={() => { setPendingStatus('PUBLISHED'); setIsModalOpen(true); }}
                                         disabled={isUpdating}
                                     >
@@ -336,7 +336,7 @@ const JobDetail = () => {
 
                                 {job.status === 'PUBLISHED' && (
                                     <Button
-                                        mode="secondary"
+                                        mode="primary"
                                         onClick={() => { setPendingStatus('CLOSED'); setIsModalOpen(true); }}
                                         disabled={isUpdating}
                                     >
