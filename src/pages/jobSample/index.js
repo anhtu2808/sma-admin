@@ -162,7 +162,7 @@ const SampleJobsManagement = () => {
                             key={job.id}
                             title={job.name}
                             status={job.status}
-                            location="System Database"
+                            location="System Sample"
                             salary={formatSalary(
                                 job.salaryStart,
                                 job.salaryEnd,
