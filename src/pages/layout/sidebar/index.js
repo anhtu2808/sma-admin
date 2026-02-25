@@ -10,6 +10,7 @@ const menuItems = [
   { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
   { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
   { icon: 'subscriptions', label: 'Plans', path: '/plan-management' },
+  { icon: 'assignment', label: 'Sample Jobs', path: '/job-samples' },
 ];
 
 const generalItems = [

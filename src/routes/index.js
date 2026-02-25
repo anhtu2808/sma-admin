@@ -19,6 +19,8 @@ import JobDetail from "../pages/job/detail";
 import FeatureManagement from "../pages/subscription/feature";
 import PlanManagement from "../pages/subscription/plan";
 import SubscriptionManagement from "../pages/subscription";
+import SampleJobsManagement from "../pages/jobSample";
+import SampleJobForm from "../pages/jobSample/sample-form";
 
 
 export const routes = createBrowserRouter(
@@ -44,6 +46,9 @@ export const routes = createBrowserRouter(
                 <Route path="features" element={<FeatureManagement />} />
                 <Route path="plans" element={<PlanManagement />} />
                 <Route path="plan-management" element={<SubscriptionManagement />} />
+                <Route path="job-samples" element={<SampleJobsManagement />} />
+                <Route path="job-samples/create" element={<SampleJobForm />} />
+                <Route path="job-samples/edit/:id" element={<SampleJobForm />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
