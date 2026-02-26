@@ -3,7 +3,6 @@ import { Slider, Form, Switch, Spin } from "antd";
 import { useGetCriteriaQuery } from "@/apis/jobSampleApi";
 
 const CriterionRow = ({ criteriaItem }) => {
-  // Watch giá trị từ Form
   const weight = Form.useWatch(`weight_${criteriaItem.id}`);
 
   return (

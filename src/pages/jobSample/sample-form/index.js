@@ -43,7 +43,7 @@ const SampleJobForm = () => {
                 expertiseId: d.expertise?.id,
                 skillIds: d.skills?.map(s => s.id) || [],
                 domainIds: d.domains?.map(d => d.id) || [],
-                benefitIds: d.benefits?.map(b => b.id) || [],
+                benefitIds: d.benefits?.map(b => Number(b.id)) || [],
                 ...weights
             });
         }
@@ -117,9 +117,8 @@ const SampleJobForm = () => {
 
                     <Form form={form} layout="vertical" onFinish={onFinish}>
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start pb-10">
-                            {/* Cột trái: Form nhập liệu chính */}
                             <div className="lg:col-span-2 space-y-6">
-                                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                <div className="bg-white pl-6 pr-6 pt-6 rounded-xl border border-gray-200 shadow-sm">
                                     <Form.Item
                                         name="name"
                                         label={<span className="font-bold text-gray-700">Job Title (Sample)</span>}
@@ -131,7 +130,7 @@ const SampleJobForm = () => {
 
                                 <JobDescriptionSection />
 
-                                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-white pl-6 pr-6 pt-6 rounded-xl border border-gray-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <Form.Item name="jobLevel" label="Target Level">
                                         <Select options={[
                                             { value: 'INTERN', label: 'Intern' },
@@ -166,7 +165,6 @@ const SampleJobForm = () => {
                                 <Classification />
                             </div>
 
-                            {/* Cột phải: AI Scoring Weights (Sticky) */}
                             <div className="lg:col-span-1 sticky top-6 self-start">
                                 <ScoringWeights />
                             </div>
