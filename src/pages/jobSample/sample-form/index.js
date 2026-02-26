@@ -29,24 +29,32 @@ const SampleJobForm = () => {
     const jobName = sampleRes?.data?.name || "";
 
     useEffect(() => {
-        if (isEdit && sampleRes?.data) {
+        if (isEdit && sampleRes?.data && criteriaRes?.data) {
             const d = sampleRes.data;
-            const initialValues = {
+            const weights = d.scoringCriterias?.reduce((acc, curr) => {
+                if (curr?.criteria?.id) {
+                    acc[`weight_${curr.criteria.id}`] = curr.weight;
+                }
+                return acc;
+            }, {});
+
+            form.setFieldsValue({
                 ...d,
                 expertiseId: d.expertise?.id,
                 skillIds: d.skills?.map(s => s.id) || [],
                 domainIds: d.domains?.map(d => d.id) || [],
                 benefitIds: d.benefits?.map(b => b.id) || [],
-                ...d.scoringCriterias?.reduce((acc, curr) => {
-                    if (curr?.criteria?.id) {
-                        acc[`weight_${curr.criteria.id}`] = curr.weight;
-                    }
-                    return acc;
-                }, {})
-            };
-            form.setFieldsValue(initialValues);
+                ...weights
+            });
         }
-    }, [sampleRes, isEdit, form]);
+        else if (!isEdit && criteriaRes?.data) {
+            const defaultWeights = criteriaRes.data.reduce((acc, curr) => {
+                acc[`weight_${curr.id}`] = curr.defaultWeight;
+                return acc;
+            }, {});
+            form.setFieldsValue(defaultWeights);
+        }
+    }, [sampleRes, criteriaRes, isEdit, form]);
 
     const onFinish = async (values) => {
         const criteriaList = criteriaRes?.data || [];
