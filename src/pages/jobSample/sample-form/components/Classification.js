@@ -2,17 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { Select, Input, Form } from 'antd';
 import { useGetSkillsQuery } from '@/apis/skillApi';
 import { debounce } from 'lodash';
-import { useGetExpertiseQuery, useGetDomainQuery } from '@/apis/masterDataApi';
+import { useGetExpertiseQuery, useGetDomainQuery, useGetBenefitQuery } from '@/apis/masterDataApi';
 
 const Classification = () => {
     const [skillSearch, setSkillSearch] = useState('');
-
-    // Gọi API - Lưu ý cấu trúc trả về là { data: { content: [...] } }
     const { data: skillsRes, isLoading: skillsLoading, isFetching: skillsFetching } = useGetSkillsQuery({ name: skillSearch || undefined });
     const { data: expertiseRes } = useGetExpertiseQuery();
     const { data: domainRes } = useGetDomainQuery();
-
-    // Chuyển đổi dữ liệu từ data.content thành Options cho Select
+    const { data: benefitRes } = useGetBenefitQuery();
     const skillOptions = useMemo(() =>
         (skillsRes?.data?.content || []).map((skill) => ({
             value: skill.id,
@@ -34,6 +31,13 @@ const Classification = () => {
             label: item.name,
         }));
     }, [domainRes]);
+    const benefitOptions = useMemo(() => {
+        const rawData = benefitRes?.data || benefitRes || [];
+        return rawData.map((item) => ({
+            value: Number(item.id),
+            label: item.name,
+        }));
+    }, [benefitRes]);
 
     const handleSkillSearch = useMemo(
         () => debounce((value) => setSkillSearch(value), 300),
@@ -84,11 +88,14 @@ const Classification = () => {
                     options={skillOptions}
                 />
             </Form.Item>
-            <Form.Item name="benefits" label="Benefits" className="mb-0">
-                <Input.TextArea
-                    placeholder="Enter job benefits (e.g. 13th month salary, Health Insurance...)"
-                    rows={4}
-                    className="rounded-lg pt-2"
+            <Form.Item name="benefitIds" label="Benefits" className="mb-0">
+                <Select
+                    mode="multiple"
+                    placeholder="Select benefits"
+                    className="w-full"
+                    options={benefitOptions}
+                    optionFilterProp="label"
+                    loading={!benefitRes}
                 />
             </Form.Item>
         </div>

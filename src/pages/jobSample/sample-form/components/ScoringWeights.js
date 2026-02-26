@@ -2,6 +2,34 @@ import React from "react";
 import { Slider, Form, Switch, Spin } from "antd";
 import { useGetCriteriaQuery } from "@/apis/jobSampleApi";
 
+const CriterionRow = ({ criteriaItem }) => {
+  const weight = Form.useWatch(`weight_${criteriaItem.id}`);
+
+  return (
+    <div>
+      <div className="flex justify-between mb-1 text-sm">
+        <span className="text-gray-700 dark:text-gray-300 font-medium">
+          {criteriaItem.name}
+        </span>
+        <span className="text-orange-500 font-medium">
+          ({weight ?? criteriaItem.defaultWeight}%)
+        </span>
+      </div>
+      <Form.Item
+        name={`weight_${criteriaItem.id}`}
+        noStyle
+      >
+        <Slider
+          trackStyle={{ backgroundColor: "#F97316" }}
+          handleStyle={{
+            borderColor: "#F97316",
+            backgroundColor: "#F97316",
+          }}
+        />
+      </Form.Item>
+    </div>
+  );
+};
 const ScoringWeights = () => {
   const { data: criteriaRes, isLoading } = useGetCriteriaQuery();
   const criteriaList = criteriaRes?.data || [];
@@ -31,32 +59,10 @@ const ScoringWeights = () => {
 
       <div className="space-y-6">
         {isLoading ? (
-          <div className="flex justify-center p-4">
-            <Spin />
-          </div>
+          <div className="flex justify-center p-4"><Spin /></div>
         ) : (
-          criteriaList.map((criteriaItem) => (
-            <div key={criteriaItem.id}>
-              <div className="flex justify-between mb-1 text-sm">
-                <span className="text-gray-700 dark:text-gray-300 font-medium">
-                  {criteriaItem.name}
-                </span>
-                <span className="text-orange-500 font-medium">{`(${criteriaItem.defaultWeight}%)`}</span>
-              </div>
-              <Form.Item
-                name={`weight_${criteriaItem.id}`}
-                initialValue={criteriaItem.defaultWeight}
-                noStyle
-              >
-                <Slider
-                  trackStyle={{ backgroundColor: "#F97316" }}
-                  handleStyle={{
-                    borderColor: "#F97316",
-                    backgroundColor: "#F97316",
-                  }}
-                />
-              </Form.Item>
-            </div>
+          criteriaList.map((item) => (
+            <CriterionRow key={item.id} criteriaItem={item} />
           ))
         )}
       </div>
