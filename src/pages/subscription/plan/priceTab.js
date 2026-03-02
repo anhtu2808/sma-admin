@@ -5,10 +5,12 @@ import {
     useUpdatePlanPriceMutation,
     useDeletePlanPriceMutation
 } from '../../../apis/subscriptionApi';
-import { Plus, Trash2, Edit2, Check, X, DollarSign, Calendar, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Edit2, Check, X, DollarSign, Calendar, AlertCircle, ChevronDown } from 'lucide-react';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { toast } from 'react-toastify';
+import { Combobox, Transition, Listbox } from '@headlessui/react';
+import { Fragment } from 'react';
 
 const PriceTab = ({ planId, currency }) => {
     const { data: pricesData, isLoading, refetch } = useGetPlanPricesQuery(planId);
@@ -116,16 +118,56 @@ const PriceTab = ({ planId, currency }) => {
                                 <Input type="number" min="1" value={priceForm.duration} onChange={e => setPriceForm({ ...priceForm, duration: e.target.value })} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Unit <span className="text-red-500">*</span></label>
-                                <select
-                                    className="w-full py-4 px-4 bg-white rounded-2xl text-xs font-black text-neutral-700 uppercase outline-none ring-1 ring-neutral-200 focus:ring-2 focus:ring-primary/20 appearance-none"
-                                    value={priceForm.unit} onChange={e => setPriceForm({ ...priceForm, unit: e.target.value })}
+                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                    Unit <span className="text-red-500">*</span>
+                                </label>
+                                <Listbox
+                                    value={priceForm.unit}
+                                    onChange={(val) => setPriceForm({ ...priceForm, unit: val })}
                                 >
-                                    <option value="DAY">DAY</option>
-                                    <option value="MONTH">MONTH</option>
-                                    <option value="YEAR">YEAR</option>
-                                    <option value="FOREVER">FOREVER</option>
-                                </select>
+                                    {({ open }) => (
+                                        <div className="relative">
+                                            <Listbox.Button className={`relative w-full cursor-default rounded-2xl bg-white border border-neutral-200 py-4 pl-4 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${open ? 'ring-2 ring-primary/20' : ''}`}>
+                                                <span className="block truncate text-xs font-black text-neutral-700 uppercase">
+                                                    {priceForm.unit || 'Select Unit'}
+                                                </span>
+                                                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                                                    <ChevronDown
+                                                        className={`h-4 w-4 text-neutral-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                                                        aria-hidden="true"
+                                                    />
+                                                </span>
+                                            </Listbox.Button>
+
+                                            <Transition
+                                                show={open}
+                                                as={Fragment}
+                                                leave="transition ease-in duration-100"
+                                                leaveFrom="opacity-100"
+                                                leaveTo="opacity-0"
+                                            >
+                                                <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white py-1 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                                    {['MONTH', 'YEAR', 'LIFETIME'].map((unit) => (
+                                                        <Listbox.Option
+                                                            key={unit}
+                                                            value={unit}
+                                                            className={({ active, selected }) =>
+                                                                `relative cursor-default select-none py-3 px-4 transition-colors ${active ? 'bg-primary/10 text-primary' : 'text-neutral-700'
+                                                                }`
+                                                            }
+                                                        >
+                                                            {({ selected }) => (
+                                                                <span className={`block truncate text-xs font-black uppercase ${selected ? 'text-primary' : ''}`}>
+                                                                    {unit}
+                                                                </span>
+                                                            )}
+                                                        </Listbox.Option>
+                                                    ))}
+                                                </Listbox.Options>
+                                            </Transition>
+                                        </div>
+                                    )}
+                                </Listbox>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Original Price ({currency})<span className="text-red-500">*</span></label>

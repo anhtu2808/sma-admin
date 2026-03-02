@@ -28,6 +28,7 @@ const CompanyDetail = () => {
     const [reason, setReason] = useState('');
     const [isCreateMemberModalOpen, setIsCreateMemberModalOpen] = useState(false);
     const [provisionUser, { isLoading: isProvisioning }] = useProvisionUserMutation();
+    const currentStatus = company?.companyStatus;
 
     useEffect(() => {
         if (company?.id && company?.companyStatus === 'PENDING_VERIFICATION') {
@@ -164,10 +165,10 @@ const CompanyDetail = () => {
                 </div>
 
                 <div className="pb-4">
-                    <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${getStatusStyle(company.status)}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${company.status === 'APPROVED' ? 'bg-green-600' : 'bg-current'
+                    <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${getStatusStyle(company.companyStatus)}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${company.companyStatus === 'APPROVED' ? 'bg-green-600' : 'bg-current'
                             }`} />
-                        {company.status?.replace('_', ' ')}
+                        {company.companyStatus?.replace('_', ' ')}
                     </div>
                 </div>
             </div>
@@ -302,7 +303,7 @@ const CompanyDetail = () => {
                                     </div>
                                     <div className="mt-12 pt-12 border-t border-gray-50">
                                         <h5 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">Image</h5>
-                                        <p className="text-gray-500 leading-relaxed text-sm text-justify">
+                                        <div className="text-gray-500 leading-relaxed text-sm text-justify">
                                             {company.images && company.images.length > 0 ? (
                                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                                     {company.images.map((imageObj, index) => (
@@ -317,20 +318,22 @@ const CompanyDetail = () => {
                                             ) : (
                                                 <p className="text-gray-400 italic">No images available</p>
                                             )}
-                                        </p>
+                                        </div>
                                     </div>
 
                                     <div className="mt-auto pt-12 flex justify-end items-center gap-3">
-                                        <Button
-                                            mode="secondary"
-                                            onClick={() => {
-                                                setPendingStatus('REJECTED');
-                                                setIsModalOpen(true);
-                                            }}
-                                            disabled={company.status === 'APPROVED' || company.status === 'REJECTED' || isUpdating}
-                                        >
-                                            Reject
-                                        </Button>
+                                        {currentStatus !== 'APPROVED' && currentStatus !== 'REJECTED' && (
+                                            <Button
+                                                mode="secondary"
+                                                onClick={() => {
+                                                    setPendingStatus('REJECTED');
+                                                    setIsModalOpen(true);
+                                                }}
+                                                disabled={isUpdating}
+                                            >
+                                                Reject
+                                            </Button>
+                                        )}
 
                                         <Button
                                             mode="primary"
@@ -338,9 +341,16 @@ const CompanyDetail = () => {
                                                 setPendingStatus('APPROVED');
                                                 setIsModalOpen(true);
                                             }}
-                                            disabled={company.status === 'APPROVED' || company.status === 'REJECTED' || isUpdating}
+                                            disabled={currentStatus === 'APPROVED' || currentStatus === 'REJECTED' || isUpdating}
+                                            className={currentStatus === 'APPROVED' || currentStatus === 'REJECTED'
+                                                ? 'opacity-50 cursor-not-allowed grayscale pointer-events-none'
+                                                : ''}
                                         >
-                                            {company.status === 'APPROVED' ? 'Already Verified' : 'Approve & Verify'}
+                                            {currentStatus === 'APPROVED'
+                                                ? 'Already Verified'
+                                                : currentStatus === 'REJECTED'
+                                                    ? 'Registration Rejected'
+                                                    : 'Approve & Verify'}
                                         </Button>
                                     </div>
                                 </div>
@@ -441,9 +451,9 @@ const DossierItem = ({ icon, label, value, isLink }) => (
                     {value}
                 </a>
             ) : (
-                <p className="text-sm font-bold text-gray-800 break-words">
+                <div className="text-sm font-bold text-gray-800 break-words">
                     {(value !== null && value !== undefined) ? value : 'N/A'}
-                </p>
+                </div>
             )}
         </div>
     </div>

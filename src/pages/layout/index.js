@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Drawer } from 'antd';
 import Sidebar from './sidebar';
 import Header from './header';
+import { useNotificationSocket } from '@/hooks/useNotificationSocket';
 
 const Layout = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -19,6 +20,8 @@ const Layout = () => {
   const closeMobileSidebar = () => {
     setIsMobileSidebarOpen(false);
   };
+
+  useNotificationSocket();
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased h-screen flex overflow-hidden transition-colors duration-200">

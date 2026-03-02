@@ -30,8 +30,7 @@ const UsageLimitTab = ({ planId }) => {
     });
     const unitOptions = [
         { id: 'PER_MONTH', name: 'PER MONTH' },
-        { id: 'PER_YEAR', name: 'PER YEAR' },
-        { id: 'TOTAL', name: 'TOTAL (ONE TIME)' }
+        { id: 'TOTAL', name: 'TOTAL' }
     ];
 
     const limits = limitsData?.data || [];

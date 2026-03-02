@@ -21,6 +21,7 @@ import PlanManagement from "../pages/subscription/plan";
 import SubscriptionManagement from "../pages/subscription";
 import SampleJobsManagement from "../pages/jobSample";
 import SampleJobForm from "../pages/jobSample/sample-form";
+import NotificationList from "../pages/notification";
 
 
 export const routes = createBrowserRouter(
@@ -49,6 +50,7 @@ export const routes = createBrowserRouter(
                 <Route path="job-samples" element={<SampleJobsManagement />} />
                 <Route path="job-samples/create" element={<SampleJobForm />} />
                 <Route path="job-samples/edit/:id" element={<SampleJobForm />} />
+                <Route path="notifications" element={<NotificationList />} />
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
