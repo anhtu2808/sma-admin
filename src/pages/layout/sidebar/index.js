@@ -11,6 +11,7 @@ const menuItems = [
   { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
   { icon: 'subscriptions', label: 'Plans', path: '/plan-management' },
   { icon: 'assignment', label: 'Sample Jobs', path: '/job-samples' },
+  { icon: 'notifications', label: 'Notifications', path: '/notifications' },
 ];
 
 const generalItems = [

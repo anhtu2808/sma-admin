@@ -48,6 +48,6 @@ const customBaseQuery = (args, api, extra) => {
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customBaseQuery,
-    tagTypes: ["Users", "Jobs", "Applications", "Companies", "Skills", "SkillCategories", "Expertises", "ExpertiseGroups", "Domains"],
+    tagTypes: ["Users", "Jobs", "Applications", "Companies", "Skills", "SkillCategories", "Expertises", "ExpertiseGroups", "Domains", "Notifications"],
     endpoints: () => ({})
 });

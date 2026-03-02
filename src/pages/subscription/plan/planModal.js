@@ -141,7 +141,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                         <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Type <span className="text-red-500">*</span></label>
                                         <EnumSelect
                                             value={formData.planType}
-                                            options={['MAIN', 'ADD_ON']}
+                                            options={['MAIN', 'ADDONS_FEATURE', 'ADDONS_QUOTA']}
                                             onChange={val => setFormData({ ...formData, planType: val })}
                                         />
                                     </div>

@@ -169,7 +169,7 @@ const CompanyManagement = () => {
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <button
-                                            onClick={() => navigate(`/companies/${company.id}`)} // Chuyển trang chi tiết
+                                            onClick={() => navigate(`/companies/${company.id}`)}
                                             className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-600 rounded-xl transition-all"
                                             title="View Detail"
                                         >
