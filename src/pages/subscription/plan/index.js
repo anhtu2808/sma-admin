@@ -55,10 +55,10 @@ const PlanManagement = () => {
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase flex items-center gap-2">
-                        <Zap className="text-orange-500" size={24} /> Subscription Tiers
+                        <Zap className="text-orange-500" size={24} /> Subscription Plan Tiers
                     </h2>
                     <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest uppercase">
-                        Manage membership packages and pricing strategies
+                        Manage membership plans and pricing strategies
                     </p>
                 </div>
 
