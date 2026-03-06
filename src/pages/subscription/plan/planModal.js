@@ -57,7 +57,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
 
     const handleSave = async () => {
         if (!formData.name.trim()) {
-            setAlert({ show: true, message: "Please enter a package name", type: 'warn' });
+            setAlert({ show: true, message: "Please enter a plan name", type: 'warn' });
             return;
         }
 
@@ -90,7 +90,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                     <div className="px-8 py-6 border-b border-neutral-50 flex items-center justify-between bg-neutral-50/50">
                         <div>
                             <h3 className="text-xl font-black text-neutral-900 uppercase tracking-tighter">
-                                {plan ? 'Package Configuration' : 'Design New Package'}
+                                {plan ? 'Plan Configuration' : 'Design New Plan'}
                             </h3>
                             <div className="flex gap-4 mt-4">
                                 <button
@@ -183,7 +183,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600"><Tag size={18} /></div>
                                             <div>
-                                                <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Promoted Package</p>
+                                                <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Promoted Plan</p>
                                                 <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Display "Popular" badge on pricing page</p>
                                             </div>
                                         </div>
