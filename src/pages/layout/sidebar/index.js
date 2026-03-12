@@ -2,24 +2,39 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '@/components/Logo';
 import Button from '@/components/Button';
+import { useGetNotificationsQuery } from '@/apis/notificationApi';
 
-const menuItems = [
-  { icon: 'dashboard', label: 'Dashboard', path: '/dashboard' },
-  { icon: 'people', label: 'Users', path: '/users' },
-  { icon: 'business', label: 'Companies', path: '/companies' },
-  { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
-  { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
-  { icon: 'subscriptions', label: 'Plans', path: '/plan-management' },
-  { icon: 'assignment', label: 'Sample Jobs', path: '/job-samples' },
-  { icon: 'notifications', label: 'Notifications', path: '/notifications' },
-];
 
-const generalItems = [
-  { icon: 'settings', label: 'Settings', path: '/settings' },
-  { icon: 'help_outline', label: 'Help Center', path: '/help' },
-];
+
 
 const Sidebar = ({ collapsed = false, onToggle, onMobileClose, isMobile = false }) => {
+  const { data } = useGetNotificationsQuery({
+    page: 0,
+    size: 1,
+    isRead: false
+  });
+  const unreadCount = data?.data?.unreadCount || 0;
+
+  const menuItems = [
+    { icon: 'dashboard', label: 'Dashboard', path: '/dashboard' },
+    { icon: 'people', label: 'Users', path: '/users' },
+    { icon: 'business', label: 'Companies', path: '/companies' },
+    { icon: 'work_outline', label: 'Jobs', path: '/jobs' },
+    { icon: 'settings_applications', label: 'Master Data', path: '/master-management' },
+    { icon: 'subscriptions', label: 'Plans', path: '/plan-management' },
+    { icon: 'assignment', label: 'Sample Jobs', path: '/job-samples' },
+    {
+      icon: 'notifications',
+      label: 'Notifications',
+      path: '/notifications',
+      badge: unreadCount
+    },
+  ];
+
+  const generalItems = [
+    { icon: 'settings', label: 'Settings', path: '/settings' },
+    { icon: 'help_outline', label: 'Help Center', path: '/help' },
+  ];
   return (
     <aside className={`bg-card-light dark:bg-card-dark ${!isMobile ? 'border-r border-gray-200 dark:border-gray-800' : ''} flex flex-col h-full flex-shrink-0 transition-all duration-300 ease-in-out relative ${collapsed && !isMobile ? 'w-20' : 'w-64'}`}>
       {!isMobile && (
@@ -61,10 +76,24 @@ const Sidebar = ({ collapsed = false, onToggle, onMobileClose, isMobile = false 
               >
                 {({ isActive }) => (
                   <>
-                    <span className={`material-icons-outlined ${!isActive ? 'group-hover:text-primary transition-colors' : ''}`}>
-                      {item.icon}
-                    </span>
-                    {(!collapsed || isMobile) && item.label}
+                    <div className="relative flex items-center justify-center">
+                      <span className={`material-icons-outlined ${!isActive ? 'group-hover:text-primary transition-colors' : ''}`}>
+                        {item.icon}
+                      </span>
+                      {collapsed && !isMobile && item.badge > 0 && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-card-dark rounded-full"></span>
+                      )}
+                    </div>
+
+                    {(!collapsed || isMobile) && (
+                      <span className="flex-1">{item.label}</span>
+                    )}
+
+                    {(!collapsed || isMobile) && item.badge > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                        {item.badge > 99 ? '99+' : item.badge}
+                      </span>
+                    )}
                   </>
                 )}
               </NavLink>
