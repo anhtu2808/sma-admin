@@ -129,11 +129,11 @@ const CompanyManagement = () => {
                     <table className="w-full text-left border-collapse table-fixed">
                         <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                             <tr>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[35%]">Organization</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Status</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Recruiters</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Location</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[10%] text-center">Action</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[35%]">Organization</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%]">Status</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%]">Recruiters</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Location</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[10%] text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -157,7 +157,7 @@ const CompanyManagement = () => {
                                         <StatusTag status={company.companyStatus} />
                                     </td>
                                     <td className="px-6 py-4">
-                                        <p className="text-sm font-bold text-primary truncate">
+                                        <p className="text-sm text-orange-600 flex items-center gap-1.5 truncate">
                                             {company.recruiterCount || 0} Members
                                         </p>
                                     </td>
@@ -182,7 +182,7 @@ const CompanyManagement = () => {
                     </table>
                 </div>
                 <div className="flex-shrink-0 px-6 py-4 border-t border-gray-50 bg-white flex items-center justify-between">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-gray-400 tracking-widest">
                         Showing <span className="text-gray-900">{companies.length}</span> of <span className="text-gray-900">{data?.data?.totalElements || 0}</span> Organizations
                     </p>
 
@@ -225,16 +225,12 @@ const CompanyManagement = () => {
 
 // Sub Components
 const StatCard = ({ label, value, icon, color, bgColor }) => (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-start">
+    <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm flex justify-between items-center">
         <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
-                {label}
-            </p>
-            <h3 className={`text-3xl font-bold ${color}`}>
-                {value}
-            </h3>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{label}</p>
+            <h3 className={`text-2xl font-black ${color}`}>{value}</h3>
         </div>
-        <div className={`p-3 rounded-xl ${bgColor || 'bg-gray-50'}`}>
+        <div className={`w-12 h-12 rounded-2xl ${bgColor || 'bg-gray-50'} flex items-center justify-center`}>
             <span className={`material-icons-outlined ${color}`}>
                 {icon}
             </span>

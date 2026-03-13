@@ -73,7 +73,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
                 <div className="flex justify-between items-center mb-8">
                     <div>
                         <h3 className="text-xl font-black text-neutral-800 uppercase tracking-tighter">Create User</h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Manual Account Creation</p>
+                        <p className="text-[11px] font-bold text-gray-600 tracking-widest mt-1">Manual Account Creation</p>
                     </div>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
                         <X size={20} />
@@ -84,7 +84,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
                     <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex flex-col gap-2 animate-in fade-in slide-in-from-top-2">
                         <div className="flex items-center gap-3">
                             <AlertCircle className="text-red-500 flex-shrink-0" size={18} />
-                            <p className="text-[11px] font-black text-red-600 uppercase tracking-tight">
+                            <p className="text-[11px] font-black text-red-600 tracking-tight">
                                 Execution Failed
                             </p>
                         </div>
@@ -101,7 +101,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-1">
-                        <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Account Email<span className="text-red-500">*</span></label>
+                        <label className="text-[11px] font-black text-gray-600 ml-1">Account Email<span className="text-red-500">*</span></label>
                         <div className="relative">
                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
                             <input required type="email" placeholder="example@domain.com"
@@ -111,7 +111,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Security Password<span className="text-red-500">*</span></label>
+                        <label className="text-[11px] font-black text-gray-600 ml-1">Password<span className="text-red-500">*</span></label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
                             <input required type="password" placeholder="Min 6 characters"
@@ -122,7 +122,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
 
                     {!fixedRole && (
                         <div className="space-y-1 relative">
-                            <label className="text-[10px] font-black text-gray-400 uppercase ml-1">Access Role<span className="text-red-500">*</span></label>
+                            <label className="text-[11px] font-black text-gray-600 ml-1">Access Role<span className="text-red-500">*</span></label>
 
                             <Listbox
                                 value={roles.find(r => r.id === formData.role)}
@@ -131,7 +131,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
                                 <div className="relative">
                                     <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-gray-50 border border-gray-100 py-3 pl-12 pr-10 text-left focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all">
                                         <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
-                                        <span className="block truncate text-xs font-bold uppercase tracking-wider text-neutral-700">
+                                        <span className="block truncate text-xs font-bold tracking-wider text-neutral-700">
                                             {roles.find(r => r.id === formData.role)?.name}
                                         </span>
                                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -176,7 +176,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreate, isLoading, fixedRole = nul
                     {/* Company Selection: Chỉ hiện nếu là Recruiter và KHÔNG có fixedCompanyId */}
                     {formData.role === 'RECRUITER' && !fixedCompanyId && (
                         <div className="space-y-2 pt-2 animate-in fade-in duration-300">
-                            <label className="text-[10px] font-black text-orange-500 uppercase ml-1">Assign Company<span className="text-red-500">*</span></label>
+                            <label className="text-[11px] font-black text-gray-600 ml-1">Assign Company<span className="text-red-500">*</span></label>
                             <div className="relative">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
                                 <input placeholder="Search company name..."

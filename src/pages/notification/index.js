@@ -4,7 +4,7 @@ import NotificationItem from './components/notification-item';
 import SearchInput from '@/components/SearchInput';
 
 const NotificationList = () => {
-    const [filter, setFilter] = useState({ page: 0, size: 10, isRead: null, type: null, keyword: '' });
+    const [filter, setFilter] = useState({ page: 0, size: 10, isRead: null, types: null, keyword: '' });
 
     const { data, isLoading } = useGetNotificationsQuery(filter);
     const [markAllAsRead] = useMarkAllAsReadMutation();
@@ -17,12 +17,12 @@ const NotificationList = () => {
     const endEntry = Math.min(((paging?.pageNumber || 0) + 1) * (paging?.pageSize || 10), paging?.totalElements || 0);
 
     const tabs = [
-        { label: 'All', value: { isRead: null, type: null } },
-        { label: 'Unread', value: { isRead: false, type: null }, count: unreadCount },
-        { label: 'Companies', value: { isRead: null, type: 'COMPANY_REGISTRATION' } },
+        { label: 'All', value: { isRead: null, types: null } },
+        { label: 'Unread', value: { isRead: false, types: null }, count: unreadCount },
+        { label: 'Companies', value: { isRead: null, types: ['COMPANY_REGISTRATION'] } },
         { label: 'Jobs', value: { isRead: null, types: ['FLAGGED_JOB'] } }
-
     ];
+
 
     return (
         <main className="h-full flex flex-col bg-background-light dark:bg-background-dark">
@@ -66,7 +66,7 @@ const NotificationList = () => {
                         <button
                             key={tab.label}
                             onClick={() => setFilter({ ...filter, ...tab.value, page: 0 })}
-                            className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all ${(filter.isRead === tab.value.isRead && filter.type === tab.value.type)
+                            className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all ${(filter.isRead === tab.value.isRead && JSON.stringify(filter.types) === JSON.stringify(tab.value.types))
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-subtext-light hover:text-text-light hover:border-gray-300'
                                 }`}

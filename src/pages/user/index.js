@@ -120,7 +120,7 @@ const UserManagement = () => {
                             <button
                                 key={tab}
                                 onClick={() => { setActiveTab(tab); setPage(0); }}
-                                className={`px-5 py-2 text-[11px] font-black rounded-xl transition-all duration-200 uppercase tracking-wider ${activeTab === tab
+                                className={`px-5 py-2 text-xs font-bold rounded-xl transition-all duration-200 uppercase tracking-tight ${activeTab === tab
                                     ? 'bg-white text-orange-500 shadow-sm ring-1 ring-black/5'
                                     : 'text-gray-500 hover:text-gray-700'
                                     }`}
@@ -204,11 +204,11 @@ const UserManagement = () => {
                     <table className="w-full text-left border-collapse table-fixed">
                         <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-md">
                             <tr>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[35%]">User Details</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Account Status</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[25%]">Platform Activity</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Login at</th>
-                                <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[10%] text-center">Actions</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[35%]">User Details</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Account Status</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[25%]">Platform Activity</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%]">Login at</th>
+                                <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[10%] text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -227,7 +227,7 @@ const UserManagement = () => {
                                             </div>
                                             <div className="min-w-0">
                                                 <div className="flex items-center gap-2">
-                                                    <p className="text-sm font-black text-gray-900 truncate">{user.fullName || user.email}</p>
+                                                    <p className="text-sm font-bold text-gray-900 truncate">{user.fullName || user.email}</p>
                                                     <span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider ${getRoleStyle(user.role)}`}>
                                                         {user.role}
                                                     </span>
@@ -243,7 +243,7 @@ const UserManagement = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="min-w-0">
-                                            <p className="text-xs font-black text-gray-800 truncate">{user.mainActivity || '—'}</p>
+                                            <p className="text-sm text-neutral-600 text-gray-700 truncate">{user.mainActivity || '—'}</p>
                                             <p className="text-[10px] text-gray-400 font-bold tracking-tighter mt-0.5 truncate">{user.subActivity}</p>
                                         </div>
                                     </td>
@@ -269,7 +269,7 @@ const UserManagement = () => {
 
                 {/* Footer: Optimized Pagination */}
                 <div className="flex-shrink-0 px-6 py-4 border-t border-gray-50 bg-white flex items-center justify-between">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-black text-gray-400 tracking-widest">
                         Showing <span className="text-gray-900">{users.length}</span> of <span className="text-gray-900">{pagination.totalElements || 0}</span> Users
                     </p>
 
@@ -325,7 +325,7 @@ const UserManagement = () => {
 const StatCard = ({ label, value, icon, color, bgColor }) => (
     <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm flex justify-between items-center">
         <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{label}</p>
             <h3 className={`text-2xl font-black ${color}`}>{value}</h3>
         </div>
         <div className={`w-12 h-12 rounded-2xl ${bgColor} flex items-center justify-center ${color}`}>
@@ -341,7 +341,7 @@ const StatusTag = ({ status }) => {
     }[status] || { label: status, color: 'bg-gray-50 text-gray-600', dot: 'bg-gray-600' };
 
     return (
-        <span className={`px-3 py-1 rounded-full text-[10px] font-black flex items-center gap-1.5 w-fit ${config.color}`}>
+        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 w-fit ${config.color}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
             {config.label}
         </span>

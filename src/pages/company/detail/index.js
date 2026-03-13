@@ -52,6 +52,8 @@ const CompanyDetail = () => {
             triggerUnderReview();
         }
     }, [company?.id, company?.status, updateStatus, refetch]);
+    const rootRecruiter = company?.recruiters?.find(r => r.isRootRecruiter === true);
+    const rootEmail = rootRecruiter?.email || 'No email available';
 
     if (isLoading) return <div className="p-10 text-center font-bold text-gray-400 tracking-widest">LOADING DOSSIER...</div>;
 
@@ -128,7 +130,7 @@ const CompanyDetail = () => {
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold text-[#111c2d] leading-tight">{company.name}</h2>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mt-1">
+                            <p className="text-[10px] font-bold text-gray-500 tracking-[0.15em] mt-1">
                                 Verified Organization Profile
                             </p>
                         </div>
@@ -139,9 +141,9 @@ const CompanyDetail = () => {
             <div className="flex-shrink-0 px-2 mt-6 flex items-center justify-between border-b border-gray-100">
                 <div className="flex gap-10">
                     {[
-                        { id: 'Overview', label: 'OVERVIEW' },
-                        { id: 'HR Team', label: `RECRUITER TEAM (${hrTeamSize})` },
-                        { id: 'Jobs', label: `JOB POSTS (${company.totalJobs ?? 0})` }
+                        { id: 'Overview', label: 'Overview' },
+                        { id: 'HR Team', label: `Recruiter team (${hrTeamSize})` },
+                        { id: 'Jobs', label: `Job post (${company.totalJobs ?? 0})` }
                     ].map(tab => {
                         const isActive = activeTab === tab.id;
                         return (
@@ -149,16 +151,16 @@ const CompanyDetail = () => {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`
-                                    pb-4 text-[10px] font-extrabold tracking-[0.15em] transition-all duration-300 relative
-                                    ${isActive ? 'text-[#111c2d]' : 'text-gray-400 hover:text-gray-600'}
-                                `}
+                    pb-4 text-sm font-semibold transition-all duration-300 relative
+                    ${isActive ? 'text-[#111c2d]' : 'text-gray-400 hover:text-gray-600'}
+                `}
                             >
                                 {tab.label}
 
                                 <div className={`
-                                    absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
-                                    ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}
-                                `} />
+                    absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
+                    ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}
+                `} />
                             </button>
                         );
                     })}
@@ -190,30 +192,33 @@ const CompanyDetail = () => {
                                             </p>
 
                                             <div className="flex flex-col items-center text-center">
-                                                <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-bold mb-4 border border-white/30 shadow-lg overflow-hidden">
-                                                    {company.recruiters?.[0]?.avatar ? (
+                                                <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-bold border border-white/30 shadow-lg overflow-hidden">
+                                                    {company?.recruiters?.find(r => r.isRootRecruiter)?.avatar ? (
                                                         <img
-                                                            src={company.recruiters[0].avatar}
+                                                            src={company.recruiters.find(r => r.isRootRecruiter)}
                                                             alt="Recruiter Avatar"
                                                             className="w-full h-full object-cover"
                                                         />
                                                     ) : (
                                                         <span className="text-white">
-                                                            {company.recruiters?.[0]?.fullName?.charAt(0).toUpperCase() || 'R'}
+                                                            {company?.recruiters?.find(r => r.isRootRecruiter)?.fullName?.charAt(0).toUpperCase() || 'R'}
                                                         </span>
                                                     )}
                                                 </div>
                                             </div>
 
-                                            <div className="space-y-6 pt-4">
-                                                <SidebarItem icon={<Mail size={16} className="text-white" />} label="Recruiter Email" value={company.recruiters?.[0]?.email || 'No email available'} />
+                                            <div className="space-y-6">
+                                                <SidebarItem
+                                                    icon={<Mail size={16} className="text-white" />}
+                                                    label="Recruiter Email"
+                                                    value={company?.recruiters?.find(r => r.isRootRecruiter)?.email || 'No email available'}
+                                                />
                                                 <SidebarItem icon={<Phone size={16} className="text-white" />} label="Contact Phone" value={company.phone} />
                                                 {/* <SidebarItem icon={<Users size={16} className="text-orange-200" />} label="Members" value={`${hrTeamSize} Members`} color="text-white" /> */}
                                                 {/* <SidebarItem icon={<Calendar size={16} className="text-orange-200" />} label="Billing Status" value="PAID & ACTIVE" color="text-white" /> */}
                                             </div>
                                         </div>
                                         <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
-                                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-black/10 rounded-full blur-2xl" />
                                     </div>
 
                                     <div className="mt-6 bg-white rounded-3xl p-6 border border-gray-50 shadow-sm">
@@ -250,7 +255,7 @@ const CompanyDetail = () => {
                                 </div>
 
                                 <div className="flex-1 bg-white rounded-[32px] border border-gray-50 shadow-sm p-10 flex flex-col">
-                                    <h4 className="text-[11px] font-bold text-gray-300 uppercase tracking-[0.2em] mb-12">
+                                    <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-12">
                                         Company Profile Dossier
                                     </h4>
 
@@ -434,18 +439,18 @@ const SidebarItem = ({ icon, label, value, color }) => (
         <p className="text-[9px] font-bold text-gray-500 uppercase tracking-[0.1em]">{label}</p>
         <div className="flex items-center gap-3">
             <span className="text-gray-400">{icon}</span>
-            <span className={`text-xs font-bold ${color || 'text-white'}`}>{value || 'N/A'}</span>
+            <span className={`text-xs font-bold ${color || 'text-gray'}`}>{value || 'N/A'}</span>
         </div>
     </div>
 );
 
 const DossierItem = ({ icon, label, value, isLink }) => (
     <div className="flex items-start gap-5 group">
-        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-400 border border-orange-100 flex-shrink-0 group-hover:bg-orange-100 transition-colors">
+        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-400 border border-orange-100 group-hover:bg-orange-100 transition-colors flex-shrink-0">
             {icon}
         </div>
         <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+            <p className="text-[12px] font-bold text-gray-500 tracking-widest mb-1">{label}</p>
             {isLink && value ? (
                 <a href={value} target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-orange-500 transition-colors truncate block">
                     {value}

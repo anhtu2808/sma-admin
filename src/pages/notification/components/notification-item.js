@@ -18,7 +18,7 @@ const NotificationItem = ({ noti }) => {
         switch (type) {
             case 'COMPANY_REGISTRATION': return { icon: 'business_center', color: 'text-orange-500' };
             case 'APPLICATION_STATUS': return { icon: 'work', color: 'text-orange-500' };
-            case 'JOB_REVIEW': return { icon: 'gavel', color: 'text-red-500', bg: 'bg-red-50' };
+            case 'FLAGGED_JOB': return { icon: 'gavel', color: 'text-red-500', bg: 'bg-red-50' };
             default: return { icon: 'notifications', color: 'text-orange-500' };
         }
     };

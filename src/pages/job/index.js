@@ -97,19 +97,23 @@ const JobManagement = () => {
             <div className="flex-1 min-h-0 bg-white rounded-[32px] border border-gray-100 shadow-sm flex flex-col overflow-hidden">
                 {/* Tabs & Search Header */}
                 <div className="flex-shrink-0 p-5 border-b border-gray-50 flex flex-col lg:flex-row justify-between items-center gap-4">
-                    <div className="flex bg-gray-100/80 p-1 rounded-2xl w-fit overflow-x-auto">
+                    <div className="flex bg-gray-100/80 p-1.5 rounded-2xl w-fit overflow-x-auto">
                         {['All', 'Draft', 'Pending Review', 'Published', 'Suspended', 'Closed'].map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => { setActiveTab(tab); setPage(0); }}
-                                className={`px-5 py-2 text-[10px] font-black rounded-xl transition-all uppercase tracking-widest whitespace-nowrap ${activeTab === tab
-                                    ? 'bg-white text-primary shadow-sm ring-1 ring-black/5'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                className={`px-5 py-2 text-xs font-bold rounded-xl transition-all duration-200 uppercase tracking-tight whitespace-nowrap
+                                ${activeTab === tab
+                                        ? 'bg-white text-primary shadow-sm ring-1 ring-black/5'
+                                        : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 {tab}
+
                                 {tab === 'Pending Review' && pendingReviewCount > 0 && (
-                                    <span className="ml-2 bg-orange-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">{pendingReviewCount}</span>
+                                    <span className="ml-2 bg-orange-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">
+                                        {pendingReviewCount}
+                                    </span>
                                 )}
                             </button>
                         ))}
@@ -131,10 +135,10 @@ const JobManagement = () => {
                     <table className="w-full text-left border-collapse table-fixed">
                         <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-md">
                             <tr>
-                                <th className="px-6 py-4 w-[35%] text-[10px] font-black text-gray-400 uppercase tracking-widest">Job Information</th>
-                                <th className="px-6 py-4 w-[20%] text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
-                                <th className="px-6 py-4 w-[20%] text-[10px] font-black text-gray-400 uppercase tracking-widest">Uploaded</th>
-                                <th className="px-6 py-4 w-[10%] text-center text-[10px] font-black text-gray-400 uppercase tracking-widest">Action</th>
+                                <th className="px-6 py-4 w-[40%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Job Information</th>
+                                <th className="px-6 py-4 w-[25%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Status</th>
+                                <th className="px-6 py-4 w-[25%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Uploaded</th>
+                                <th className="px-6 py-4 w-[10%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -180,7 +184,7 @@ const JobManagement = () => {
 
                 {/* Pagination Footer */}
                 <div className="flex-shrink-0 px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-white">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-black text-gray-400 tracking-widest">
                         Showing <span className="text-gray-900">{jobs.length}</span> of <span className="text-gray-900">{jobData?.data?.totalElements || 0}</span> Job Posts
                     </p>
 
@@ -218,13 +222,13 @@ const JobManagement = () => {
 };
 
 const StatCard = ({ label, value, icon, color, bgColor }) => (
-    <div className="bg-white p-6 rounded-[28px] border border-gray-100 shadow-sm flex justify-between items-start">
+    <div className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm flex justify-between items-center">
         <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{label}</p>
-            <h3 className={`text-3xl font-black ${color}`}>{value}</h3>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{label}</p>
+            <h3 className={`text-2xl font-black ${color}`}>{value}</h3>
         </div>
-        <div className={`p-3.5 rounded-2xl ${bgColor}`}>
-            <span className={color}>{icon}</span>
+        <div className={`w-12 h-12 rounded-2xl ${bgColor} flex items-center justify-center ${color}`}>
+            {icon}
         </div>
     </div>
 );
@@ -239,8 +243,8 @@ const JobStatusTag = ({ status }) => {
     }[status] || { label: status, color: 'bg-gray-50 text-gray-600', dot: 'bg-gray-600' };
 
     return (
-        <span className={`px-3 py-1 rounded-full text-[9px] font-black flex items-center gap-1.5 w-fit mx-auto ${config.color}`}>
-            <span className={`w-1 h-1 rounded-full ${config.dot}`} />
+        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 w-fit ${config.color}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
             {config.label}
         </span>
     );

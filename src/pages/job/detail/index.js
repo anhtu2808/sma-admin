@@ -101,19 +101,26 @@ const JobDetail = () => {
             <div className="flex-shrink-0 px-6 mt-6 flex items-center justify-between border-b border-gray-100">
                 <div className="flex gap-10">
                     {[
-                        { id: 'Overview', label: 'OVERVIEW' },
-                        { id: 'AI Rules', label: 'AI SCORING' },
-                        { id: 'Company', label: 'ORGANIZATION' }
+                        { id: 'Overview', label: 'Overview' },
+                        { id: 'AI Rules', label: 'AI scoring' },
+                        { id: 'Company', label: 'Company' }
                     ].map(tab => {
                         const isActive = activeTab === tab.id;
                         return (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`pb-4 text-[10px] font-extrabold tracking-[0.15em] transition-all duration-300 relative ${isActive ? 'text-[#111c2d]' : 'text-gray-400 hover:text-gray-600'}`}
+                                className={`
+                    pb-4 text-sm font-semibold transition-all duration-300 relative
+                    ${isActive ? 'text-[#111c2d]' : 'text-gray-400 hover:text-gray-600'}
+                `}
                             >
                                 {tab.label}
-                                <div className={`absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300 ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+
+                                <div className={`
+                    absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
+                    ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}
+                `} />
                             </button>
                         );
                     })}
@@ -151,7 +158,7 @@ const JobDetail = () => {
                             </div>
 
                             <div className="mt-6 bg-white rounded-3xl p-6 border border-gray-50 shadow-sm space-y-6">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Required Stack</p>
+                                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Required Stack</p>
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
                                         <Layers size={14} className="text-orange-500" />
@@ -196,7 +203,7 @@ const JobDetail = () => {
 
                         {/* RIGHT CONTENT: DOSSIER ITEMS */}
                         <div className="flex-1 bg-white rounded-[32px] border border-gray-50 shadow-sm p-10 flex flex-col">
-                            <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-6">Job Description Dossier</h4>
+                            <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-12">Job Description Dossier</h4>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                                 {job.isViolated && (
@@ -379,23 +386,68 @@ const JobDetail = () => {
 
                 {/* TAB 3: COMPANY INFO */}
                 {activeTab === 'Company' && (
-                    <div className="pb-10 mt-4 bg-white rounded-[40px] border border-gray-50 p-12 shadow-sm flex flex-col items-center text-center">
-                        <div className="w-24 h-24 rounded-[32px] bg-orange-50 flex items-center justify-center mb-6 shadow-inner">
-                            {job.company?.logo ? <img src={job.company.logo} className="w-full h-full object-cover rounded-[32px]" /> : <Building2 className="text-orange-500" size={48} />}
-                        </div>
-                        <h3 className="text-xl font-black text-[#111c2d] mb-2 uppercase tracking-tighter">{job.company?.name}</h3>
-                        <p className="text-sm text-gray-400 font-bold uppercase tracking-widest mb-10">{job.company?.companyIndustry}</p>
+                    <div className="mt-4 bg-white rounded-[40px] border border-gray-50 p-12 pb-10 shadow-sm flex flex-col items-center text-center">
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-2xl text-left border-t border-gray-50 pt-10">
-                            <DossierItem label="Industry" value={job.company?.companyIndustry} icon={<Briefcase size={20} />} />
-                            <DossierItem label="Followers" value={`${job.company?.followerNumber || 0} Followers`} icon={<Check size={20} />} />
-                            <DossierItem label="Website" value={job.company?.link} icon={<Globe size={20} />} isLink />
-                            <DossierItem label="Location" value={job.company?.location} icon={<MapPin size={20} />} />
+                        {/* Company Logo */}
+                        <div className="w-24 h-24 mb-6 flex items-center justify-center rounded-[32px] bg-orange-50 shadow-inner">
+                            {job.company?.logo ? (
+                                <img
+                                    src={job.company.logo}
+                                    className="w-full h-full object-cover rounded-[32px]"
+                                />
+                            ) : (
+                                <Building2 className="text-orange-500" size={48} />
+                            )}
                         </div>
 
-                        <Button className="mt-12" mode="secondary" onClick={() => navigate(`/companies/${job.company.id}`)}>
+                        {/* Company Name */}
+                        <h3 className="text-xl font-black text-[#111c2d] uppercase tracking-tight mb-2">
+                            {job.company?.name}
+                        </h3>
+
+                        <p className="text-sm text-gray-500 leading-relaxed max-w-xl mb-10">
+                            {job.company?.description}
+                        </p>
+
+                        {/* Company Info */}
+                        <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-gray-50 text-left">
+
+                            <DossierItem
+                                label="Industry"
+                                value={job.company?.companyIndustry}
+                                icon={<Briefcase size={20} />}
+                            />
+
+                            <DossierItem
+                                label="Followers"
+                                value={`${job.company?.followerNumber || 0} Followers`}
+                                icon={<Check size={20} />}
+                            />
+
+                            <DossierItem
+                                label="Website"
+                                value={job.company?.link}
+                                icon={<Globe size={20} />}
+                                isLink
+                            />
+
+                            <DossierItem
+                                label="Location"
+                                value={job.company?.location}
+                                icon={<MapPin size={20} />}
+                            />
+
+                        </div>
+
+                        {/* Action */}
+                        <Button
+                            className="mt-12"
+                            mode="secondary"
+                            onClick={() => navigate(`/companies/${job.company.id}`)}
+                        >
                             Go to Company Profile
                         </Button>
+
                     </div>
                 )}
                 {isModalOpen && (
@@ -438,11 +490,11 @@ const SidebarItem = ({ icon, label, value, color }) => (
 
 const DossierItem = ({ icon, label, value, isLink }) => (
     <div className="flex items-start gap-5 group">
-        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-400 border border-orange-100 flex-shrink-0 group-hover:bg-orange-100 transition-colors">
+        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-400 border border-orange-100 group-hover:bg-orange-100 transition-colors flex-shrink-0">
             {icon}
         </div>
         <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+            <p className="text-[12px] font-bold text-gray-500 tracking-widest mb-1">{label}</p>
             {isLink && value ? (
                 <a href={value} target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:text-orange-500 transition-colors truncate block">
                     {value}
