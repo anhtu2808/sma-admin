@@ -127,10 +127,10 @@ const FeatureManagement = () => {
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
                     <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase flex items-center gap-2">
-                        <ShieldCheck className="text-primary" size={24} />
+
                         System Features
                     </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest uppercase">
+                    <p className="text-[11px] text-neutral-500 font-medium mt-1 tracking-widest">
                         Define and manage subscription-based functionalities
                     </p>
                 </div>
@@ -161,14 +161,14 @@ const FeatureManagement = () => {
                 <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-100/80 backdrop-blur-md">
+                            <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-20">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Feature Info</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Key</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Type</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-32 text-center">Status</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-24">Actions</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-20">ID</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-1/4">Feature Info</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider">Key</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider">Type</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-32 text-center">Status</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-right w-24">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100">
@@ -235,14 +235,12 @@ const FeatureManagement = () => {
                         </button>
 
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                                <Activity size={24} />
-                            </div>
+
                             <div>
-                                <h3 className="text-2xl font-black text-neutral-900 dark:text-white uppercase tracking-tighter">
+                                <h3 className="text-xl font-black text-neutral-900 dark:text-white uppercase tracking-tighter">
                                     {modalMode === 'CREATE' ? 'Define New Feature' : 'Update Feature Settings'}
                                 </h3>
-                                <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest">System functionality configuration</p>
+                                <p className="text-[11px] text-neutral-500 font-bold tracking-widest">System functionality configuration</p>
                             </div>
                         </div>
 
@@ -254,7 +252,7 @@ const FeatureManagement = () => {
 
                         <div className="grid grid-cols-2 gap-6 text-left">
                             <div className="space-y-2 col-span-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Feature Name <span className="text-red-500">*</span></label>
+                                <label className="block text-[11px] font-black text-neutral-500 tracking-widest ml-1">Feature Name <span className="text-red-500">*</span></label>
                                 <Input
                                     placeholder="e.g. AI Scoring Matching, Advanced Analytics"
                                     value={formData.name}
@@ -263,7 +261,7 @@ const FeatureManagement = () => {
                             </div>
 
                             <div className="space-y-2 col-span-2 sm:col-span-1">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                <label className="block text-[11px] font-black text-neutral-500 tracking-widest ml-1">
                                     Feature Key (Unique) <span className="text-red-500">*</span>
                                 </label>
                                 <Combobox
@@ -320,7 +318,7 @@ const FeatureManagement = () => {
                             </div>
 
                             <div className="space-y-2 col-span-2 sm:col-span-1">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                <label className="block text-[11px] font-black text-neutral-500 tracking-widest ml-1">
                                     Usage Type
                                 </label>
                                 <Listbox
@@ -379,7 +377,7 @@ const FeatureManagement = () => {
                             </div>
 
                             <div className="space-y-2 col-span-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Description</label>
+                                <label className="block text-[11px] font-black text-neutral-500 tracking-widest ml-1">Description</label>
                                 <textarea
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -391,7 +389,7 @@ const FeatureManagement = () => {
                             <div className="col-span-2 flex items-center justify-between p-4 bg-neutral-50 rounded-2xl">
                                 <div>
                                     <p className="text-[11px] font-black text-neutral-800 uppercase">Is Active</p>
-                                    <p className="text-[9px] text-neutral-400 font-bold uppercase">Toggle feature availability in the system</p>
+                                    <p className="text-[10px] text-neutral-500 font-bold">Toggle feature availability in the system</p>
                                 </div>
                                 <input
                                     type="checkbox"

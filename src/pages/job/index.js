@@ -138,7 +138,7 @@ const JobManagement = () => {
                                 <th className="px-6 py-4 w-[40%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Job Information</th>
                                 <th className="px-6 py-4 w-[25%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Status</th>
                                 <th className="px-6 py-4 w-[25%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Uploaded</th>
-                                <th className="px-6 py-4 w-[10%] text-left text-[13px] font-semibold text-gray-500 tracking-wider">Action</th>
+                                <th className="px-6 py-4 w-[10%] text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
