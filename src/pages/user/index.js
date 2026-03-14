@@ -269,7 +269,7 @@ const UserManagement = () => {
 
                 {/* Footer: Optimized Pagination */}
                 <div className="flex-shrink-0 px-6 py-4 border-t border-gray-50 bg-white flex items-center justify-between">
-                    <p className="text-[10px] font-black text-gray-400 tracking-widest">
+                    <p className="text-xs font-bold text-gray-400 tracking-widest">
                         Showing <span className="text-gray-900">{users.length}</span> of <span className="text-gray-900">{pagination.totalElements || 0}</span> Users
                     </p>
 

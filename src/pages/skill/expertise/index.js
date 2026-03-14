@@ -154,7 +154,7 @@ const ExpertiseManagement = () => {
                             <div className="relative">
                                 <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-white dark:bg-gray-800 border border-neutral-100 dark:border-neutral-700 py-2.5 pl-10 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
                                     <Layers className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-500" />
-                                    <span className="block truncate text-[11px] font-black uppercase tracking-widest text-neutral-700 dark:text-neutral-200">
+                                    <span className="block truncate text-[11px] font-black tracking-widest text-neutral-700 dark:text-neutral-200">
                                         {selectedGroup.name}
                                     </span>
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -175,7 +175,7 @@ const ExpertiseManagement = () => {
                                         >
                                             {({ selected }) => (
                                                 <>
-                                                    <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>ALL GROUPS</span>
+                                                    <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>All Groups</span>
                                                     {selected ? <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary"><Check size={14} strokeWidth={3} /></span> : null}
                                                 </>
                                             )}
@@ -189,7 +189,7 @@ const ExpertiseManagement = () => {
                                             >
                                                 {({ selected }) => (
                                                     <>
-                                                        <span className={`block truncate text-xs uppercase ${selected ? 'font-black text-primary' : 'font-bold'}`}>
+                                                        <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>
                                                             {group.name}
                                                         </span>
                                                         {selected ? (
@@ -226,13 +226,13 @@ const ExpertiseManagement = () => {
                 <Card className="!p-0 border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
+                            <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-24">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Expertise Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Description</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center w-40">Expertise Group</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-32">Actions</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-24">ID</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-1/4">Expertise Name</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider">Description</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center w-40">Expertise Group</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-right w-32">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -275,8 +275,8 @@ const ExpertiseManagement = () => {
             </div>
 
             <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
-                <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
-                    Showing {groups.length} of {pagination.totalElements || 0} expertises
+                <p className="text-xs font-bold text-gray-400 tracking-widest">
+                    Showing <span className="text-gray-900">{groups.length}</span> of <span className="text-gray-900">{pagination.totalElements || 0}</span> expertises
                 </p>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setPage(prev => Math.max(0, prev - 1))} disabled={page === 0} className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronLeft size={16} /></button>
@@ -300,25 +300,24 @@ const ExpertiseManagement = () => {
                             {modalMode === 'CREATE' ? 'Add Expertise' : 'Edit Expertise'}
                         </h3>
 
-                        <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-6">
+                        <p className="text-[11px] text-neutral-500 font-bold tracking-widest mb-3">
                             {modalMode === 'CREATE' ? 'Define a new job role' : `Editing ID: #${selectedItem?.id}`}
                         </p>
 
                         {formError ? (
-                            <div className="mb-6 p-4 bg-amber-50 border border-amber-100 rounded-2xl animate-in fade-in slide-in-from-top-1">
+                            <div className="mb-4 p-4 bg-amber-50 border border-amber-100 rounded-2xl animate-in fade-in slide-in-from-top-1">
                                 <p className="text-[10px] text-amber-600 font-black uppercase tracking-tighter leading-tight">
                                     Validation Error: {formError}
                                 </p>
                             </div>
                         ) : (
                             <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-6 italic">
-                                Fill in the details below to proceed.
                             </p>
                         )}
 
                         <div className="space-y-6 text-left">
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1 font-body">
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1 font-body">
                                     Expertise Name <span className="text-red-500">*</span>
                                 </label>
                                 <Input
@@ -332,7 +331,7 @@ const ExpertiseManagement = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1 font-body">
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1 font-body">
                                     Assigned Group <span className="text-red-500">*</span>
                                 </label>
 
@@ -389,7 +388,7 @@ const ExpertiseManagement = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1 font-body">Description</label>
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1 font-body">Description</label>
                                 <textarea
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}

@@ -120,12 +120,12 @@ const JobManagement = () => {
                     </div>
 
                     <div className="relative w-full lg:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-400/80" />
                         <input
                             type="text"
                             placeholder="Search by job name..."
                             onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
-                            className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-2xl text-xs font-bold transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-primary/10 focus:bg-white"
+                            className="w-full pl-10 pr-4 py-2.5 bg-white border border-neutral-100 rounded-2xl text-[11px] font-bold transition-all shadow-sm focus:ring-2 focus:ring-orange-500/10 placeholder:text-gray-400"
                         />
                     </div>
                 </div>
@@ -184,7 +184,7 @@ const JobManagement = () => {
 
                 {/* Pagination Footer */}
                 <div className="flex-shrink-0 px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-white">
-                    <p className="text-[10px] font-black text-gray-400 tracking-widest">
+                    <p className="text-xs font-bold text-gray-400 tracking-widest">
                         Showing <span className="text-gray-900">{jobs.length}</span> of <span className="text-gray-900">{jobData?.data?.totalElements || 0}</span> Job Posts
                     </p>
 
