@@ -191,8 +191,7 @@ const PlanManagement = () => {
                                         </td>
                                         <td className="px-6 py-5 text-center">
                                             <div className="flex flex-col items-center">
-                                                <span className="text-[11px] font-black text-primary leading-none">{plan.planPrices?.length || 0} Price Tiers</span>
-                                                <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-widest leading-none mt-1">Configured</span>
+                                                <span className="text-sm text-orange-600 flex items-center gap-1.5 truncate">{plan.planPrices?.length || 0} Price Tiers</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-5 text-center">
