@@ -126,11 +126,11 @@ const FeatureManagement = () => {
         <div className="flex flex-col h-full font-body relative overflow-hidden">
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
-                    <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase flex items-center gap-2">
+                    <h2 className="text-2xl font-bold text-text-light dark:text-text-dark font-heading tracking-tight">
 
                         System Features
                     </h2>
-                    <p className="text-[11px] text-neutral-500 font-medium mt-1 tracking-widest">
+                    <p className="text-subtext-light dark:text-subtext-dark text-sm mt-1 max-w-md">
                         Define and manage subscription-based functionalities
                     </p>
                 </div>

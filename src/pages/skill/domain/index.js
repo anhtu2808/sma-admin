@@ -108,10 +108,10 @@ const DomainManagement = () => {
         <div className="flex flex-col h-full font-body relative overflow-hidden">
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
-                    <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">
+                    <h2 className="text-2xl font-bold text-text-light dark:text-text-dark font-heading tracking-tight">
                         Industry Domains
                     </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest">
+                    <p className="text-subtext-light dark:text-subtext-dark text-sm mt-1 max-w-md">
                         Manage business sectors and industry classifications
                     </p>
                 </div>

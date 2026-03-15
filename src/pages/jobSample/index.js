@@ -92,10 +92,10 @@ const SampleJobsManagement = () => {
                 {/* HEADER */}
                 <header className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                            JD Samples (Admin)
+                        <h1 className="text-2xl font-bold text-text-light dark:text-text-dark font-heading tracking-tight">
+                            JD Samples
                         </h1>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-subtext-light dark:text-subtext-dark text-sm mt-1 max-w-md">
                             Manage system JD templates for AI Scoring
                         </p>
                     </div>
