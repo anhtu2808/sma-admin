@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 export const useNotificationSocket = () => {
     const dispatch = useDispatch();
+    const token = localStorage.getItem('accessToken');
     const getIcon = (type) => {
         switch (type) {
             case 'SYSTEM':
@@ -31,7 +32,7 @@ export const useNotificationSocket = () => {
         }
     };
     useEffect(() => {
-        const token = localStorage.getItem('accessToken');
+
         if (!token) return;
 
         const socket = new SockJS("https://api.smartrecruit.tech/ws-smartrecruit");
@@ -75,5 +76,5 @@ export const useNotificationSocket = () => {
         return () => {
             client.deactivate();
         };
-    }, [dispatch]);
+    }, [dispatch, token]);
 };
