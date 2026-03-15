@@ -26,10 +26,10 @@ const HRTeamTab = ({ recruiters, onAddClick }) => {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-gray-50/50">
-                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[45%]">Member Details</th>
-                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%]">Role</th>
-                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Status</th>
-                            <th className="px-8 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%] text-right">Action</th>
+                            <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[45%]">Member Details</th>
+                            <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%]">Role</th>
+                            <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Status</th>
+                            <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%] text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">

@@ -75,8 +75,8 @@ const PriceTab = ({ planId, currency }) => {
         <div className="space-y-6 animate-in fade-in slide-in-from-right-4 relative">
             <div className="flex justify-between items-center">
                 <div>
-                    <h4 className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em]">Available Price Tiers</h4>
-                    <p className="text-[9px] text-neutral-300 font-bold uppercase mt-1">Configure subscription duration and costs</p>
+                    <h4 className="text-[12px] font-black text-neutral-800 uppercase tracking-[0.2em]">Available Price Tiers</h4>
+                    <p className="text-[10px] text-neutral-500 font-bold mt-1">Configure subscription duration and costs</p>
                 </div>
                 {!isAddingNew && (
                     <button
@@ -114,11 +114,11 @@ const PriceTab = ({ planId, currency }) => {
 
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Duration <span className="text-red-500">*</span></label>
+                                <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Duration <span className="text-red-500">*</span></label>
                                 <Input type="number" min="1" value={priceForm.duration} onChange={e => setPriceForm({ ...priceForm, duration: e.target.value })} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">
                                     Unit <span className="text-red-500">*</span>
                                 </label>
                                 <Listbox
@@ -170,11 +170,11 @@ const PriceTab = ({ planId, currency }) => {
                                 </Listbox>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Original Price ({currency})<span className="text-red-500">*</span></label>
+                                <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Original Price ({currency})<span className="text-red-500">*</span></label>
                                 <Input type="number" placeholder="0" value={priceForm.originalPrice} onChange={e => setPriceForm({ ...priceForm, originalPrice: e.target.value })} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[9px] font-black text-neutral-400 uppercase tracking-widest ml-1">Sale Price ({currency})<span className="text-red-500">*</span></label>
+                                <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Sale Price ({currency})<span className="text-red-500">*</span></label>
                                 <Input type="number" placeholder="0" value={priceForm.salePrice} onChange={e => setPriceForm({ ...priceForm, salePrice: e.target.value })} />
                             </div>
                             <div className="col-span-2 flex items-center gap-2 px-2">
@@ -185,7 +185,7 @@ const PriceTab = ({ planId, currency }) => {
                                     onChange={e => setPriceForm({ ...priceForm, isActive: e.target.checked })}
                                     className="w-4 h-4 accent-secondary"
                                 />
-                                <label htmlFor="price-active" className="text-[10px] font-black text-neutral-500 uppercase cursor-pointer">
+                                <label htmlFor="price-active" className="text-[11px] font-black text-neutral-600 cursor-pointer">
                                     Set this price tier as active immediately
                                 </label>
                             </div>

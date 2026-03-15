@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useGetNotificationsQuery, useMarkAllAsReadMutation } from '@/apis/notificationApi';
 import NotificationItem from './components/notification-item';
 import SearchInput from '@/components/SearchInput';
+import { ChevronLeft, ChevronRight, } from 'lucide-react';
 
 const NotificationList = () => {
-    const [filter, setFilter] = useState({ page: 0, size: 10, isRead: null, type: null, keyword: '' });
+    const [filter, setFilter] = useState({ page: 0, size: 10, isRead: null, types: null, keyword: '' });
 
     const { data, isLoading } = useGetNotificationsQuery(filter);
     const [markAllAsRead] = useMarkAllAsReadMutation();
@@ -17,12 +18,29 @@ const NotificationList = () => {
     const endEntry = Math.min(((paging?.pageNumber || 0) + 1) * (paging?.pageSize || 10), paging?.totalElements || 0);
 
     const tabs = [
-        { label: 'All', value: { isRead: null, type: null } },
-        { label: 'Unread', value: { isRead: false, type: null }, count: unreadCount },
-        { label: 'Companies', value: { isRead: null, type: 'COMPANY_REGISTRATION' } },
+        { label: 'All', value: { isRead: null, types: null } },
+        { label: 'Unread', value: { isRead: false, types: null }, count: unreadCount },
+        { label: 'Companies', value: { isRead: null, types: ['COMPANY_REGISTRATION'] } },
         { label: 'Jobs', value: { isRead: null, types: ['FLAGGED_JOB'] } }
-
     ];
+    const getPageNumbers = (page, totalPages) => {
+        const pages = [];
+        const maxVisible = 5;
+
+        if (totalPages <= maxVisible) {
+            for (let i = 0; i < totalPages; i++) pages.push(i);
+        } else {
+            const start = Math.max(0, page - 2);
+            const end = Math.min(totalPages, page + 3);
+
+            if (start > 0) pages.push(0, '...');
+            for (let i = start; i < end; i++) pages.push(i);
+            if (end < totalPages) pages.push('...', totalPages - 1);
+        }
+
+        return pages;
+    };
+
 
     return (
         <main className="h-full flex flex-col bg-background-light dark:bg-background-dark">
@@ -66,7 +84,7 @@ const NotificationList = () => {
                         <button
                             key={tab.label}
                             onClick={() => setFilter({ ...filter, ...tab.value, page: 0 })}
-                            className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all ${(filter.isRead === tab.value.isRead && filter.type === tab.value.type)
+                            className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-all ${(filter.isRead === tab.value.isRead && JSON.stringify(filter.types) === JSON.stringify(tab.value.types))
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-subtext-light hover:text-text-light hover:border-gray-300'
                                 }`}
@@ -100,26 +118,64 @@ const NotificationList = () => {
             </div>
 
             {paging?.totalPages > 1 && (
-                <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-6 mt-2">
-                    <p className="text-sm text-subtext-light dark:text-subtext-dark">
-                        Showing <span className="font-medium text-text-light">{startEntry}</span> to{' '}
-                        <span className="font-medium text-text-light">{endEntry}</span> of{' '}
-                        <span className="font-medium text-text-light">{paging.totalElements}</span> results
+                <div className="flex-shrink-0  py-2 border-t border-gray-50 bg-white flex items-center justify-between">
+
+                    <p className="text-xs font-bold text-gray-400 tracking-widest">
+                        Showing <span className="text-gray-900">{endEntry}</span> of{" "}
+                        <span className="text-gray-900">{paging.totalElements}</span> Notifications
                     </p>
-                    <div className="flex gap-2">
+
+                    <div className="flex items-center gap-2">
+
+                        {/* Previous */}
                         <button
+                            onClick={() => setFilter({ ...filter, page: Math.max(0, filter.page - 1) })}
                             disabled={paging.first}
-                            onClick={() => setFilter({ ...filter, page: filter.page - 1 })}
-                            className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-subtext-light hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className={`p-2 rounded-xl transition-all ${paging.first
+                                ? "text-gray-200"
+                                : "text-gray-400 hover:bg-gray-100"
+                                }`}
                         >
-                            Previous
+                            <ChevronLeft size={16} />
                         </button>
+
+                        {/* Page numbers */}
+                        <div className="flex items-center gap-1">
+                            {getPageNumbers(filter.page, paging.totalPages).map((p, index) =>
+                                p === "..." ? (
+                                    <span
+                                        key={`dots-${index}`}
+                                        className="px-2 text-gray-300 font-black text-xs"
+                                    >
+                                        ...
+                                    </span>
+                                ) : (
+                                    <button
+                                        key={`page-${p}`}
+                                        onClick={() => setFilter({ ...filter, page: p })}
+                                        className={`w-8 h-8 text-[10px] font-black rounded-lg transition-all ${filter.page === p
+                                            ? "bg-orange-500 text-white shadow-md shadow-orange-200"
+                                            : "text-gray-500 hover:bg-gray-100"
+                                            }`}
+                                    >
+                                        {p + 1}
+                                    </button>
+                                )
+                            )}
+                        </div>
+
+                        {/* Next */}
                         <button
+                            onClick={() =>
+                                setFilter({ ...filter, page: filter.page + 1 })
+                            }
                             disabled={paging.last}
-                            onClick={() => setFilter({ ...filter, page: filter.page + 1 })}
-                            className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-subtext-light hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className={`p-2 rounded-xl transition-all ${paging.last
+                                ? "text-gray-200"
+                                : "text-gray-400 hover:bg-gray-100"
+                                }`}
                         >
-                            Next
+                            <ChevronRight size={16} />
                         </button>
                     </div>
                 </div>

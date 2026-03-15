@@ -89,29 +89,62 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                     {/* Header */}
                     <div className="px-8 py-6 border-b border-neutral-50 flex items-center justify-between bg-neutral-50/50">
                         <div>
-                            <h3 className="text-xl font-black text-neutral-900 uppercase tracking-tighter">
+                            <h3 className="text-xl font-black text-neutral-900">
                                 {plan ? 'Plan Configuration' : 'Design New Plan'}
                             </h3>
-                            <div className="flex gap-4 mt-4">
+
+                            <div className="flex gap-10 mt-4">
                                 <button
                                     onClick={() => setActiveTab('BASIC')}
-                                    className={`text-[10px] font-black uppercase tracking-widest pb-1 border-b-2 transition-all ${activeTab === 'BASIC' ? 'border-primary text-primary' : 'border-transparent text-neutral-400'}`}
+                                    className={`
+                pb-4 text-sm transition-all duration-300 relative
+                ${activeTab === 'BASIC'
+                                            ? 'text-[#111c2d]'
+                                            : 'text-gray-400 hover:text-gray-600'}
+            `}
                                 >
                                     Basic Information
+
+                                    <div className={`
+                absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
+                ${activeTab === 'BASIC' ? 'w-full opacity-100' : 'w-0 opacity-0'}
+            `} />
                                 </button>
+
                                 {plan && (
                                     <>
                                         <button
                                             onClick={() => setActiveTab('PRICING')}
-                                            className={`text-[10px] font-black uppercase tracking-widest pb-1 border-b-2 transition-all ${activeTab === 'PRICING' ? 'border-primary text-primary' : 'border-transparent text-neutral-400'}`}
+                                            className={`
+                        pb-4 text-sm transition-all duration-300 relative
+                        ${activeTab === 'PRICING'
+                                                    ? 'text-[#111c2d]'
+                                                    : 'text-gray-400 hover:text-gray-600'}
+                    `}
                                         >
                                             Pricing
+
+                                            <div className={`
+                        absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
+                        ${activeTab === 'PRICING' ? 'w-full opacity-100' : 'w-0 opacity-0'}
+                    `} />
                                         </button>
+
                                         <button
                                             onClick={() => setActiveTab('LIMITS')}
-                                            className={`text-[10px] font-black uppercase tracking-widest pb-1 border-b-2 transition-all ${activeTab === 'LIMITS' ? 'border-primary text-primary' : 'border-transparent text-neutral-400'}`}
+                                            className={`
+                        pb-4 text-sm transition-all duration-300 relative
+                        ${activeTab === 'LIMITS'
+                                                    ? 'text-[#111c2d]'
+                                                    : 'text-gray-400 hover:text-gray-600'}
+                    `}
                                         >
                                             Usage Limits
+
+                                            <div className={`
+                        absolute bottom-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-300
+                        ${activeTab === 'LIMITS' ? 'w-full opacity-100' : 'w-0 opacity-0'}
+                    `} />
                                         </button>
                                     </>
                                 )}
@@ -126,11 +159,11 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                 <div className="grid grid-cols-2 gap-6">
                                     {/* INLINE ALERT SYSTEM */}
                                     <div className="col-span-2 space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Plan Name <span className="text-red-500">*</span></label>
+                                        <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Plan Name <span className="text-red-500">*</span></label>
                                         <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Enterprise Gold" />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Target <span className="text-red-500">*</span></label>
+                                        <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Target <span className="text-red-500">*</span></label>
                                         <EnumSelect
                                             value={formData.planTarget}
                                             options={['COMPANY', 'CANDIDATE']}
@@ -138,7 +171,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Type <span className="text-red-500">*</span></label>
+                                        <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Type <span className="text-red-500">*</span></label>
                                         <EnumSelect
                                             value={formData.planType}
                                             options={['MAIN', 'ADDONS_FEATURE', 'ADDONS_QUOTA']}
@@ -146,14 +179,14 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                         />
                                     </div>
                                     <div className="col-span-2 space-y-2">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Description</label>
+                                        <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Description</label>
                                         <textarea
                                             value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
                                             className="w-full h-20 p-4 bg-neutral-50 rounded-2xl text-xs font-bold border-none focus:ring-2 focus:ring-primary/20 outline-none resize-none"
                                         />
                                     </div>
                                     <div className="col-span-2 space-y-1">
-                                        <label className="text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">Details</label>
+                                        <label className="text-[11px] font-black text-neutral-500 tracking-widest ml-1">Details</label>
                                         <textarea
                                             value={formData.planDetails}
                                             onChange={e => setFormData({ ...formData, planDetails: e.target.value })}
@@ -168,7 +201,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                                 </div>
                                                 <div>
                                                     <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Active Plan</p>
-                                                    <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Status: {formData.isActive ? 'Visible to customers' : 'Hidden from store'}</p>
+                                                    <p className="text-[10px] text-neutral-500 font-bold mt-1">Status: {formData.isActive ? 'Visible to customers' : 'Hidden from store'}</p>
                                                 </div>
                                             </div>
                                             <input
@@ -184,7 +217,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                             <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600"><Tag size={18} /></div>
                                             <div>
                                                 <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">Promoted Plan</p>
-                                                <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Display "Popular" badge on pricing page</p>
+                                                <p className="text-[10px] text-neutral-500 font-bold mt-1">Display "Popular" badge on pricing page</p>
                                             </div>
                                         </div>
                                         <input type="checkbox" checked={formData.isPopular} onChange={e => setFormData({ ...formData, isPopular: e.target.checked })} className="w-5 h-5 accent-secondary cursor-pointer" />
@@ -194,7 +227,7 @@ const PlanModal = ({ isOpen, onClose, plan, onSuccess }) => {
                                             <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600"><ShieldCheck size={18} /></div>
                                             <div>
                                                 <p className="text-[11px] font-black text-neutral-800 uppercase leading-none">System Default</p>
-                                                <p className="text-[9px] text-neutral-400 font-bold uppercase mt-1">Auto-assign for new users</p>
+                                                <p className="text-[10px] text-neutral-500 font-bold mt-1">Auto-assign for new users</p>
                                             </div>
                                         </div>
                                         <input

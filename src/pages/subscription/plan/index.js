@@ -6,7 +6,7 @@ import {
 } from '../../../apis/subscriptionApi';
 import {
     Plus, Edit3, Search, ChevronLeft, ChevronRight, X,
-    ShieldCheck, Zap, Users, Building2, Tag, DollarSign
+    ShieldCheck, Zap, Users, Building2, Tag, DollarSign, Check,
 } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
 import Button from '@/components/Button';
@@ -54,10 +54,10 @@ const PlanManagement = () => {
             {/* Header Section */}
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
-                    <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase flex items-center gap-2">
-                        <Zap className="text-orange-500" size={24} /> Subscription Plan Tiers
+                    <h2 className="text-2xl font-bold text-text-light dark:text-text-dark font-heading tracking-tight">
+                        Subscription Plan Tiers
                     </h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest uppercase">
+                    <p className="text-subtext-light dark:text-subtext-dark text-sm mt-1 max-w-md">
                         Manage membership plans and pricing strategies
                     </p>
                 </div>
@@ -65,23 +65,68 @@ const PlanManagement = () => {
                 <div className="flex items-center gap-3">
                     {/* Target Filter */}
                     <div className="relative w-48">
-                        <Listbox value={selectedTarget} onChange={(val) => { setSelectedTarget(val); setPage(0); }}>
+                        <Listbox
+                            value={selectedTarget}
+                            onChange={(val) => {
+                                setSelectedTarget(val);
+                                setPage(0);
+                            }}
+                        >
                             <div className="relative">
                                 <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-white border border-neutral-100 py-2.5 pl-4 pr-10 text-left shadow-sm focus:ring-2 focus:ring-primary/20 transition-all">
-                                    <span className="block truncate text-[10px] font-black uppercase tracking-widest text-neutral-600">
+                                    <span className="block truncate text-xs font-bold text-neutral-700">
                                         {selectedTarget.name}
                                     </span>
+
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                         <Users className="h-3.5 w-3.5 text-neutral-400" />
                                     </span>
                                 </Listbox.Button>
-                                <Transition as={React.Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+
+                                <Transition
+                                    as={React.Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
                                     <Listbox.Options className="absolute z-50 mt-2 w-full overflow-auto rounded-2xl bg-white py-2 shadow-2xl border border-neutral-100">
-                                        {[{ id: 'ALL', name: 'All Targets' }, { id: 'COMPANY', name: 'Recruiters' }, { id: 'CANDIDATE', name: 'Candidates' }].map((t) => (
-                                            <Listbox.Option key={t.id} value={t} className={({ active }) => `relative cursor-pointer select-none py-3 px-4 text-[10px] font-bold uppercase transition-colors ${active ? 'bg-primary/5 text-primary' : 'text-neutral-700'}`}>
-                                                {t.name}
+
+                                        {[
+                                            { id: 'ALL', name: 'All Targets' },
+                                            { id: 'COMPANY', name: 'Recruiters' },
+                                            { id: 'CANDIDATE', name: 'Candidates' }
+                                        ].map((t) => (
+                                            <Listbox.Option
+                                                key={t.id}
+                                                value={t}
+                                                className={({ active }) =>
+                                                    `relative cursor-pointer select-none py-3 pl-10 pr-4 transition-colors ${active
+                                                        ? 'bg-primary/5 text-primary'
+                                                        : 'text-neutral-700'
+                                                    }`
+                                                }
+                                            >
+                                                {({ selected }) => (
+                                                    <>
+                                                        <span
+                                                            className={`block truncate text-xs ${selected
+                                                                ? 'font-black text-primary'
+                                                                : 'font-bold'
+                                                                }`}
+                                                        >
+                                                            {t.name}
+                                                        </span>
+
+                                                        {selected && (
+                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                                                <Check size={14} strokeWidth={3} />
+                                                            </span>
+                                                        )}
+                                                    </>
+                                                )}
                                             </Listbox.Option>
                                         ))}
+
                                     </Listbox.Options>
                                 </Transition>
                             </div>
@@ -108,15 +153,15 @@ const PlanManagement = () => {
                 <Card className="!p-0 border-neutral-200 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-100/80 backdrop-blur-md">
+                            <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-20">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Plan Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center">Target</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center">Type</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center">Prices</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-32 text-center">Status</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-24">Actions</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-20">ID</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-1/4">Plan Name</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center">Target</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center">Type</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center">Prices</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-32 text-center">Status</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-right w-24">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100">
@@ -146,8 +191,7 @@ const PlanManagement = () => {
                                         </td>
                                         <td className="px-6 py-5 text-center">
                                             <div className="flex flex-col items-center">
-                                                <span className="text-[11px] font-black text-primary leading-none">{plan.planPrices?.length || 0} Price Tiers</span>
-                                                <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-widest leading-none mt-1">Configured</span>
+                                                <span className="text-sm text-orange-600 flex items-center gap-1.5 truncate">{plan.planPrices?.length || 0} Price Tiers</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-5 text-center">
@@ -171,7 +215,7 @@ const PlanManagement = () => {
             {/* Pagination */}
             <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
                 <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase">
-                    Showing {plans.length} of {pagination.totalElements || 0} Plans
+                    Showing <span className="text-gray-900">{plans.length}</span> of <span className="text-gray-900">{pagination.totalElements || 0}</span> Plans
                 </p>
                 <div className="flex items-center gap-2">
                     <button

@@ -124,8 +124,8 @@ const SkillManagement = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-8">
                 <div className="flex-1">
-                    <h2 className="text-xl font-extrabold text-neutral-900 dark:text-white tracking-tight font-heading uppercase">Skills</h2>
-                    <p className="text-[11px] text-neutral-400 font-medium mt-1 tracking-widest">Manage individual technical and soft skills</p>
+                    <h2 className="text-2xl font-bold text-text-light dark:text-text-dark font-heading tracking-tight">Skills</h2>
+                    <p className="text-subtext-light dark:text-subtext-dark text-sm mt-1 max-w-md">Manage individual technical and soft skills</p>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -134,7 +134,7 @@ const SkillManagement = () => {
                             <div className="relative">
                                 <Listbox.Button className="relative w-full cursor-default rounded-2xl bg-white dark:bg-gray-800 border border-neutral-100 dark:border-neutral-700 py-2.5 pl-10 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
                                     <Cpu className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-500" />
-                                    <span className="block truncate text-[11px] font-black uppercase tracking-widest text-neutral-700 dark:text-neutral-200">
+                                    <span className="block truncate text-[11px] font-black tracking-widest text-neutral-700 dark:text-neutral-200">
                                         {selectedCategory.name}
                                     </span>
                                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -155,7 +155,7 @@ const SkillManagement = () => {
                                         >
                                             {({ selected }) => (
                                                 <>
-                                                    <span className={`block truncate text-[10px] ${selected ? 'font-black text-primary' : 'font-bold uppercase'}`}>ALL CATEGORIES</span>
+                                                    <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>All Categories</span>
                                                     {selected ? <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary"><Check size={14} strokeWidth={3} /></span> : null}
                                                 </>
                                             )}
@@ -169,7 +169,7 @@ const SkillManagement = () => {
                                             >
                                                 {({ selected }) => (
                                                     <>
-                                                        <span className={`block truncate text-[10px] uppercase ${selected ? 'font-black text-primary' : 'font-bold'}`}>
+                                                        <span className={`block truncate text-xs ${selected ? 'font-black text-primary' : 'font-bold'}`}>
                                                             {cat.name}
                                                         </span>
                                                         {selected ? (
@@ -207,13 +207,13 @@ const SkillManagement = () => {
                 <Card className="!p-0 border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm flex flex-col h-full">
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         <table className="w-full text-left border-collapse table-fixed">
-                            <thead className="sticky top-0 z-10 bg-orange-100/80 dark:bg-orange-900/30 backdrop-blur-md shadow-[0_1px_0_0_rgba(251,146,60,0.2)]">
+                            <thead className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur-sm">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-24">ID</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase w-1/4">Skill Name</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase">Description</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-center w-40">Skill Category</th>
-                                    <th className="px-6 py-4 text-[10px] font-extrabold text-neutral-800 tracking-[0.2em] uppercase text-right w-32">Actions</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-24">ID</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-1/4">Skill Name</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider">Description</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-center w-40">Skill Category</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider text-right w-32">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -256,8 +256,8 @@ const SkillManagement = () => {
             </div>
 
             <div className="pt-2 flex items-center justify-between dark:border-neutral-800 bg-white dark:bg-surface-dark mt-auto">
-                <p className="text-[10px] font-bold text-neutral-400 tracking-widest uppercase font-heading">
-                    Showing {skills.length} of {pagination.totalElements || 0} skills
+                <p className="text-xs font-bold text-gray-400 tracking-widest">
+                    Showing <span className="text-gray-900">{skills.length}</span> of <span className="text-gray-900">{pagination.totalElements || 0}</span> skills
                 </p>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setPage(prev => Math.max(0, prev - 1))} disabled={page === 0} className={`p-2 rounded-xl transition-all ${page === 0 ? 'text-neutral-100' : 'text-neutral-400 hover:bg-neutral-100'}`}><ChevronLeft size={16} /></button>
@@ -281,20 +281,19 @@ const SkillManagement = () => {
                         </h3>
 
                         {formError ? (
-                            <div className="mb-6 p-4 bg-amber-50 border border-amber-100 rounded-2xl animate-in fade-in slide-in-from-top-1">
+                            <div className="mb-4 p-4 bg-amber-50 border border-amber-100 rounded-2xl animate-in fade-in slide-in-from-top-1">
                                 <p className="text-[10px] text-amber-600 font-black uppercase tracking-tighter leading-tight">
                                     Validation Error: {formError}
                                 </p>
                             </div>
                         ) : (
                             <p className="text-[11px] text-neutral-400 font-bold uppercase tracking-widest mb-6 italic">
-                                Please assign the skill to a category.
                             </p>
                         )}
 
                         <div className="space-y-6 text-left">
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1">
                                     Skill Name <span className="text-red-500">*</span>
                                 </label>
                                 <Input
@@ -308,7 +307,7 @@ const SkillManagement = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1">
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1">
                                     Skill Category <span className="text-red-500">*</span>
                                 </label>
                                 <Combobox
@@ -355,7 +354,7 @@ const SkillManagement = () => {
                                 </Combobox>
                             </div>
                             <div className="space-y-2">
-                                <label className="block text-[10px] font-black text-neutral-400 uppercase tracking-widest ml-1 font-body">
+                                <label className="block text-[10px] font-black text-neutral-500 tracking-widest ml-1 font-body">
                                     Description
                                 </label>
                                 <textarea

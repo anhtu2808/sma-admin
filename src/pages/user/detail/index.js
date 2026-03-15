@@ -42,7 +42,7 @@ const UserDetail = () => {
             case 'PENDING_REVIEW':
                 return 'text-orange-600 bg-orange-50 border-orange-100';
             case 'DRAFT':
-                return 'text-gray-500 bg-gray-50 border-gray-100';
+                return 'text-blue-600 bg-blue-50 border-blue-100';
             case 'SUSPENDED':
                 return 'text-red-600 bg-red-50 border-red-100';
             case 'CLOSED':
@@ -106,7 +106,7 @@ const UserDetail = () => {
                             <h2 className="text-2xl font-bold text-[#111c2d] leading-tight truncate">
                                 {baseInfo?.fullName || baseInfo?.email || "Unknown User"}
                             </h2>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] mt-1">
+                            <p className="text-[10px] font-bold text-gray-400 tracking-[0.15em] mt-1">
                                 Account ID: {baseInfo?.id} • {baseInfo?.role}
                             </p>
                         </div>
@@ -116,14 +116,21 @@ const UserDetail = () => {
 
             <div className="flex-shrink-0 px-2 mt-6 flex items-center justify-between border-b border-gray-100">
                 <div className="flex gap-10">
-                    {[{ id: 'Overview', label: 'OVERVIEW' },
-                    isCandidate && { id: 'Resumes', label: `RESUME LIST (${user.candidateDetail?.resumes?.length || 0})` },
-                    isRecruiter && { id: 'Jobs', label: `JOB POSTS (${user.recruiterDetail?.jobs?.length || 0})` }
+                    {[{ id: 'Overview', label: 'Overview' },
+                    isCandidate && { id: 'Resumes', label: `Resume list (${user.candidateDetail?.resumes?.length || 0})` },
+                    isRecruiter && { id: 'Jobs', label: `Job posts (${user.recruiterDetail?.jobs?.length || 0})` }
                     ].filter(Boolean).map(tab => (
-                        <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                            className={`pb-4 text-[10px] font-extrabold tracking-[0.15em] relative transition-all ${activeTab === tab.id ? 'text-[#111c2d]' : 'text-gray-400'}`}>
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`pb-4 text-sm font-semibold relative transition-all 
+            ${activeTab === tab.id ? 'text-[#111c2d]' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
                             {tab.label}
-                            {activeTab === tab.id && <div className="absolute bottom-0 left-0 h-0.5 w-full bg-orange-500 rounded-full" />}
+
+                            {activeTab === tab.id && (
+                                <div className="absolute bottom-0 left-0 h-0.5 w-full bg-orange-500 rounded-full" />
+                            )}
                         </button>
                     ))}
                 </div>
@@ -139,8 +146,8 @@ const UserDetail = () => {
                 {activeTab === 'Overview' && (
                     <div className="flex flex-col lg:flex-row gap-8 pb-10">
                         <div className="w-full lg:w-[350px] flex-shrink-0 space-y-6">
-                            <div className="bg-orange-400 text-white rounded-[32px] p-8 relative overflow-hidden">
-                                <div className="relative z-10 space-y-6">
+                            <div className="bg-orange-300 text-white rounded-[32px] p-8 shadow-2xl relative overflow-hidden shadow-orange-200/50">
+                                <div className="relative z-10 space-y-8">
                                     <p className="text-[10px] font-bold text-orange-800 uppercase tracking-[0.2em] flex items-center gap-2">
                                         <ShieldCheck size={14} /> General Information
                                     </p>
@@ -180,7 +187,7 @@ const UserDetail = () => {
                         </div>
 
                         <div className="flex-1 bg-white rounded-[32px] border border-gray-50 shadow-sm p-10 flex flex-col">
-                            <h4 className="text-[11px] font-bold text-gray-300 uppercase tracking-[0.2em] mb-12">User Platform Dossier</h4>
+                            <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-12">User Platform Dossier</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                                 {!baseInfo?.role?.includes('ADMIN') && (
                                     <>
@@ -268,9 +275,9 @@ const UserDetail = () => {
                         <table className="w-full text-left border-collapse">
                             <thead className="bg-gray-50/80">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[40%]">Document Details</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Status</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%] text-center">View CV</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[40%]">Document Details</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Status</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%] text-center">View CV</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
@@ -312,10 +319,10 @@ const UserDetail = () => {
                         <table className="w-full text-left border-collapse">
                             <thead className="bg-gray-50/80">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[45%]">Jobs</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Status</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[20%]">Upload Date</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] w-[15%] text-center">View</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[45%]">Jobs</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Status</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[20%]">Upload Date</th>
+                                    <th className="px-6 py-4 text-left text-[13px] font-semibold text-gray-500 tracking-wider w-[15%] text-center">View</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
@@ -323,22 +330,22 @@ const UserDetail = () => {
                                     <tr key={job.id} className="hover:bg-blue-50/30 transition-colors group">
                                         <td className="px-6 py-5">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 text-neutral-400 rounded-xl flex items-center justify-center font-black text-xs transition-all ">
+                                                <div className="text-[10px] text-gray-400 font-bold items-center justify-center transition-all ">
                                                     {job.id}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className="text-sm font-black text-neutral-800 truncate">{job.name}</p>
+                                                    <p className="text-sm font-bold text-gray-900 truncate">{job.name}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-5">
-                                            <div className={`inline-block px-3 py-1 rounded-full text-[10px] font-black border uppercase tracking-wider ${getJobStatusStyle(job.status)}`}>
+                                            <div className={`inline-block px-3 py-1 rounded-full text-[9px] font-black border uppercase tracking-wider ${getJobStatusStyle(job.status)}`}>
                                                 {job.status?.replace('_', ' ')}
                                             </div>
                                         </td>
                                         <td className="px-6 py-5">
                                             <div className="flex flex-col">
-                                                <span className="text-xs font-black text-neutral-700">{dayjs(job.uploadTime).format('DD MMM, YYYY')}</span>
+                                                <span className="text-sm text-gray-600 dark:text-gray-300">{dayjs(job.uploadTime).format('DD MMM, YYYY')}</span>
                                                 <span className="text-[9px] text-gray-400 font-bold uppercase">at {dayjs(job.uploadTime).format('HH:mm')}</span>
                                             </div>
                                         </td>
@@ -403,10 +410,10 @@ const UserDetail = () => {
 // HELPER COMPONENTS
 const SidebarItem = ({ label, value, icon }) => (
     <div className="space-y-1">
-        <p className="text-[9px] font-bold text-orange-200 uppercase tracking-widest">{label}</p>
+        <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{label}</p>
         <div className="flex items-center gap-3">
-            <span className="text-orange-200">{icon}</span>
-            <span className="text-xs font-bold text-white">{value || '-'}</span>
+            <span className="text-white-400">{icon}</span>
+            <span className="text-xs font-bold text-gray">{value || '-'}</span>
         </div>
     </div>
 );
@@ -417,7 +424,7 @@ const DossierItem = ({ icon, label, value }) => (
             {icon}
         </div>
         <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+            <p className="text-[12px] font-bold text-gray-500 tracking-widest mb-1">{label}</p>
             <p className="text-sm font-bold text-gray-800">{value || '-'}</p>
         </div>
     </div>
